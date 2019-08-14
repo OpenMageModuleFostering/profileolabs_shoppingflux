@@ -25,5 +25,10 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_Export_CategoryController
                         ->toHtml()
         );
     }
+    
+    protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux/export');
+    }
 
 }

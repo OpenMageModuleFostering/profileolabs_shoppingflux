@@ -53,5 +53,9 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_OrderController extends M
         $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
     }
 	
+     protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux/manageorders');
+    }
 	
 }

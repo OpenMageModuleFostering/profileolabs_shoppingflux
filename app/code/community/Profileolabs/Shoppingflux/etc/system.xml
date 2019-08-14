@@ -560,7 +560,7 @@
                     <sort_order>15</sort_order>
                     <fields>
                         <use_shoppingflux_category>
-                            <label>Use only ShoppingFlux category ?</label>
+                            <label>Use ShoppingFlux category attribute ?</label>
                             <comment>Warning : Be sure that this field is set to no before uninstalling the extension.</comment>
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>

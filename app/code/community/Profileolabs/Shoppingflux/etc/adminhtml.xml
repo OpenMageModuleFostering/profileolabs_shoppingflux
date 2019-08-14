@@ -81,32 +81,10 @@
                         <children>
                             <manageorders translate="title" module="profileolabs_shoppingflux">
                                 <title>Orders</title>
-                                <children>
-                                    <order translate="title" module="profileolabs_shoppingflux">
-                                        <title>ShoppingFlux orders</title>
-                                    </order>
-                                    <import translate="title" module="profileolabs_shoppingflux">
-                                        <title>ShoppingFlux order import</title>
-                                    </import>
-                                    <log translate="title" module="profileolabs_shoppingflux">
-                                        <title>ShoppingFlux order log</title>
-                                    </log>
-                                </children>
                             </manageorders>
                             <export>
                                 <title>Export</title>
-                                <children>
-                                    <show_flux translate="title" module="profileolabs_shoppingflux">
-                                        <title>Feed List</title>
-                                    </show_flux>
-                                    <set_product translate="title" module="profileolabs_shoppingflux">
-                                        <title>Product Selection</title>
-                                    </set_product>
-                                </children>
                             </export>
-                            <crons translate="title" module="profileolabs_shoppingflux">
-                                 <title>Cron log</title>
-                            </crons>
                         </children>
                     </shoppingflux>
                 </children>

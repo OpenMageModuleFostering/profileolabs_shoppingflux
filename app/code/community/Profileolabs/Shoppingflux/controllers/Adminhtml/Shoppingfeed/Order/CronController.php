@@ -35,4 +35,8 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_Order_CronController exte
 		return $this;
 	}
 	
+         protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux');
+    }
 }

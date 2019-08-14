@@ -44,7 +44,10 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_GeneralController extends
         }
         
         
-       
+       protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux');
+    }
         
 	
 }

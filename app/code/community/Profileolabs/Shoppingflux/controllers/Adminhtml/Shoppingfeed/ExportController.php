@@ -128,4 +128,8 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_ExportController extends 
         $this->getResponse()->setBody(Zend_Json::encode($result));
     }
 
+     protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux/export');
+    }
 }

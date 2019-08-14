@@ -8,7 +8,7 @@
  */
 class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstract {
 
-    protected $_attributesFromConfig = null;
+    protected $_attributesFromConfig = array();
     protected $_attributesConfigurable = array();
     protected $_storeCategories = array();
 
@@ -884,7 +884,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
      */
     protected function getAttributesFromConfig($checkIfExist = false, $withAdditional = true, $storeId = null) {
 
-        if (is_null($this->_attributesFromConfig)) {
+        if (!isset($this->_attributesFromConfig[$storeId])) {
+            $this->_attributesFromConfig[$storeId] = array();
             $attributes = $this->getConfig()->getMappingAttributes($storeId);
             if ($withAdditional) {
                 $additionalAttributes = $this->getConfig()->getAdditionalAttributes($storeId);
@@ -898,14 +899,15 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 foreach ($attributes as $key => $code) {
                     $attribute = $this->_getAttribute($code);
                     if ($attribute instanceof Mage_Catalog_Model_Resource_Eav_Attribute && $attribute->getId() && $attribute->getFrontendInput() != 'weee') {
-                        $this->_attributesFromConfig[$key] = $code;
+                        $this->_attributesFromConfig[$storeId][$key] = $code;
                     }
                 }
-            } else
-                $this->_attributesFromConfig = $attributes;
+            } else {
+                $this->_attributesFromConfig[$storeId] = $attributes;
+            }
         }
 
-        return $this->_attributesFromConfig;
+        return $this->_attributesFromConfig[$storeId];
     }
 
     protected function getRequiredAttributes() {

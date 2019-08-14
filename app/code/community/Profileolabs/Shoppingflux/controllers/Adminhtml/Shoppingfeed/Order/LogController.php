@@ -44,5 +44,9 @@ class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_Order_LogController exten
 		
 		return $this;
 	}
+         protected function _isAllowed()
+    {
+        return Mage::getSingleton('admin/session')->isAllowed('shoppingflux/manageorders');
+    }
 	
 }

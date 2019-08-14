@@ -66,6 +66,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         'msrp_display_actual_price_type',
         'shoppingflux_default_category',
         'shoppingflux_product',
+        'main_category'
         );
 
     /**
@@ -303,7 +304,8 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         }
         foreach($orderFlags as $orderId => $importDate) {
             if(strtotime($importDate) < time()-3*60*60) {
-                $config->deleteConfig('shoppingflux/order_flags/' . $orderId);
+                $config->deleteConfig('shoppingflux/order_flags/' . $orderId);//retro-compatibility.
+                $config->deleteConfig('shoppingflux/order_flags/order_' . $orderId);
             }
         }
     }
