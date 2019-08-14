@@ -5,7 +5,7 @@ class Profileolabs_Shoppingflux_Manageorders_LaunchController extends Mage_Core_
   
 
     public function getordersAction() {
-    	Mage::getModel('profileolabs_shoppingflux/manageorders_observer')->manageOrders();
+    	Mage::getModel('profileolabs_shoppingflux/manageorders_order')->manageOrders();
     }
 
     public function updateordersAction() {

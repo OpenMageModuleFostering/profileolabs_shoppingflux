@@ -91,23 +91,21 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         /*if(!$this->getRequest()->getParam('bypasscheck', false)) {
             Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
         }*/
+        ini_set('display_errors',1);
+        error_reporting(-1);
+        
         $storeId = Mage::app()->getStore()->getId();
         $productCollection = Mage::getModel('catalog/product')
                 ->getCollection()
                 ->addStoreFilter($storeId)
                 ->setStoreId($storeId);
-        $productCount = $productCollection->count();
-        $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+        $productCount = $productCollection->getSize();
+        
+        
+       /* $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $collection->addFieldToFilter('store_id', $storeId);
         $feedCount = $collection->count();
-        /*$collection->clear();
-        $collection->addFieldToFilter('update_needed', 1);
-        $feedUpdateNeededCount = $collection->count();
-        $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
-        $collection->addFieldToFilter('store_id', $storeId);
-        $collection->addFieldToFilter('should_export', 1);
-        $feedExportCount = $collection->count();*/
-        $feedExportCount = $feedUpdateNeededCount = 0;
+         $feedExportCount = $feedUpdateNeededCount = 0;
         foreach($collection as $feedProduct) {
             if($feedProduct->getUpdateNeeded()) {
                 $feedUpdateNeededCount++;
@@ -115,8 +113,10 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
             if($feedProduct->getShouldExport()) {
                 $feedExportCount++;
             }
-        }
-        
+        }*/
+        $_conn = Mage::getSingleton('core/resource')->getConnection('read');
+        $results = $_conn->fetchAll('SELECT SUM(update_needed) as total_needed, SUM(should_export) as total_export, count(*) as total from ' . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux'));
+        list($feedUpdateNeededCount, $feedExportCount, $feedCount) = array_values($results[0]);
         $feedNotExportCount = $feedCount-$feedExportCount;
         if(!headers_sent()) {
     		header('Content-type: text/xml; charset=UTF-8');

@@ -600,7 +600,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         $categoryNames = explode(' > ', $category['name'][$categoryId]);
         $categoryMetaTitles = explode(' > ', $category['meta_title'][$categoryId]);
         $categoryMetaDescriptions = explode(' > ', $category['meta_description'][$categoryId]);
-        $categoryMetaKeywords = explode(' > ', $category['meta_keyword'][$categoryId]);
+        $categoryMetaKeywords = explode(' > ', $category['meta_keywords'][$categoryId]);
         $categoryUrls = explode(' > ', $category['url'][$categoryId]);
 
 
