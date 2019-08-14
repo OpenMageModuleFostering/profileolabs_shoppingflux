@@ -195,7 +195,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
                 //backend order
                 return;
             }
-            $ip = Mage::helper('core/http')->getRemoteAddr(true);
+            $ip = Mage::helper('core/http')->getRemoteAddr(false);
             $grandTotal = $order->getBaseGrandTotal();
             $incrementId = $order->getIncrementId();
             $tagUrl = 'https://tag.shopping-flux.com/order/'.base64_encode($idTracking.'|'.$incrementId.'|'.$grandTotal).'?ip='.$ip;

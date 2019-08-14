@@ -30,7 +30,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
     
     
     public static function checkStock($storeId = false) {
-        if(!$storeId) {
+        if(!$storeId || !is_numeric($storeId)) {
             $storeId = Mage::app()->getStore()->getId();
         }
         $productCollection = Mage::getModel('catalog/product')->getCollection();
