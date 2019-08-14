@@ -1,9 +1,9 @@
 {
     "name": "OpenMageModuleFostering/Profileolabs_Shoppingflux",
     "type": "magento-module",
-    "license": "GNU-General-Public-License-(GPL)",
+    "license": "GPL",
     "homepage": "",
-    "description": "Export your products on price comparison sites and marketplaces, with lift controls.",
+    "description": "A single platform to List, Sync, and Manage your product listings on Amazon, Ebay, Google, Bing, and more.",
     "authors": [
     {
         "name": "ShoppingFlux",
