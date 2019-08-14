@@ -103,24 +103,24 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
         
         
         $responseText = $response->getBody();
-        /*        
-         $responseText = '<?xml version="1.0" encoding="utf-8"?>
+               
+         /*$responseText = '<?xml version="1.0" encoding="utf-8"?>
 <Result>
             <Request>
-            <Date>2014-02-27T11:08:42+01:00</Date><Call>GetOrders</Call><Token>beea17ee07d2a87e444827c18a77e01d</Token><Mode>Sandbox</Mode><Version>2</Version>
+            <Date>2015-02-17T11:08:42+01:00</Date><Call>GetOrders</Call><Token>bezeea17ee07d2a87e444827c18a77e01d</Token><Mode>Sandbox</Mode><Version>2</Version>
             </Request>
             <Response>
             <Orders>
                  <Order>
-                   <IdOrder>402-8eeed340e085-1568300</IdOrder>
+                   <IdOrder>402-8eeeezezzede3de40e085-1568300</IdOrder>
                    <Marketplace>Amazon</Marketplace>
                    <Currency>EUR</Currency>
                    <TotalAmount>299.00</TotalAmount>
                    <TotalProducts>299</TotalProducts>
                    <TotalShipping>0.00</TotalShipping>
-                   <TotalFees>0</TotalFees>
+                   <TotalFees>0.49</TotalFees>
                    <NumberOfProducts>1</NumberOfProducts>
-                   <OrderDate>2014-02-27T12:08:40+01:00</OrderDate>
+                   <OrderDate>2015-02-27T12:08:41+01:00</OrderDate>
                    <Other></Other>
                    <ShippingMethod>Std FR Dom</ShippingMethod>
                    <BillingAddress><LastName>moon chan kim</LastName><FirstName></FirstName><Phone>0698750828</Phone><PhoneMobile></PhoneMobile><Street><![CDATA[121 rue du faubourg du temple etg 2, porte droit]]></Street><Street1><![CDATA[121 rue du faubourg du temple]]></Street1><Street2><![CDATA[etg 2, porte droit]]></Street2><Company><![CDATA[]]></Company><PostalCode>75010</PostalCode><Town><![CDATA[paris]]></Town><Country>FR</Country><Email>vbdels5s4sfpc98p7@marketplace.amazon.fr</Email></BillingAddress>
@@ -136,8 +136,8 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
                  </Order>
             </Orders>
             </Response>
-            </Result>';
-        */
+            </Result>';*/
+        
         
         $this->_xml = simplexml_load_string($responseText, 'Varien_Simplexml_Element', LIBXML_NOCDATA);
 

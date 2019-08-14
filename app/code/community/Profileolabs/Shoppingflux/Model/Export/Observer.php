@@ -33,12 +33,11 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
             $storeId = Mage::app()->getStore()->getId();
         }
         $productCollection = Mage::getModel('catalog/product')->getCollection();
-        $fluxCollection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $productCollection->getSelect()->join(
                     array('sf_stock' => $productCollection->getTable('cataloginventory/stock_item')), 'e.entity_id = sf_stock.product_id', array('qty')
             );
         $productCollection->getSelect()->joinRight(
-                    array('flux' => $fluxCollection->getMainTable()), "e.sku = flux.sku and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
+                    array('flux' => $productCollection->getTable('profileolabs_shoppingflux/export_flux')), "e.sku = flux.sku and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
             );
         $productCollection->getSelect()->where('CAST(sf_stock.qty AS SIGNED) != flux.stock_value');
         $productCollection->getSelect()->group('e.entity_id');

@@ -24,7 +24,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Templa
             }
         }
         
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($useAllStores?false:Mage::app()->getStore()->getId(), $this->getLimit() ? $this->getLimit() : 1000000);
+        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($useAllStores?false:Mage::app()->getStore()->getId(), $this->getLimit() ? $this->getLimit() : 1000);
         $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $collection->addFieldToFilter('should_export', 1);
         if($useAllStores) {

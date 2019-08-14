@@ -91,7 +91,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         $collection->walk('delete');
     }
     
-    public function checkForMissingProducts($store_id = false, $maxImport = 500) {
+    public function checkForMissingProducts($store_id = false, $maxImport = 1000) {
         ini_set('display_errors', 1);
         error_reporting(-1);
         foreach (Mage::app()->getStores() as $store) {
@@ -117,7 +117,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
     }
 
-    public function updateFlux($store_id = false, $maxImportLimit = 20000, $shouldExportOnly = false) {
+    public function updateFlux($store_id = false, $maxImportLimit = 1000, $shouldExportOnly = false) {
         $this->checkForDeletedProducts();
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
@@ -346,7 +346,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
     public function updateProductInFlux($productSku, $storeId) {
 
-        $this->_checkMemory();
+        //$this->_checkMemory();
 
         $product = $this->_getProductBySku($productSku, $storeId);
 
@@ -572,7 +572,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             foreach ($parentIds as $parentId) {
                 if(!$data['category-breadcrumb']) {
                     $parentProduct = $this->_getProduct($parentId, $storeId);
-                    $data = $this->getCategories($data, $parentProduct, $storeId);
+                    if($parentProduct && is_object($parentProduct) && $parentProduct->getId()) {
+                        $data = $this->getCategories($data, $parentProduct, $storeId);
+                    }
                 }
                 
             }

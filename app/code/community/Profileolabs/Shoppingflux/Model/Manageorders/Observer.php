@@ -183,6 +183,28 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
     }
     
     
+    public function observeSalesOrderPlaceAfter($observer) {
+        $order = $observer->getEvent()->getOrder();
+        $idTracking = Mage::getSingleton('profileolabs_shoppingflux/config')->getIdTracking();
+
+        if (!$idTracking || !$order || !$order->getId()) {
+            return;
+        }
+        try {
+            if(!$order->getRemoteIp() || $order->getFromShoppingflux()) {
+                //backend order
+                return;
+            }
+            $ip = Mage::helper('core/http')->getRemoteAddr(true);
+            $grandTotal = $order->getBaseGrandTotal();
+            $incrementId = $order->getIncrementId();
+            $tagUrl = 'https://tag.shopping-flux.com/order/'.base64_encode($idTracking.'|'.$incrementId.'|'.$grandTotal).'?ip='.$ip;
+            file_get_contents($tagUrl);
+        } catch (Exception $ex) {
+
+        }
+    }
+    
     public function observeAdminhtmlBlockHtmlBefore($observer) {
         $block = $observer->getEvent()->getBlock();
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_View) {

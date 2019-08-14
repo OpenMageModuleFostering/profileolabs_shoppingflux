@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.8.5</version>
+            <version>0.8.7</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -47,6 +47,12 @@
                     <to_customer_address>country_id</to_customer_address>
                 </Country>
             </shoppingflux_convert_customer>
+            <sales_convert_order>
+                <fees_shoppingflux>
+                    <to_invoice>*</to_invoice>
+                    <to_cm>*</to_cm>
+                </fees_shoppingflux>
+            </sales_convert_order>
         </fieldsets>
         <blocks>
             <profileolabs_shoppingflux>
@@ -172,6 +178,15 @@
                     </shoppingflux_catalogrule_after_apply>
                 </observers>
             </catalogrule_after_apply>
+            <sales_order_place_after>
+                <observers>
+                    <shoppingflux_sales_order_place_after>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Manageorders_Observer</class>
+                        <method>observeSalesOrderPlaceAfter</method>
+                    </shoppingflux_sales_order_place_after>
+                </observers>
+            </sales_order_place_after>
         </events>
         <template>
             <email>
@@ -182,6 +197,17 @@
                 </shoppingflux_alert>
             </email>
         </template>
+        <pdf>
+            <totals>
+                <fees_shoppingflux translate="title">
+                    <title>Commission Marketplace</title>
+                    <source_field>fees_shoppingflux</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>650</sort_order>
+                </fees_shoppingflux>
+            </totals>
+        </pdf>
     </global>
     <frontend>
         

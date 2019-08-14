@@ -34,6 +34,33 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
     protected $_result;
     protected $_resultSendOrder = "";
     protected $_isUnderVersion14 = null;
+    
+    //security for some mal-configured magento
+    protected $_excludeConfigurableAttributes = array(
+        'weight', 
+        'news_from_date', 
+        'news_to_date', 
+        'url_key', 
+        'sku', 
+        'description', 
+        'short_description', 
+        'name', 
+        'tax_class_id',
+        'price',
+        'special_price',
+        'special_from_date',
+        'special_to_date',
+        'cost',
+        'image',
+        'small_image',
+        'thumbnail',
+        'status',
+        'visibility',
+        'custom_design_from',
+        'options_container',
+        'msrp_enabled',
+        'msrp_display_actual_price_type',
+        );
 
     /**
      * Product model
@@ -543,7 +570,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                 
 
                 foreach($configurableAttributesCollection as $confAttribute) {
-                    if(!in_array($confAttribute->getAttributeCode(), array('weight', 'news_from_date', 'news_to_date', 'url_key', 'sku', 'description', 'short_description', 'name')) && $product->getData($confAttribute->getAttributeCode())) {
+                    if(!in_array($confAttribute->getAttributeCode(), $this->_excludeConfigurableAttributes) && $product->getData($confAttribute->getAttributeCode())) {
                         if($confAttribute->usesSource()) {
                             $confAttributeValue = $product->getAttributeText($confAttribute->getAttributeCode());
                         } else {

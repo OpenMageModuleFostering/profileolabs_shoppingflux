@@ -63,7 +63,7 @@
     </adminhtml_sales_order_view>
     <adminhtml_sales_order_invoice_view>
         <reference name="invoice_totals">
-            <block type="adminhtml/sales_order_totals_tax" name="fees_shoppingflux" template="profileolabs/shoppingflux/manageorders/sales/order/total.phtml"></block>
+            <block type="adminhtml/sales_order_totals_item" name="fees_shoppingflux" template="profileolabs/shoppingflux/manageorders/sales/order/invoice/total.phtml"></block>
         </reference>
     </adminhtml_sales_order_invoice_view>
 </layout>

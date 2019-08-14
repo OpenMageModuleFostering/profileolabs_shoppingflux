@@ -286,7 +286,9 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                   $categories->addFieldToFilter('is_active', array('eq'=>'1'));
                 }
                 if(!$withNotInMenu) {
-                  $categories->addFieldToFilter('include_in_menu', array('eq'=>'1'));
+                    if(version_compare($currentVersion, '1.4.0') > 0) {
+                        $categories->addFieldToFilter('include_in_menu', array('eq'=>'1'));
+                    }
                 }
                 
                 if(!Mage::getSingleton('profileolabs_shoppingflux/config')->getUseAllStoreCategories()) {

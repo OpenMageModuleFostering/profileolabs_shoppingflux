@@ -23,6 +23,11 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         //Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
         //Mage::helper('profileolabs_shoppingflux')->newInstallation();
         
+        
+        //$installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
+        //$sql = "delete from `".$installer->getTable('core/config_data')."` where `path` = 'shoppingflux_export/attributes_mapping/additional,'";
+        //$sql = sprintf("UPDATE `%s` SET `path` = '%s' WHERE `path` = '%s'",$installer->getTable('core/config_data'),  'shoppingflux_export/attributes_mapping/additional', 'shoppingflux_export/attributes_additionnal/list');
+         //$installer->run($sql);
         die('TESTS_END');
     }
 
@@ -83,7 +88,9 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
     }
 
     public function statusAction() {
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
+        /*if(!$this->getRequest()->getParam('bypasscheck', false)) {
+            Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
+        }*/
         $storeId = Mage::app()->getStore()->getId();
         $productCollection = Mage::getModel('catalog/product')
                 ->getCollection()
@@ -114,7 +121,7 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         if(!headers_sent()) {
     		header('Content-type: text/xml; charset=UTF-8');
         }
-        echo "<status>";
+        echo '<status version="'.Mage::getConfig()->getModuleConfig("Profileolabs_Shoppingflux")->version.'">';
         echo "<feed_generation>";
         echo "<product_count>{$productCount}</product_count>";
         echo "<feed_count>{$feedCount}</feed_count>";
