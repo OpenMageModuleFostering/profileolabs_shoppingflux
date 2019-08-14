@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <layout version="0.1.0">
+    <default>
+        <reference name="head">
+             <action method="addCss"><name>css/shoppingflux.css</name></action>
+        </reference>
+        <reference name="notifications">
+            <block type="profileolabs_shoppingflux/adminhtml_register_notification" name="notification.shoppingfeed" template="profileolabs/shoppingflux/register/notification.phtml"></block>
+        </reference>
+    </default>
     <shoppingflux_manageorders_adminhtml_order_index>
         <reference name="content">
             <block type="profileolabs_shoppingflux/manageorders_adminhtml_order" name="manageorders.order.grid.container"></block>

@@ -365,7 +365,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             $this->_initQuote($orderSf, $storeId);
 
             //Add products to quote with data from ShoppingFlux
-            $this->_addProductsToQuote($orderSf);
+            $this->_addProductsToQuote($orderSf, $storeId);
 
             $order = null;
             if (!$this->isUnderVersion14())
@@ -378,7 +378,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
 
             if (!is_null($order) && $order->getId()) {
                 $useMarketplaceDate = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/use_marketplace_date');
-                $orderDate = Varien_Date::now();
+                $orderDate = date('Y-m-d H:i:s');
                 if($useMarketplaceDate) {
                     $orderDate = $orderSf['OrderDate'];
                 }
@@ -411,7 +411,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
      * Add products to quote with data from ShoppinfFlux
      * @param array $orderSf
      */
-    protected function _addProductsToQuote(array $orderSf) {
+    protected function _addProductsToQuote(array $orderSf, $storeId) {
         $totalAmount = $orderSf['TotalAmount'];
         $productsSf = current($orderSf['Products']);
         $productsToIterate = current($productsSf);
@@ -483,7 +483,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                 $qtyIncrements = $pregResults[1];
             }
             
-            $useProductId = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/use_product_id');
+            $useProductId = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/use_product_id', $storeId);
             
             if($useProductId) {
                 $productId = $sku;
@@ -597,7 +597,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             } else {
 
                 $this->getSession()->clear();
-                Mage::throwException("le produit sku = " . $sku . " n'existe plus en base!");
+                Mage::throwException("le produit sku = '" . $sku . "' (ID= ".$productId.", Utilisation id = ".($useProductId?'Oui':'Non').") n'existe plus en base!");
             }
         }
 

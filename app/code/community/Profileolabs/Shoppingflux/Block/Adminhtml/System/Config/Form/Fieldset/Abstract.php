@@ -2,14 +2,9 @@
 
 class Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract extends Mage_Adminhtml_Block_System_Config_Form_Fieldset {
 
-    protected $_config = null;
     
      public function getConfig() {
-        if (is_null($this->_config)) {
-            $this->_config = Mage::getSingleton('profileolabs_shoppingflux/config');
-        }
-
-        return $this->_config;
+        return Mage::helper('profileolabs_shoppingflux')->getConfig();
     }
     
     public function shouldRenderUnregistered() {

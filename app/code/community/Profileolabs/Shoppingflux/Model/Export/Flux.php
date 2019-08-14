@@ -242,6 +242,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
     protected function _getAttributeDataForProduct($nameNode, $attributeCode, $product, $storeId = null) {
         $_helper = Mage::helper('catalog/output');
+        if(!$attributeCode) {
+            return '';
+        }
 
         $data = $product->getData($attributeCode);
 
@@ -280,7 +283,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
         //Exceptions data
         if ($nameNode == 'shipping_delay' && empty($data))
-            $data = $this->getConfig()->getConfigData('shoppingflux_export/general/default_shipping_delay');
+            $data = $this->getConfig()->getConfigData('shoppingflux_export/general/default_shipping_delay', $storeId);
 
         if ($nameNode == 'quantity')
             $data = round($data);
@@ -410,7 +413,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $data['qty'] = $data['qty'] / $qtyIncrements;
         }
 
-
+       
         foreach ($this->getConfig()->getMappingAttributes($storeId) as $nameNode => $code) {
             $data[$nameNode] = $this->_getAttributeDataForProduct($nameNode, $code, $product, $storeId); //trim($xmlObj->extractData($nameNode, $code, $product));
             if ($this->getConfig()->getTransformQtyIncrements($product)) {
@@ -443,10 +446,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             //Varien_Profiler::stop("SF::Flux::getConfigurableAttributes");
         }
         //Varien_Profiler::start("SF::Flux::getAdditionalAttributes");
-        foreach ($this->getConfig()->getAdditionalAttributes() as $attributeCode) {
-            if ($attributeCode) {
-                $data[$attributeCode] = $this->_getAttributeDataForProduct($attributeCode, $attributeCode, $product, $storeId);
-            }
+        foreach ($this->getConfig()->getAdditionalAttributes($storeId) as $attributeCode) {
+            $data[$attributeCode] = $this->_getAttributeDataForProduct($attributeCode, $attributeCode, $product, $storeId);
         }
 
         //Varien_Profiler::stop("SF::Flux::getAdditionalAttributes");
@@ -836,12 +837,12 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     /**
      * 
      */
-    protected function getAttributesFromConfig($checkIfExist = false, $withAdditional = true) {
+    protected function getAttributesFromConfig($checkIfExist = false, $withAdditional = true, $storeId = null) {
 
         if (is_null($this->_attributesFromConfig)) {
-            $attributes = $this->getConfig()->getMappingAttributes();
+            $attributes = $this->getConfig()->getMappingAttributes($storeId);
             if ($withAdditional) {
-                $additionalAttributes = $this->getConfig()->getAdditionalAttributes();
+                $additionalAttributes = $this->getConfig()->getAdditionalAttributes($storeId);
                 foreach ($additionalAttributes as $attributeCode) {
                     $attributes[$attributeCode] = trim($attributeCode);
                 }
@@ -871,6 +872,10 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         return $requiredAttributes;
     }
 
+    /**
+     * 
+     * @deprecated
+     */
     protected function getAllAttributes() {
         return array_merge($this->getAttributesFromConfig(true), $this->getRequiredAttributes());
     }
@@ -990,7 +995,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     }
                 }
 
-                $attributesFromConfig = $this->getAttributesFromConfig(true, true);
+                $attributesFromConfig = $this->getAttributesFromConfig(true, true, $storeId);
 
                 $discountPercent = 0;
                 if ($priceBeforeDiscount) {
@@ -1044,7 +1049,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 }
 
                 foreach ($attributesFromConfig as $nameNode => $attributeCode) {
-                    $usedProductsArray[$usedProduct->getId()]['child'][$nameNode] = $this->_getAttributeDataForProduct($nameNode, $attributeCode, $usedProduct, $storeId); //$xmlObj->extractData($nameNode, $attributeCode, $usedProduct);
+                    if($attributeCode) {
+                        $usedProductsArray[$usedProduct->getId()]['child'][$nameNode] = $this->_getAttributeDataForProduct($nameNode, $attributeCode, $usedProduct, $storeId); //$xmlObj->extractData($nameNode, $attributeCode, $usedProduct);
+                    }
                 }
 
 

@@ -30,7 +30,6 @@ class Profileolabs_Shoppingflux_Export_Adminhtml_ExportController extends Mage_A
     }
 
     public function updateAction() {
-
         $this->loadLayout();
         $this->renderLayout();
 

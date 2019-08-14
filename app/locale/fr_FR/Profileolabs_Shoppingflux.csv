@@ -213,3 +213,4 @@
 "Customer Mobile Attribute","Attribut téléphone portable"
 "By default, you need to keep the 'sku' attribute. This value will be used as unique identifier for your products on ShoppingFeed and Marketplaces. Do not change unless shopping feed told you to.","Par défaut, il faut renseigner votre champ SKU. C'est la valeur qui servira d'id produit sur SF et sur les places de marché. A ne modifier que sur demande de Shopping Flux."
 "Send notification to ShoppingFeed","Envoyer à ShoppingFlux"
+"<strong>Shopping Feed is installed!</strong> <b>Attention : </b><a href=""%s"">Click here to finish account setup.</a>","<strong>Shopping Flux est installé!</strong> <b>Attention : </b><a href=""%s"">Cliquez ici pour finaliser la configuration du compte.</a>"

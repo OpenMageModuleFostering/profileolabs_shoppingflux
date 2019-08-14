@@ -190,7 +190,7 @@ $installer->addAttribute('catalog_product', 'shoppingflux_product', array(
 	'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
 	'visible'           => 1,
 	'required'          => 0,
-	'user_defined'      => 0,
+	'user_defined'      => 1,
 	'default'           => 1,
 	'searchable'        => 0,
 	'filterable'        => 0,

@@ -8,6 +8,7 @@
  */
 class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
 
+    protected $_config = null;
     
     public function getFeedUrl($store, $action = 'index') {
         return preg_replace('%^(.*)\?.*$%i', '$1', $store->getUrl('shoppingflux/export_flux/'.$action));
@@ -368,6 +369,33 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
         } catch (Exception $e) {
             //var_dump($e->getMessage());die();
         }
+    }
+    
+    
+    public function getConfig() {
+        if (is_null($this->_config)) {
+            $this->_config = Mage::getSingleton('profileolabs_shoppingflux/config');
+        }
+
+        return $this->_config;
+    }
+    
+    public function isRegistered() {
+        if(Mage::getStoreConfigFlag('shoppingflux/configuration/has_registered')) {
+           return true; 
+        } else if(time() - intval(Mage::getStoreConfig('shoppingflux/configuration/registration_last_check')) > 24*60*60) {
+            foreach(Mage::app()->getStores() as $store) {
+                $apiKey = $this->getConfig()->getApiKey($store->getId());
+                $wsUri = $this->getConfig()->getWsUri($store->getId());
+                $service = new Profileolabs_Shoppingflux_Model_Service($apiKey, $wsUri);
+                if($service->isClient()) {
+                    return true;
+                }
+            }
+            $config = new Mage_Core_Model_Config();
+            $config->saveConfig('shoppingflux/configuration/registration_last_check', time());
+        }
+        return false;
     }
     
     public function newInstallation() {

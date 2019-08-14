@@ -213,3 +213,4 @@
 "Customer Mobile Attribute","Customer Mobile Attribute"
 "By default, you need to keep the 'sku' attribute. This value will be used as unique identifier for your products on ShoppingFeed and Marketplaces. Do not change unless shopping feed told you to.","By default, you need to keep the 'sku' attribute. This value will be used as unique identifier for your products on ShoppingFeed and Marketplaces. Do not change unless shopping feed told you to."
 "Send notification to ShoppingFeed","Send notification to ShoppingFeed"
+"<strong>Shopping Feed is installed!</strong> <b>Attention : </b><a href=""%s"">Click here to finish account setup.</a>","<strong>Shopping Feed is installed!</strong> <b>Attention : </b><a href=""%s"">Click here to finish account setup.</a>"

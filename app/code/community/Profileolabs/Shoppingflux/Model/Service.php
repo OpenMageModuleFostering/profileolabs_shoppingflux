@@ -295,6 +295,10 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
             );
             $status = (string) $res->Response->Status;
             if($status == 'Client') {
+                if(!Mage::getStoreConfigFlag('shoppingflux/configuration/has_registered')) {
+                    $config = new Mage_Core_Model_Config();
+                    $config->saveConfig('shoppingflux/configuration/has_registered', 1);
+                }
                 return true;
             }
         }catch(Exception $e) {
