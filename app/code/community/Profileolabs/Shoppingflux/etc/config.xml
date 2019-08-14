@@ -1,0 +1,551 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Profileolabs_Shoppingflux>
+            <version>0.6.7</version>
+        </Profileolabs_Shoppingflux>
+    </modules>
+    <admin>
+        <routers>
+            <shoppingflux>
+                <use>admin</use>
+                <args>
+                    <module>Profileolabs_Shoppingflux</module>
+                    <frontName>shoppingflux</frontName>
+                </args>
+            </shoppingflux>
+        </routers>
+    </admin>
+    <global>
+        <fieldsets>
+            <shoppingflux_convert_customer>
+                <LastName>
+                    <to_customer>lastname</to_customer>
+                    <to_customer_address>lastname</to_customer_address>
+                </LastName>
+                <FirstName>
+                    <to_customer>firstname</to_customer>
+                    <to_customer_address>firstname</to_customer_address>
+                </FirstName>
+                <Email>
+                    <to_customer>email</to_customer>
+                    <to_customer_address>email</to_customer_address>
+                </Email>
+                <Phone>
+                    <to_customer_address>telephone</to_customer_address>
+                </Phone>
+                <Street>
+                    <to_customer_address>street_full</to_customer_address>
+                </Street>
+                <PostalCode>
+                    <to_customer_address>postcode</to_customer_address>
+                </PostalCode>
+                <Town>
+                    <to_customer_address>city</to_customer_address>
+                </Town>
+                <Country>
+                    <to_customer_address>country_id</to_customer_address>
+                </Country>
+            </shoppingflux_convert_customer>
+        </fieldsets>
+        <blocks>
+            <profileolabs_shoppingflux>
+                <class>Profileolabs_Shoppingflux_Block</class>
+            </profileolabs_shoppingflux>
+        </blocks>
+        <helpers>
+            <profileolabs_shoppingflux>
+                <class>Profileolabs_Shoppingflux_Helper</class>
+            </profileolabs_shoppingflux>
+        </helpers>
+        <models>
+            <profileolabs_shoppingflux>
+                <class>Profileolabs_Shoppingflux_Model</class>
+                <resourceModel>profileolabs_shoppingflux_mysql4</resourceModel>
+            </profileolabs_shoppingflux>		
+            <profileolabs_shoppingflux_mysql4>
+                <class>Profileolabs_Shoppingflux_Model_Mysql4</class>
+                <entities>
+                    <export_flux>
+                        <table>shoppingflux_export_flux</table>
+                    </export_flux>
+                    <manageorders_log>
+                        <table>shoppingflux_log</table>
+                    </manageorders_log>
+                    <export_updates>
+                        <table>shoppingflux_export_updates</table>
+                    </export_updates>
+                    <manageorders_shipping_method>
+                        <table>shoppingflux_shipping_methods</table>
+                    </manageorders_shipping_method>
+                    <manageorders_export_shipments>
+                        <table>shoppingflux_manageorders_export_shipments</table>
+                    </manageorders_export_shipments>
+                </entities>
+            </profileolabs_shoppingflux_mysql4>
+            <catalog>
+                <rewrite>
+                    <config>Profileolabs_Shoppingflux_Model_Export_Rewrite_Catalog_Config</config>
+                </rewrite>
+            </catalog>
+            <cataloginventory>
+                <rewrite>
+                    <stock_item>Profileolabs_Shoppingflux_Model_Export_Rewrite_CatalogInventory_Stock_Item</stock_item>
+                </rewrite>
+            </cataloginventory>
+        </models>
+        <resources>
+            <profileolabs_shoppingflux_setup>
+                <setup>
+                    <module>Profileolabs_Shoppingflux</module>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </profileolabs_shoppingflux_setup>
+            <profileolabs_shoppingflux_write>
+                <connection>
+                    <use>core_write</use>
+                </connection>
+            </profileolabs_shoppingflux_write>
+            <profileolabs_shoppingflux_read>
+                <connection>
+                    <use>core_read</use>
+                </connection>
+            </profileolabs_shoppingflux_read>
+        </resources>
+        <events>
+            <cataloginventory_stock_item_save_after>
+                <observers>
+                    <sf_update_stock>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateStock</method>
+                    </sf_update_stock>
+                </observers>
+            </cataloginventory_stock_item_save_after>
+            <customer_group_load_after>
+                <observers>
+                    <shoppingflux_quote_observer>
+                        <class>Profileolabs_Shoppingflux_Model_Manageorders_Observer</class>
+                        <method>setCustomerTaxClassId</method>
+                    </shoppingflux_quote_observer>
+                </observers>
+            </customer_group_load_after>
+            <sales_order_shipment_save_after>
+                <observers>
+                    <shoppingflux_shipment_save_after>
+                        <class>Profileolabs_Shoppingflux_Model_Manageorders_Observer</class>
+                        <method>scheduleShipmentUpdate</method>
+                    </shoppingflux_shipment_save_after>
+                </observers>
+            </sales_order_shipment_save_after>
+            <order_cancel_after>
+                <observers>
+                    <shoppingflux_order_cancel_after>
+                        <class>Profileolabs_Shoppingflux_Model_Manageorders_Observer</class>
+                        <method>sendStatusCanceled</method>
+                    </shoppingflux_order_cancel_after>
+                </observers>
+            </order_cancel_after>
+            <catalog_product_attribute_update_before>
+                <observers>
+                    <shoppingflux_catalog_product_attribute_update_before>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>catalogProductAttributeUpdateBefore</method>
+                    </shoppingflux_catalog_product_attribute_update_before>
+                </observers>
+            </catalog_product_attribute_update_before>
+            <catalog_product_save_commit_after>
+                 <observers>
+                    <shoppingflux_catalog_product_save_commit_after>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>catalogProductSaveCommitAfter</method>
+                    </shoppingflux_catalog_product_save_commit_after>
+                </observers>
+            </catalog_product_save_commit_after>
+        </events>
+        <template>
+            <email>
+                <shoppingflux_alert translate="label" module="profileolabs_shoppingflux">
+                    <label>Shoppingflux Alert</label>
+                    <file>shoppingflux/alert.html</file>
+                    <type>html</type>
+                </shoppingflux_alert>
+            </email>
+        </template>
+    </global>
+    <frontend>
+        <routers>
+            <shoppingflux>
+                <use>standard</use>
+                <args>
+                    <module>Profileolabs_Shoppingflux</module>
+                    <frontName>shoppingflux</frontName>
+                </args>
+            </shoppingflux>
+        </routers>
+        <layout>
+            <updates>
+                <shoppingflux>
+                    <file>profileolabs_shoppingflux.xml</file>
+                </shoppingflux>
+            </updates>
+        </layout>
+        <product>
+            <collection>
+                <attributes>
+                    <shoppingflux_product />
+                    <shoppingflux_default_category />
+                </attributes>
+              </collection>
+          </product>
+    </frontend>
+    <adminhtml>
+        <layout>
+            <updates>
+                <shoppingflux>
+                    <file>profileolabs_shoppingflux.xml</file>
+                </shoppingflux>
+            </updates>
+        </layout>
+        <translate>
+            <modules>
+                <Profileolabs_Shoppingflux>
+                    <files>
+                        <default>Profileolabs_Shoppingflux.csv</default>
+                    </files>
+                </Profileolabs_Shoppingflux>
+            </modules>
+        </translate>
+        <menu>
+            <shoppingflux>
+                <title>Shopping Flux</title>
+                <sort_order>20</sort_order>
+                <depends>
+                    <module>Profileolabs_Shoppingflux</module>
+                </depends>
+                <children>
+                    <manageorders translate="title" module="profileolabs_shoppingflux">
+                        <title>Commandes</title>
+                        <sort_order>200</sort_order>
+                        <children>
+                            <order translate="title" module="profileolabs_shoppingflux">
+                                <title>Shopping flux orders</title>
+                                <action>shoppingflux/manageorders_adminhtml_order</action>
+                                <sort_order>10</sort_order>
+                            </order>
+                            <import translate="title" module="profileolabs_shoppingflux">
+                                <title>Shopping flux import orders</title>
+                                <action>shoppingflux/manageorders_adminhtml_import</action>
+                                <sort_order>20</sort_order>
+                            </import>
+                            <log translate="title" module="profileolabs_shoppingflux">
+                                <title>Shopping flux log</title>
+                                <action>shoppingflux/manageorders_adminhtml_log</action>
+                                <sort_order>30</sort_order>
+                            </log>
+                        </children>
+                    </manageorders>
+                    <export translate="title" module="profileolabs_shoppingflux">
+                        <title>Export</title> 
+                        <sort_order>200</sort_order>
+                        <children>
+                            <!-- @deprecated since version 0.1.1 -->
+                            <!-- <run_export translate="title" module="profileolabs_shoppingflux">
+                                          		<title>Lancer l'export</title>
+                                          		<action>shoppingflux/export_adminhtml_export/edit</action>
+                                          		<sort_order>10</sort_order>
+                           	</run_export> -->
+                            <set_product translate="title" module="profileolabs_shoppingflux">
+                                <title>Sélection de produit</title>
+                                <action>shoppingflux/export_adminhtml_export/update</action>
+                                <sort_order>20</sort_order>
+                            </set_product>
+                        </children>
+                    </export>
+                    <crons translate="title" module="profileolabs_shoppingflux">
+                        <title>Suivi des crons</title>
+                        <sort_order>900</sort_order>
+                        <action>shoppingflux/manageorders_adminhtml_cron</action>  
+                    </crons>
+                </children>
+            </shoppingflux>
+        </menu>
+        <acl>
+            <resources>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <shoppingflux translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shoppingflux general</title>
+                                        </shoppingflux>
+                                        <shoppingflux_mo translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shoppingflux manage orders</title>
+                                        </shoppingflux_mo>
+                                        <shoppingflux_export translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shoppingflux Export des produits</title>
+                                        </shoppingflux_export>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                        <shoppingflux>
+                            <title>Shopping Flux</title>
+                            <children>
+                                <manageorders translate="title" module="profileolabs_shoppingflux">
+                                    <title>Commandes</title>
+                                    <children>
+                                        <order translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shopping flux orders</title>
+                                        </order>
+                                        <import translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shopping flux import orders</title>
+                                        </import>
+                                        <log translate="title" module="profileolabs_shoppingflux">
+                                            <title>Shopping flux log</title>
+                                        </log>
+                                    </children>
+                                </manageorders>
+                                <export>
+                                    <title>Export</title>
+                                    <children>
+                                        <!-- @deprecated since version 0.1.1 -->
+                                        <!-- <run_export translate="title" module="profileolabs_shoppingflux">
+                                              										<title>Lancer l'export</title>
+                               									</run_export> -->
+                                        <set_product translate="title" module="profileolabs_shoppingflux">
+                                            <title>Sélection de produit</title>
+                                        </set_product>
+                                    </children>
+                                </export>
+                                <crons translate="title" module="profileolabs_shoppingflux">
+                                     <title>Suivi des crons</title>
+                                </crons>
+                            </children>
+                        </shoppingflux>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <events>
+            <catalog_product_delete_after_done>
+                <observers>
+                    <sf_delete_event>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateDeletedProduct</method>
+                    </sf_delete_event>
+                </observers>
+            </catalog_product_delete_after_done>
+            <shoppingflux_mass_publish_save_item>
+                <observers>
+                    <sf_mass_insf_update>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateInSfMass</method>
+                    </sf_mass_insf_update>
+                </observers>
+            </shoppingflux_mass_publish_save_item>
+            <catalog_product_save_after>
+                <observers>
+                    <sf_price_update>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdatePrice</method>
+                    </sf_price_update>
+                    <sf_insf_update>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateInSf</method>
+                    </sf_insf_update>
+                    <sf_disabled_update_save>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateDisabledProductSave</method>
+                    </sf_disabled_update_save>
+                </observers>
+            </catalog_product_save_after>
+            <catalog_product_status_update>
+                <observers>
+                    <sf_disabled_update>
+                        <type>singleton</type>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>realtimeUpdateDisabledProduct</method>
+                    </sf_disabled_update>
+                </observers>
+            </catalog_product_status_update>
+            <adminhtml_catalog_category_tabs>
+                <observers>
+                    <sf_adminhtml_catalog_category_tabs>
+                        <type>singleton</type>
+                        <class>profileolabs_shoppingflux/export_observer</class>
+                        <method>addShoppingfluxProductsTab</method>
+                    </sf_adminhtml_catalog_category_tabs>
+                </observers>
+            </adminhtml_catalog_category_tabs>
+            <catalog_category_prepare_save>
+                <observers>
+                    <sf_catalog_category_prepare_save>
+                        <type>singleton</type>
+                        <class>profileolabs_shoppingflux/export_observer</class>
+                        <method>saveShoppingfluxCategoryProducts</method>
+                    </sf_catalog_category_prepare_save>
+                </observers>
+            </catalog_category_prepare_save>
+        </events>
+    </adminhtml>
+    <crontab>
+        <jobs>
+            <import_orders_shoppingflux>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/manageorders_observer::manageOrders</model>
+                </run>
+            </import_orders_shoppingflux>
+            <export_updates_shoppingflux>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_observer::updateFlux</model>
+                </run>
+            </export_updates_shoppingflux>
+            <export_update_stock_shoppingflux>
+                <schedule>
+                    <cron_expr>*/30 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_observer::checkStock</model>
+                </run>
+            </export_update_stock_shoppingflux>
+            <export_flux_in_file>
+                <schedule>
+                    <cron_expr>0 5 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_observer::generateFluxInFile</model>
+                </run>
+            </export_flux_in_file>
+            <export_shipments_shoppingflux>
+                <schedule>
+                    <cron_expr>*/10 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/manageorders_observer::sendScheduledShipments</model>
+                </run>
+            </export_shipments_shoppingflux>
+            <!--<export_updates_shoppingflux>
+                <schedule>
+                    <cron_expr>*/5 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_observer::manageUpdates</model>
+                </run>
+            </export_updates_shoppingflux>-->
+            <!-- <generate_flow_shoppingflux>
+                        				<schedule><cron_expr>30 03 * * *</cron_expr></schedule>
+                        				<run><model>profileolabs_shoppingflux/export_observer::generateFlow</model></run>
+         			</generate_flow_shoppingflux> -->
+        </jobs>
+    </crontab>
+    <default>
+        <shoppingflux>
+            <configuration>
+                <is_sandbox>0</is_sandbox>
+                <ws_uri_test>http://test.shopping-flux.com/ws/</ws_uri_test>
+                 <ws_uri_prod>http://ws.shopping-flux.com</ws_uri_prod>
+                <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/</ws_uri_prod>-->
+                <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/magento/</ws_uri_prod>-->
+                <api_key></api_key>
+            </configuration>
+        </shoppingflux>
+        <shoppingflux_mo>
+            <manageorders>
+                <enabled>0</enabled>
+                <limit_orders>30</limit_orders>
+                <new_order_status>pending</new_order_status>
+                <create_invoice>1</create_invoice>
+                <processing_order_status>processing</processing_order_status>
+                <apply_tax>0</apply_tax>
+            </manageorders>
+        </shoppingflux_mo>
+        <payment>
+            <shoppingflux_purchaseorder>
+                <active>0</active>
+                <model>profileolabs_shoppingflux/manageorders_payment_method_purchaseorder</model>
+                <order_status>new</order_status>
+                <title>Shopping Flux Purchase Order</title>
+                <allowspecific>0</allowspecific>
+            </shoppingflux_purchaseorder>
+        </payment>
+        <carriers>
+            <shoppingflux>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>profileolabs_shoppingflux/manageorders_shipping_carrier_shoppingflux</model>
+                <name>Frais de port de la place de marché</name>
+                <title></title>
+            </shoppingflux>
+        </carriers>
+        <shoppingflux_export>
+            <general>
+                <active>1</active>
+                <filter_by_attribute>0</filter_by_attribute>
+                <limit_product>100</limit_product>
+                <default_shipping_delay>2</default_shipping_delay>
+                <default_shipping_price></default_shipping_price>
+                <default_shipping_method>flatrate_flatrate</default_shipping_method>
+                <shipping_price_based_on>FR</shipping_price_based_on>
+                <export_soldout>1</export_soldout>
+                <export_visibility>2,3,4</export_visibility>
+                <memory_limit>512</memory_limit>
+                <use_manage_stock>1</use_manage_stock>
+                <all_store_categories>0</all_store_categories>
+                <all_store_products>0</all_store_products>
+                <use_only_shoppingflux_category>0</use_only_shoppingflux_category>
+                <max_category_level>5</max_category_level>
+                <enable_events>0</enable_events>
+                <manage_configurable>1</manage_configurable>
+                <manage_catalog_rules>1</manage_catalog_rules>
+                <manage_media_gallery>1</manage_media_gallery>
+            </general>
+            <attributes_unknow>
+                <ean>ean</ean>
+                <isbn>isbn</isbn>
+                <ref_manufacturer>ref_manufacturer</ref_manufacturer>
+                <ref_wholesaler>ref_wholesaler</ref_wholesaler>
+                <shipping_delay>shipping_delay</shipping_delay>
+                <shipping_send_delay>shipping_send_delay</shipping_send_delay>
+                <brand>brand</brand>
+                <brand_page_url>brand_page_url</brand_page_url>
+                <ecotaxe>ecotaxe</ecotaxe>
+                <short_name>short_name</short_name>
+                <characteristics>characteristics</characteristics>
+                <warranty>warranty</warranty>
+                <kind>kind</kind>
+                <matter>matter</matter>
+                <size>size</size>
+                <shoe_size>shoe_size</shoe_size>
+                <dimension>dimension</dimension>
+            </attributes_unknow>
+            <attributes_know>
+                <name>name</name>
+                <description>description</description>
+                <short_description>short_description</short_description>
+                <meta_keyword>meta_keyword</meta_keyword>
+                <weight>weight</weight>
+                <color>color</color>
+            </attributes_know>
+            <specific_prices>
+                <price>price</price>
+                <special_price>special_price</special_price>
+            </specific_prices>
+        </shoppingflux_export>
+    </default>
+</config>

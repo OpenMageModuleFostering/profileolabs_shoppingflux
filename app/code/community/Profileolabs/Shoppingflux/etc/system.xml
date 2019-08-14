@@ -1,0 +1,1137 @@
+<?xml version="1.0"?>
+<config>
+    <tabs>
+        <shoppingflux translate="label" module="profileolabs_shoppingflux">
+            <label>Shopping Flux</label>
+            <sort_order>210</sort_order>
+        </shoppingflux>
+    </tabs>
+    <sections>
+        <shoppingflux translate="label" module="profileolabs_shoppingflux">
+            <label>Général</label>
+            <tab>shoppingflux</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>10</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <configuration translate="label" module="profileolabs_shoppingflux">
+                    <label>Configuration</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>1</sort_order>
+                    <fields>
+                        <login>
+                            <label>Identifiant Shopping flux</label>
+                            <comment>Votre login de connexion à l'interface Shopping flux</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </login>
+                        <api_key>
+                            <label>Api key</label>						
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </api_key>
+                        <id_tracking>
+                            <label>ID de tracking</label>
+                            <comment>Votre identifiant pour le tracking</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </id_tracking>
+                        <alert_email>
+                            <label>Email pour les alertes</label>
+                            <comment>En cas de problème lors des transfert de données, un mail vous sera envoyé à cette adresse.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </alert_email>
+                    </fields>
+                </configuration>
+            </groups>   
+        </shoppingflux>
+        <shoppingflux_mo translate="label" module="profileolabs_shoppingflux">
+            <label>Manage Orders</label>
+            <tab>shoppingflux</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>100</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <manageorders translate="label" module="profileolabs_shoppingflux">
+                    <label>Manage Orders</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>1</sort_order>
+                    <fields>
+                        <enabled>
+                            <label>Enable manage orders</label>
+                            <comment>Enable get orders from Shopping Flux</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </enabled>
+                        <limit_orders>
+                            <label>Import by n orders</label>						
+                            <sort_order>22</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <comment>Limit number of orders imported. 10 by default</comment>
+                        </limit_orders>                   
+                        <new_order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_new</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </new_order_status>
+                        <create_invoice>
+                            <label>Create invoice</label>
+                            <comment>Invoice is created when order getted from Shopping Flux</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </create_invoice>                 
+                        <processing_order_status translate="label">
+                            <label>Invoiced order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status_processing</source_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </processing_order_status>
+                        <!--<import_store>
+                            <label>Import Store</label>
+                            <comment>Orders will be imported in selected store</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>26</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_store</source_model>
+                        </import_store>-->
+                        <!--<apply_tax>
+                            <label>Apply tax</label>
+                            <comment><![CDATA[Calculation of tax when order is created.<b style='color:red'>Do not active if you sell your products Excl. Tax</b>]]>
+                            </comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>27</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </apply_tax>)-->
+                        <!-- <is_test>
+                         							<label>Test</label>							
+                         							<frontend_type>select</frontend_type>
+                         							<source_model>adminhtml/system_config_source_yesno</source_model>
+                         							<comment>Si oui, la requête se fait su l'url test de shopping flux</comment>
+                         							<sort_order>30</sort_order>
+                         							<show_in_default>1</show_in_default>
+                         							<show_in_website>0</show_in_website>
+                         							<show_in_store>0</show_in_store>
+                  						</is_test> -->
+                    </fields>
+                </manageorders>
+                <import_customer translate="label" module="profileolabs_shoppingflux">
+                    <label>Import Customers</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>2</sort_order>
+                    <fields>
+                        <limit_address_length>
+                            <label>Limiter la longueur des lignes d'adresse</label>
+                            <comment>Laisser vide pour ne pas limiter. Valeur mini : 20</comment>							
+                            <frontend_type>text</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </limit_address_length>
+                        <default_group>
+                            <label>Default customer group</label>
+                            <comment>Set specific customer group for imported customer from Shopping Flux</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </default_group>
+                        <amazon_group>
+                            <label>Amazon customer group</label>
+                            <comment>Set specific customer group for imported customer from Amazon. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </amazon_group>
+                        <cdiscount_group>
+                            <label>Cdiscount customer group</label>
+                            <comment>Set specific customer group for imported customer from Cdiscount. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </cdiscount_group>
+                        <ebay_group>
+                            <label>Ebay customer group</label>
+                            <comment>Set specific customer group for imported customer from Ebay. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </ebay_group>
+                        <fnac_group>
+                            <label>Fnac customer group</label>
+                            <comment>Set specific customer group for imported customer from Fnac. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </fnac_group>
+                        <pixmania_group>
+                            <label>Pixmania customer group</label>
+                            <comment>Set specific customer group for imported customer from Pixmania. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </pixmania_group>
+                        <priceminister_group>
+                            <label>Priceminister customer group</label>
+                            <comment>Set specific customer group for imported customer from Priceminister. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </priceminister_group>
+                        <rueducommerce_group>
+                            <label>Rueducommerce customer group</label>
+                            <comment>Set specific customer group for imported customer from Rueducommerce. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </rueducommerce_group>
+                        <brandalley_group>
+                            <label>Brandalley customer group</label>
+                            <comment>Set specific customer group for imported customer from Brandalley Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </brandalley_group>
+                        <toutaporter_group>
+                            <label>ToutAPorter customer group</label>
+                            <comment>Set specific customer group for imported customer from ToutAPorter Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </toutaporter_group>
+                        <greenrepublic_group>
+                            <label>GreenRepublic customer group</label>
+                            <comment>Set specific customer group for imported customer from GreenRepublic Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </greenrepublic_group>
+                        <laredoute_group>
+                            <label>Laredoute customer group</label>
+                            <comment>Set specific customer group for imported customer from Laredoute Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </laredoute_group>
+                        <babyssima_group>
+                            <label>Babyssima customer group</label>
+                            <comment>Set specific customer group for imported customer from Babyssima Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </babyssima_group>
+                        <monechelle_group>
+                            <label>Monechelle customer group</label>
+                            <comment>Set specific customer group for imported customer from Monechelle Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </monechelle_group>
+                        <ecitizen_group>
+                            <label>Ecitizen customer group</label>
+                            <comment>Set specific customer group for imported customer from Ecitizen Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </ecitizen_group>
+                        <decofinder_group>
+                            <label>Decofinder customer group</label>
+                            <comment>Set specific customer group for imported customer from Decofinder Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </decofinder_group>
+                        <docteurdiscount_group>
+                            <label>Docteurdiscount customer group</label>
+                            <comment>Set specific customer group for imported customer from Docteurdiscount Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </docteurdiscount_group>
+                        <glamour_group>
+                            <label>Glamour customer group</label>
+                            <comment>Set specific customer group for imported customer from Glamour Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </glamour_group>
+                        <gstk_group>
+                            <label>Gstk customer group</label>
+                            <comment>Set specific customer group for imported customer from Gstk Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </gstk_group>
+                    </fields>
+                </import_customer>
+                <shipping_method translate="label" module="profileolabs_shoppingflux">
+                    <label>Shipping Methods</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>3</sort_order>
+                    <fields>
+                        <default_method>
+                            <label>Default shipping method</label>
+                            <comment>Set specific shipping method for imported order from Shopping Flux</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </default_method>
+                        <amazon_method>
+                            <label>Amazon shipping method</label>
+                            <comment>Set specific shipping method for imported order from Amazon. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </amazon_method>
+                        <cdiscount_method>
+                            <label>Cdiscount shipping method</label>
+                            <comment>Set specific shipping method for imported order from Cdiscount. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </cdiscount_method>
+                        <ebay_method>
+                            <label>Ebay shipping method</label>
+                            <comment>Set specific shipping method for imported order from Ebay. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </ebay_method>
+                        <fnac_method>
+                            <label>Fnac shipping method</label>
+                            <comment>Set specific shipping method for imported order from Fnac. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </fnac_method>
+                        <pixmania_method>
+                            <label>Pixmania shipping method</label>
+                            <comment>Set specific shipping method for imported order from Pixmania. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </pixmania_method>
+                        <priceminister_method>
+                            <label>Priceminister shipping method</label>
+                            <comment>Set specific shipping method for imported order from Priceminister. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </priceminister_method>
+                        <rueducommerce_method>
+                            <label>Rueducommerce shipping method</label>
+                            <comment>Set specific shipping method for imported order from Rueducommerce. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </rueducommerce_method>
+                        <brandalley_method>
+                            <label>Brandalley shipping method</label>
+                            <comment>Set specific shipping method for imported order from Brandalley. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </brandalley_method>
+                        <toutaporter_method>
+                            <label>ToutAPorter shipping method</label>
+                            <comment>Set specific shipping method for imported order from ToutAPorter. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </toutaporter_method>
+                        <greenrepublic_method>
+                            <label>GreenRepublic shipping method</label>
+                            <comment>Set specific shipping method for imported order from GreenRepublic. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </greenrepublic_method>
+                        <laredoute_method>
+                            <label>Laredoute shipping method</label>
+                            <comment>Set specific shipping method for imported order from Laredoute. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </laredoute_method>
+                        <babyssima_method>
+                            <label>Babyssima shipping method</label>
+                            <comment>Set specific shipping method for imported order from Babyssima. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </babyssima_method>
+                        <monechelle_method>
+                            <label>Monechelle shipping method</label>
+                            <comment>Set specific shipping method for imported order from Monechelle. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </monechelle_method>
+                        <ecitizen_method>
+                            <label>Ecitizen shipping method</label>
+                            <comment>Set specific shipping method for imported order from Ecitizen. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </ecitizen_method>
+                        <decofinder_method>
+                            <label>Decofinder shipping method</label>
+                            <comment>Set specific shipping method for imported order from Decofinder. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </decofinder_method>
+                        <docteurdiscount_method>
+                            <label>Docteurdiscount shipping method</label>
+                            <comment>Set specific shipping method for imported order from Docteurdiscount. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </docteurdiscount_method>
+                        <glamour_method>
+                            <label>Glamour shipping method</label>
+                            <comment>Set specific shipping method for imported order from Glamour. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </glamour_method>
+                        <gstk_method>
+                            <label>Gstk shipping method</label>
+                            <comment>Set specific shipping method for imported order from Gstk. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </gstk_method>
+                    </fields>
+                </shipping_method>
+                <advanced_shipping_method translate="label" module="profileolabs_shoppingflux">
+                    <label>Advanced Shipping Methods Mapping</label>
+                    <frontend_model>profileolabs_shoppingflux/manageorders_adminhtml_system_config_form_fieldset_shipping_method</frontend_model>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>4</sort_order>
+                </advanced_shipping_method>
+            </groups>
+        </shoppingflux_mo>
+        <shoppingflux_export translate="label" module="profileolabs_shoppingflux">
+            <label>Gestion des produits</label>
+            <tab>shoppingflux</tab>
+            <frontend_type>text</frontend_type>
+            <sort_order>90</sort_order>
+            <show_in_default>1</show_in_default>
+            <show_in_website>1</show_in_website>
+            <show_in_store>1</show_in_store>
+            <groups>
+                <general translate="label">
+                    <label>Generale</label>
+                    <comment>
+						<![CDATA[<b style="color:red">Url de votre flux xml :</b>&nbsp;&nbsp;<span style="font-size:14px;font-style:italic;">http://{votre domaine}/shoppingflux/export_flux/</span><br /><br /><br />]]>			
+                    </comment>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>1</sort_order>
+                    <fields>
+                        <active>
+                            <label>Activer le module Shopping-flux</label>
+                            <comment></comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>1</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </active>
+                        <filter_by_attribute>
+                            <label>Exporter uniquement les produits sélectionnés</label>
+                            <comment>N'oubliez pas de sélectionner des produits à filtrer. 
+                                <strong>Shoppingflux > Sélectionnez les produits</strong>
+                            </comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>5</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </filter_by_attribute>
+                        <!-- <limit_product>
+                         							<label>Export par n produits</label>
+                         							<comment></comment>							
+                         							<sort_order>10</sort_order>
+                         							<show_in_default>1</show_in_default>
+                         							<show_in_website>1</show_in_website>
+                         							<show_in_store>1</show_in_store>
+                         							<comment>Limite le nombre de produit par lots</comment>
+                  						</limit_product> -->
+                        <default_shipping_delay>
+                            <label>Délai de livraison</label>
+                            <comment><![CDATA[Délai de livraison en <strong>jours</strong> par défaut si aucun attribut n'est mappé.]]>
+                            </comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_shipping_delay>
+                        <default_shipping_price>
+                            <label>Frais de port</label>
+                            <comment>Frais de port par défaut si aucune correpondance n'est trouvée.</comment>
+                            <frontend_type>text</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </default_shipping_price>
+                        <default_shipping_method>
+                            <label>Méthode de livraison </label>
+                            <comment>Méthode de livraison par défaut pour calculer les frais de livraison</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>						
+                        </default_shipping_method>
+                        <try_use_real_shipping_price>
+                            <label>Essayer de récupérer les prix de livraison réels</label>
+                            <comment>Désactiver cette option en cas de problème de mémoire.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </try_use_real_shipping_price>	
+                        <shipping_price_based_on>
+                            <label>Pays de livraison</label>
+                            <comment>Pays par défaut pour calculer les frais de livraison</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>			
+                        </shipping_price_based_on>
+                        <export_soldout>
+                            <label>Exporter les produits hors stock</label>
+                            <comment></comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </export_soldout>
+                        <export_visibility>
+                            <label>Exporter les produits avec la visibilité</label>
+                            <comment></comment>							
+                            <frontend_type>multiselect</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>profileolabs_shoppingflux/export_source_visibility</source_model>
+                        </export_visibility>
+                        <memory_limit>
+                            <label>Limite de mémoire</label>
+                            <comment>Exprimé en MB. A ne modifier que si vous savez ce que vous faites.</comment>							
+                            <frontend_type>text</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </memory_limit>	
+                        <enable_sync>
+                            <label>Activer les mises à jour automatique</label>
+                            <comment>Mise à jour des stocks et des prix en temps réel. Cela peut ralentir les modifications de stock/prix.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </enable_sync>	
+                        <use_manage_stock>
+                            <label>Prendre compte la gestion des stocks ?</label>
+                            <comment>Si oui, les produits en "Gestion des stocks" : "Non" auront un stock à 100 dans le flux.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>130</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </use_manage_stock>
+                        <all_store_products>
+                            <label>Prendre les produits de tous les Magasins ?</label>
+                            <comment>En cas de doute, laisser à non.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>135</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </all_store_products>
+                        <all_store_categories>
+                            <label>Prendre les catégories de tous les Magasins ?</label>
+                            <comment>En cas de doute, laisser à non.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>140</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </all_store_categories>		
+                        <use_only_shoppingflux_category>
+                            <label>N'utilisez que la catégorie ShoppingFlux</label>
+                            <comment>Gain en performance si oui.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </use_only_shoppingflux_category>	
+                        <max_category_level>
+                            <label>N'utilisez que les X premiers niveaux de catégories</label>						
+                            <frontend_type>select</frontend_type>
+                            <sort_order>150</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>profileolabs_shoppingflux/export_source_category_level</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </max_category_level>	
+                        <enable_events>
+                            <label>Activer les évenements ShoppingFlux ?</label>
+                            <comment>Utile uniquement en cas de développement spécifique. Désactiver pour gagner en performances.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>160</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </enable_events>
+                        <manage_configurable>
+                            <label>Gestion des produits configurables en mode avancé ?</label>
+                            <comment>Si non, seuls les produits configurables seront transmis (sans leur enfants). Permet de gagner en performances si cette option n'est pas utile.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>170</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </manage_configurable>	
+                        <manage_catalog_rules>
+                            <label>Gestion des règles de prix catalogue ?</label>			
+                            <frontend_type>select</frontend_type>
+                            <sort_order>180</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </manage_catalog_rules>	
+                        <manage_media_gallery>
+                            <label>Gestion des galeries de photos produit ?</label>
+                            <comment>Ne concerne pas l'image principale du produit. Mettre à non pour gain de performances.</comment>			
+                            <frontend_type>select</frontend_type>
+                            <sort_order>190</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </manage_media_gallery>			
+                    </fields>
+                </general>
+                <attributes_unknow translate="label">
+                    <label>Mapping d'attributs Inconnus</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>20</sort_order>
+                    <fields>
+                        <ean>
+                            <label>Ean</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ean>
+                        <isbn>
+                            <label>ISBN</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </isbn>
+                        <ref_manufacturer>
+                            <label>Référence constructeur</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ref_manufacturer>
+                        <ref_wholesaler>
+                            <label>Référence fournisseur</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </ref_wholesaler>
+                        <shipping_delay>
+                            <label>Délai de livraison</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>42</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </shipping_delay>
+                        <shipping_send_delay>
+                            <label>Délai de d'expédition</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>43</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>							
+                        </shipping_send_delay>
+                        <brand>
+                            <label>Marque</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </brand>
+                        <brand_page_url>
+                            <label>URL de la page Marque</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>55</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </brand_page_url>	
+                        <ecotaxe>
+                            <label>Ecotaxe</label>
+                            <comment>Si vos produits ont une écotaxe</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>					
+                        </ecotaxe>
+                        <short_name>
+                            <label>Nom court du produit</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>					
+                        </short_name>
+                        <characteristics>
+                            <label>Caractéristiques</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>80</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </characteristics>
+                        <warranty>
+                            <label>Garantie</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>90</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </warranty>
+                        <kind>
+                            <label>Genre</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </kind>
+                        <matter>
+                            <label>Matière</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>100</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </matter>
+                        <size>
+                            <label>Taille</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>110</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </size>
+                        <shoe_size>
+                            <label>Pointure</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>115</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </shoe_size>
+                        <dimension>
+                            <label>Dimension</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>120</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </dimension>
+                    </fields>
+                </attributes_unknow>
+                <attributes_know translate="label">
+                    <label>Mapping d'attributs Connus</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>30</sort_order>
+                    <fields>
+                        <name>
+                            <label>Nom du produit</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </name>
+                        <description>
+                            <label>Description du produit</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>20</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </description>
+                        <short_description>
+                            <label>Description courte du produit</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </short_description>
+                        <meta_keyword>
+                            <label>Mot clés</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meta_keyword>
+                        <weight>
+                            <label>Poids</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>40</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </weight>
+                        <color>
+                            <label>Couleur</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>50</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </color>
+                    </fields>
+                </attributes_know>
+                <specific_prices>
+                    <label>Prix spécifiques</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>35</sort_order>
+                    <fields>
+                        
+                        <price>
+                            <label>Prix TTC</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </price>
+                        <special_price>
+                            <label>Prix Spécial</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </special_price>
+                    </fields>
+                </specific_prices>
+                <attributes_additionnal>
+                    <label>Attributs supplémentaires</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>40</sort_order>
+                    <fields>
+                        <list>
+                            <label>Autres attributs à transmettre</label>
+                            <frontend_type>multiselect</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </list>
+                    </fields>
+                </attributes_additionnal>
+            </groups>
+        </shoppingflux_export>
+    </sections>
+</config>

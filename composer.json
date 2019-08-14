@@ -1,0 +1,16 @@
+{
+    "name": "OpenMageModuleFostering/Profileolabs_Shoppingflux",
+    "type": "magento-module",
+    "license": "GNU-General-Public-License-(GPL)",
+    "homepage": "",
+    "description": "Export your products on price comparison sites and marketplaces, with lift controls.",
+    "authors": [
+    {
+        "name": "ShoppingFlux",
+        "email": "olivier.levy@gmail.com"
+    }
+],
+    "suggest": {
+        "magento-hackathon/magento-composer-installer": "*"
+    }
+}
