@@ -798,6 +798,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 if(!$usedProduct) {
                     continue;
                 }
+                if($usedProduct->getStatus() == 2) {
+                    continue;
+                }
                 
                 $salable = $salable || $usedProduct->isSalable();
 

@@ -172,6 +172,21 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
               } */
         }
     }
+    
+    public function fillMainCategory() {
+        $productCollection = Mage::getModel('catalog/product')->getCollection();
+        $productCollection->addAttributeToSelect('shoppingflux_default_category', 'left');
+        $productCollection->addAttributeToFilter('shoppingflux_default_category', array(array('null'=>true), array('eq'=>'')));
+        foreach($productCollection as $product) {
+            $categories = $product->getCategoryIds();
+            if(!empty($categories)) {
+                shuffle($categories);
+                $categoryId = array_shift($categories);
+                $product->setData('shoppingflux_default_category', $categoryId);
+                $product->save();
+            }
+        }
+    }
 
     public function manageUpdates() {
         $apiKeyManaged = array();

@@ -21,6 +21,11 @@ class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminht
         }
         
         public function testAction() {
+            Profileolabs_Shoppingflux_Model_Export_Observer::fillMainCategory();
+            return;
+            
+            
+            
             ini_set('display_errors',1);
             error_reporting(-1);
             //$write = Mage::getSingleton('core/resource')->getConnection('core_write');

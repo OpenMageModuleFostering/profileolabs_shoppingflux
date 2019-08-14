@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.0</version>
+            <version>0.7.1</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -432,6 +432,14 @@
                     <model>profileolabs_shoppingflux/export_observer::generateFluxInFile</model>
                 </run>
             </export_flux_in_file>
+            <fill_main_category>
+                <schedule>
+                    <cron_expr>0 2 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_observer::fillMainCategory</model>
+                </run>
+            </fill_main_category>
             <export_shipments_shoppingflux>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>

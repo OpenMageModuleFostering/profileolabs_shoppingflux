@@ -59,7 +59,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
                     CURLOPT_SSL_VERIFYPEER => 0,
                     CURLOPT_HEADER => false,
                     CURLOPT_RETURNTRANSFER => true,
-                    CURLOPT_CONNECTTIMEOUT => 20,
+                    CURLOPT_CONNECTTIMEOUT => 10,
                     CURLOPT_TIMEOUT => 100),
             );
             try {
@@ -145,10 +145,12 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
         //Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__('TEST KASSIM'));	
 
 
-        if (!($this->_xml instanceof Varien_Simplexml_Element))
+        if (!($this->_xml instanceof Varien_Simplexml_Element)) {
+            Mage::log($responseText, null, 'shoppingflux.log');
             Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__("Result is not Varien_Simplexml_Element"));
-        elseif ($this->_xml->error)
+        } elseif ($this->_xml->error) {
             Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__('API key (Token) not valid'));
+        }
 
         /* 	} catch (Exception $e) {
           Mage::throwException($e);
