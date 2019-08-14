@@ -276,5 +276,9 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         return true;
         //return $this->getConfigFlag('shoppingflux_mo/manageorders/apply_tax', $storeId);
     }
+    
+    public function preferMobilePhone($storeId = null) {
+        return $this->getConfigFlag("shoppingflux_mo/import_customer/prefer_mobile_phone");
+    }
 
 }

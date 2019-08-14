@@ -73,6 +73,10 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Convert_Customer extends Vari
         
         if ($address->getTelephone() == "" && $data['PhoneMobile'])
             $address->setTelephone($data['PhoneMobile']);
+        
+        if(Mage::getSingleton('profileolabs_shoppingflux/config')->preferMobilePhone() && $data['PhoneMobile']) {
+            $address->setTelephone($data['PhoneMobile']);
+        }
 
         $codeRegion = substr(str_pad($address->getPostcode(), 5, "0", STR_PAD_LEFT), 0, 2);
 

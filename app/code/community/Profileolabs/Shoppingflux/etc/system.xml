@@ -151,6 +151,15 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                         </limit_address_length>
+                        <prefer_mobile_phone>
+                            <label>Préférer le numéro de mobile au fixe, si disponible</label>						
+                            <frontend_type>select</frontend_type>
+                            <sort_order>7</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </prefer_mobile_phone>
                         <default_group>
                             <label>Default customer group</label>
                             <comment>Set specific customer group for imported customer from Shopping Flux</comment>							
@@ -233,7 +242,7 @@
                         </rueducommerce_group>
                         <brandalley_group>
                             <label>Brandalley customer group</label>
-                            <comment>Set specific customer group for imported customer from Brandalley Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Brandalley. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -243,7 +252,7 @@
                         </brandalley_group>
                         <toutaporter_group>
                             <label>ToutAPorter customer group</label>
-                            <comment>Set specific customer group for imported customer from ToutAPorter Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from ToutAPorter. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -253,7 +262,7 @@
                         </toutaporter_group>
                         <greenrepublic_group>
                             <label>GreenRepublic customer group</label>
-                            <comment>Set specific customer group for imported customer from GreenRepublic Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from GreenRepublic. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -263,7 +272,7 @@
                         </greenrepublic_group>
                         <laredoute_group>
                             <label>Laredoute customer group</label>
-                            <comment>Set specific customer group for imported customer from Laredoute Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Laredoute. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -273,7 +282,7 @@
                         </laredoute_group>
                         <babyssima_group>
                             <label>Babyssima customer group</label>
-                            <comment>Set specific customer group for imported customer from Babyssima Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Babyssima. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -281,19 +290,9 @@
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </babyssima_group>
-                        <monechelle_group>
-                            <label>Monechelle customer group</label>
-                            <comment>Set specific customer group for imported customer from Monechelle Leave empty to use default.</comment>							
-                            <frontend_type>select</frontend_type>
-                            <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <source_model>adminhtml/system_config_source_customer_group</source_model>
-                        </monechelle_group>
                         <ecitizen_group>
                             <label>Ecitizen customer group</label>
-                            <comment>Set specific customer group for imported customer from Ecitizen Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Ecitizen. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -303,7 +302,7 @@
                         </ecitizen_group>
                         <decofinder_group>
                             <label>Decofinder customer group</label>
-                            <comment>Set specific customer group for imported customer from Decofinder Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Decofinder. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -313,7 +312,7 @@
                         </decofinder_group>
                         <docteurdiscount_group>
                             <label>Docteurdiscount customer group</label>
-                            <comment>Set specific customer group for imported customer from Docteurdiscount Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Docteurdiscount. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -323,7 +322,7 @@
                         </docteurdiscount_group>
                         <glamour_group>
                             <label>Glamour customer group</label>
-                            <comment>Set specific customer group for imported customer from Glamour Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Glamour. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -333,7 +332,7 @@
                         </glamour_group>
                         <gstk_group>
                             <label>Gstk customer group</label>
-                            <comment>Set specific customer group for imported customer from Gstk Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Gstk. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -343,7 +342,7 @@
                         </gstk_group>
                         <mistergooddeal_group>
                             <label>MisterGoodDeal customer group</label>
-                            <comment>Set specific customer group for imported customer from MisterGoodDeal Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from MisterGoodDeal. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -353,7 +352,7 @@
                         </mistergooddeal_group>
                         <placedumariage_group>
                             <label>PlaceDuMariage customer group</label>
-                            <comment>Set specific customer group for imported customer from PlaceDuMariage Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from PlaceDuMariage. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -363,7 +362,7 @@
                         </placedumariage_group>
                         <tap_group>
                             <label>Tap customer group</label>
-                            <comment>Set specific customer group for imported customer from Tap Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Tap. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -373,7 +372,7 @@
                         </tap_group>
                         <spartoo_group>
                             <label>Spartoo customer group</label>
-                            <comment>Set specific customer group for imported customer from Spartoo Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Spartoo. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -383,7 +382,7 @@
                         </spartoo_group>
                         <jardinermalin_group>
                             <label>Jardinermalin customer group</label>
-                            <comment>Set specific customer group for imported customer from Jardinermalin Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Jardinermalin. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -393,7 +392,7 @@
                         </jardinermalin_group>
                         <monechelle_group>
                             <label>Monechelle customer group</label>
-                            <comment>Set specific customer group for imported customer from Monechelle Leave empty to use default.</comment>							
+                            <comment>Set specific customer group for imported customer from Monechelle. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -401,6 +400,66 @@
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </monechelle_group>
+                        <localismarket_group>
+                            <label>Localismarket customer group</label>
+                            <comment>Set specific customer group for imported customer from Localismarket. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </localismarket_group>
+                        <galerieslafayette_group>
+                            <label>GaleriesLafayette customer group</label>
+                            <comment>Set specific customer group for imported customer from GaleriesLafayette. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </galerieslafayette_group>
+                       <monchouchou_group>
+                            <label>Monchouchou customer group</label>
+                            <comment>Set specific customer group for imported customer from Monchouchou. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </monchouchou_group>
+                       <elevenmain_group>
+                            <label>Elevenmain customer group</label>
+                            <comment>Set specific customer group for imported customer from Elevenmain. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </elevenmain_group>
+                       <sears_group>
+                            <label>Sears customer group</label>
+                            <comment>Set specific customer group for imported customer from Sears. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </sears_group>
+                       <wizacha_group>
+                            <label>Wizacha customer group</label>
+                            <comment>Set specific customer group for imported customer from Wizacha. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </wizacha_group>
                     </fields>
                 </import_customer>
                 <shipping_method translate="label" module="profileolabs_shoppingflux">
@@ -650,16 +709,67 @@
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </jardinermalin_method>
-                        <monechelle_method>
-                            <label>Monechelle shipping method</label>
-                            <comment>Set specific shipping method for imported order from Monechelle. Leave empty to use default.</comment>							
+                        <localismarket_method>
+                            <label>Localismarket shipping method</label>
+                            <comment>Set specific shipping method for imported order from Localismarket. Leave empty to use default.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
-                        </monechelle_method>
+                        </localismarket_method>
+                        <galerieslafayette_method>
+                            <label>GaleriesLafayette shipping method</label>
+                            <comment>Set specific shipping method for imported order from GaleriesLafayette. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </galerieslafayette_method>
+                        <monchouchou_method>
+                            <label>Monchouchou shipping method</label>
+                            <comment>Set specific shipping method for imported order from Monchouchou. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </monchouchou_method>
+                        <elevenmain_method>
+                            <label>Elevenmain shipping method</label>
+                            <comment>Set specific shipping method for imported order from Elevenmain. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </elevenmain_method>
+                        <sears_method>
+                            <label>Sears shipping method</label>
+                            <comment>Set specific shipping method for imported order from Sears. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </sears_method>
+                        <wizacha_method>
+                            <label>Wizacha shipping method</label>
+                            <comment>Set specific shipping method for imported order from Wizacha. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </wizacha_method>
+                        
                     </fields>
                 </shipping_method>
                 <advanced_shipping_method translate="label" module="profileolabs_shoppingflux">
