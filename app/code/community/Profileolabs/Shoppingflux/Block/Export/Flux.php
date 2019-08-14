@@ -29,7 +29,28 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstra
             }
         }
         
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($useAllStores?false:Mage::app()->getStore()->getId(), $this->getLimit() ? $this->getLimit() : 1000);
+        $maxImportLimit = 1000;
+        $memoryLimit = ini_get('memory_limit');
+        if (preg_match('%M$%', $memoryLimit)) {
+            $memoryLimit = intval($memoryLimit) * 1024 * 1024;
+        } else if (preg_match('%G$%', $memoryLimit)) {
+            $memoryLimit = intval($memoryLimit) * 1024 * 1024 * 1024;
+        } else {
+            $memoryLimit = false;
+        }
+        if($memoryLimit > 0) {
+            if($memoryLimit <= 128 * 1024 * 1024) {
+                $maxImportLimit = 50;
+            } else if($memoryLimit <= 256 * 1024 * 1024) {
+                $maxImportLimit = 500;
+            } else if($memoryLimit >= 1024 * 1024 * 1024) {
+                $maxImportLimit = 3000;
+            }else if($memoryLimit >= 2048 * 1024 * 1024) {
+                $maxImportLimit = 6000;
+            }
+        }
+        
+        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($useAllStores?false:Mage::app()->getStore()->getId(), $this->getLimit() ? $this->getLimit() : $maxImportLimit);
         $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $collection->addFieldToFilter('should_export', 1);
         if($useAllStores) {
@@ -50,6 +71,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstra
             $collection->addFieldToFilter('is_in_flux', 1);
         }
         $visibilities = $this->getConfig()->getVisibilitiesToExport();
+        $visibilities = array_filter($visibilities);
         $collection->getSelect()->where("find_in_set(visibility, '" . implode(',', $visibilities) . "')");
 
 

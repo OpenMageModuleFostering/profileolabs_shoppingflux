@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.9.5</version>
+            <version>0.9.6</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -34,6 +34,9 @@
                 <Phone>
                     <to_customer_address>telephone</to_customer_address>
                 </Phone>
+                <Company>
+                    <to_customer_address>company</to_customer_address>
+                </Company>
                 <Street>
                     <to_customer_address>street_full</to_customer_address>
                 </Street>
@@ -462,8 +465,8 @@
                 <export_soldout>1</export_soldout>
                 <export_not_salable>1</export_not_salable>
                 <export_visibility>2,3,4</export_visibility>
-                <enable_cron>1</enable_cron>
-                <memory_limit>512</memory_limit>
+                <enable_cron>0</enable_cron>
+                <memory_limit>2048</memory_limit>
                 <use_manage_stock>1</use_manage_stock>
                 <all_store_categories>0</all_store_categories>
                 <all_store_products>0</all_store_products>

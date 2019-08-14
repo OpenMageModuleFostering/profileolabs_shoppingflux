@@ -212,7 +212,7 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         if($memoryLimit>10) {
             return $memoryLimit;
         }
-        return 1024;
+        return 2048;
     }
     
     public function isSyncEnabled() {

@@ -116,13 +116,14 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 $productCollection->addAttributeToSelect('sku', 'left');
                 $currentVersion = Mage::getVersion();
                 $tableName = Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux');
-                $productCollection->joinTable($tableName, "sku=sku", array('skusf' => 'sku'), "{{table}}.store_id = '" . $storeId . "'", 'left');
+                $productCollection->joinTable($tableName, "entity_id=product_id", array('skusf' => 'sku'), "{{table}}.store_id = '" . $storeId . "'", 'left');
                 //not compatible with mage 1.3
                 //$productCollection->joinTable(array('sf'=>'profileolabs_shoppingflux/export_flux'), "sku=sku", array('skusf'=>'sku'), "{{table}}.store_id = '".$storeId."'", 'left');
                 $productCollection->setPage(1, $maxImport);
                 $productCollection->getSelect()->where($tableName . '.sku
                     IS NULL');
-                $productCollection->load();
+                //$productCollection->load();
+                //echo $productCollection->getSelect();
                 Mage::getSingleton('core/resource_iterator')
                         ->walk($productCollection->getSelect(), array(array($this, 'addMissingProduct')), array('store_id' => $storeId));
             }
@@ -571,6 +572,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         if ($discountToDate) {
             $data["end-date-discount"] = $discountToDate;
         }
+        unset($data['price']);
+        unset($data['special_price']);
         return $data;
     }
 
