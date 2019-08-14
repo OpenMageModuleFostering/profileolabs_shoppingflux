@@ -212,11 +212,16 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         if($memoryLimit>10) {
             return $memoryLimit;
         }
-        return 512;
+        return 1024;
     }
     
-    public function isSyncEnabled($storeId = null) {
-        return $this->getConfigFlag('shoppingflux_export/general/enable_sync', $storeId);
+    public function isSyncEnabled() {
+        foreach(Mage::app()->getStores() as $store) {
+            if($this->getConfigFlag('shoppingflux_export/general/enable_sync', $store->getId())) {
+                return true;
+            }
+        }
+        return false;
     }
     
     public function useManageStock($storeId = null) {

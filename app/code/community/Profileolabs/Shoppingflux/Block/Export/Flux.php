@@ -1,6 +1,6 @@
 <?php
 
-class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Template {
+class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstract {
 
     protected function _loadCache() {
 	return false;	
@@ -11,8 +11,13 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Templa
         return;	
     }
 
-    
     protected function _toHtml() {
+       $this->displayOutput();
+       return '';
+    }
+        
+    
+    public function displayOutput() {
         Profileolabs_Shoppingflux_Model_Export_Observer::checkStock();
         
         $useAllStores = $this->getForceMultiStores() || $this->getConfig()->getUseAllStoreProducts();

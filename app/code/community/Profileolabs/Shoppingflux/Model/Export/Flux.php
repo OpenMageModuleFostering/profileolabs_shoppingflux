@@ -144,6 +144,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
                     $collection->addFieldToFilter('update_needed', 1);
                     $collection->addFieldToFilter('store_id', $storeId);
+                    $collection->getSelect()->order('rand()');//if concurrent calls, this will avoid updating the same products..
                     if ($shouldExportOnly) {
                         $collection->addFieldToFilter('should_export', 1);
                     }
@@ -602,7 +603,10 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //Varien_Profiler::start("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
         $categoryId = $product->getData('shoppingflux_default_category');
         if (!$categoryId) {
-            return $this->getCategoriesViaProductCategories($data, $product);
+            $categoryId = $product->getData('main_category');//Compatibility with Webcooking_MainCategory
+            if (!$categoryId) {
+                return $this->getCategoriesViaProductCategories($data, $product);
+            }
         }
         $category = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
         //Varien_Profiler::stop("SF::Flux::getCategoriesViaShoppingfluxCategory-1");

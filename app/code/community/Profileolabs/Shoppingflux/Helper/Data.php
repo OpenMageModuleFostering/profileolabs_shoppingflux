@@ -279,10 +279,12 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                         ->addAttributeToSelect('meta_title')
                         ->addAttributeToSelect('meta_description')
                         ->addAttributeToSelect('meta_keywords')
+                        ->addAttributeToFilter('sf_exclude', array(array('is'=>new Zend_Db_Expr('NULL')),array('eq' => 0)), 'left')
                         ->addAttributeToFilter('entity_id', array('neq' => 1))
                         ->addAttributeToSort('path', 'ASC')
                         ->addAttributeToSort('name', 'ASC');
                 
+                //echo $categories->getSelect().'';
                 if(!$withInactive) {
                   $categories->addFieldToFilter('is_active', array('eq'=>'1'));
                 }
@@ -304,15 +306,17 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                     $parent = $category->getParentId();
                     while ($parent > 1) {
                         $parentCategory = Mage::getModel('catalog/category')->load($parent);
-                        $category->setName($parentCategory->getName() . " > " . $category->getName());
-                        $category->setMetaTitle($parentCategory->getMetaTitle() . " > " . $category->getMetaTitle());
-                        $category->setMetaDescription($parentCategory->getMetaDescription() . " > " . $category->getMetaDescription());
-                        $category->setMetaKeywords($parentCategory->getMetaKeywords() . " > " . $category->getMetaKeywords());
-                        if (!Mage::app()->getStore()->isAdmin()) {
-                            //To avoid exception launched by third part module : ManaPro_FilterSeoLinks
-                            $category->setUrl($parentCategory->getUrl() . " > " . $category->getUrl());
+                        if(!$parentCategory->getSfExclude()) {
+                            $category->setName($parentCategory->getName() . " > " . $category->getName());
+                            $category->setMetaTitle($parentCategory->getMetaTitle() . " > " . $category->getMetaTitle());
+                            $category->setMetaDescription($parentCategory->getMetaDescription() . " > " . $category->getMetaDescription());
+                            $category->setMetaKeywords($parentCategory->getMetaKeywords() . " > " . $category->getMetaKeywords());
+                            if (!Mage::app()->getStore()->isAdmin()) {
+                                //To avoid exception launched by third part module : ManaPro_FilterSeoLinks
+                                $category->setUrl($parentCategory->getUrl() . " > " . $category->getUrl());
+                            }
+                            $category->setIds($parentCategory->getId() . " > " . $category->getIds() ? $category->getIds() : $category->getId());
                         }
-                        $category->setIds($parentCategory->getId() . " > " . $category->getIds() ? $category->getIds() : $category->getId());
                         $parent = $parentCategory->getParentId();
                     }
                 }

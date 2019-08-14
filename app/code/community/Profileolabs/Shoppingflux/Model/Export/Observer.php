@@ -46,6 +46,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         } else {
             $productCollection->getSelect()->where('(sf_stock.use_config_manage_stock = 0 and sf_stock.manage_stock = 1)');
         }
+        $productCollection->getSelect()->where('flux.update_needed = 0');
         $productCollection->getSelect()->group('e.entity_id');
         foreach($productCollection as $product) {
             Mage::getModel('profileolabs_shoppingflux/export_flux')->productNeedUpdate($product);

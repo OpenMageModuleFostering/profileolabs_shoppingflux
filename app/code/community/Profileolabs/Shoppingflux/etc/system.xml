@@ -24,15 +24,15 @@
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
-                        <!--deprecated<login>
-                            <label>ShoppingFlux identifier</label>
+                        <none>
+                            <label>--</label>
                             <comment>Your ShoppingFlux's interface login</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                        </login>-->
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </none>
                         <api_key>
                             <label>API key</label>						
                             <frontend_type>text</frontend_type>
@@ -824,6 +824,7 @@
                     <fields>
                         <limit_hours>
                             <label>Max time before sending shipment update to marketplace</label>
+                            <!-- Menu déroulant Immédiat et de 1 à 10 -->
                             <comment>In hours. If the shipment has still not any tracking number filled after X hours, the shipment is sent to the marketplace without tracking number.</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>

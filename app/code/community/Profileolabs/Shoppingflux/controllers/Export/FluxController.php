@@ -121,7 +121,7 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         if(!headers_sent()) {
     		header('Content-type: text/xml; charset=UTF-8');
         }
-        echo '<status version="'.Mage::getConfig()->getModuleConfig("Profileolabs_Shoppingflux")->version.'">';
+        echo '<status version="'.Mage::getConfig()->getModuleConfig("Profileolabs_Shoppingflux")->version.'" m="'.ini_get('memory_limit').'">';
         echo "<feed_generation>";
         echo "<product_count>{$productCount}</product_count>";
         echo "<feed_count>{$feedCount}</feed_count>";
@@ -146,6 +146,14 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         $limit = $this->getRequest()->getParam('limit');
         $productSku = $this->getRequest()->getParam('product_sku');
         $forceMultiStores = $this->getRequest()->getParam('force_multi_stores', false);
+        $forceStore = $this->getRequest()->getParam('force_store', false);
+        
+        if($forceStore) {
+            $appEmulation = Mage::getSingleton('core/app_emulation');
+            if ($appEmulation) { // not available in 1.4
+                $appEmulation->startEnvironmentEmulation($forceStore);
+            }
+        }
         
         if(!headers_sent()) {
     		header('Content-type: text/xml; charset=UTF-8');
@@ -162,58 +170,9 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
             $block->setForceMultiStores(true);
         }
 
-        $block->toHtml();
+        $block->displayOutput();
 
         exit();
-    }
-
-    // V1 DEPRECATED
-    public function v1Action() {
-        $limit = $this->getRequest()->getParam('limit');
-        $productSku = $this->getRequest()->getParam('product_sku');
-
-        /**
-         * Error reporting
-         */
-        error_reporting(E_ALL | E_STRICT);
-        ini_set('display_errors', 1);
-        set_time_limit(0);
-        /* $this->getResponse()
-          ->setHttpResponseCode(200)
-          ->setHeader('Pragma', 'public', true)
-          ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-          ->setHeader('Content-type', 'text/xml; charset=UTF-8'); */
-        header('Content-type: text/xml; charset=UTF-8');
-
-
-        try {
-            $block = $this->getLayout()->createBlock('profileolabs_shoppingflux/export_flow', 'sf.export.flow');
-            if ($limit) {
-                $block->setLimit($limit);
-            }
-            if ($productSku) {
-                $block->setProductSku($productSku);
-            }
-            $block->toHtml();
-
-            /* $this->loadLayout(false);
-              if($limit) {
-              $block = $this->getLayout()->getBlock('sf.export.flow');
-              $block->setLimit($limit);
-              }
-              $this->renderLayout(); */
-
-            //$block = $this->getLayout()->createBlock('profileolabs_shoppingflux/export_flow','sf.export.flow');
-            //$output = $block->toHtml();
-            //$this->getResponse()->setBody($output);
-        } catch (Exception $e) {
-
-            Mage::throwException($e);
-        }
-
-
-
-        return $this;
     }
 
     public function profileAction() {
