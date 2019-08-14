@@ -22,7 +22,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstra
         
         $useAllStores = $this->getForceMultiStores() || $this->getConfig()->getUseAllStoreProducts();
         if ($this->getProductSku() && $this->getRequest()->getParam('update') == 1) {
-            if($this->getConfig()->getUseAllStoreProducts()) {
+            if(!$this->getConfig()->getUseAllStoreProducts()) {
                 Mage::getModel('profileolabs_shoppingflux/export_flux')->updateProductInFlux($this->getProductSku(), Mage::app()->getStore()->getId());
             } else {
                 Mage::getModel('profileolabs_shoppingflux/export_flux')->updateProductInFluxForAllStores($this->getProductSku());
@@ -54,7 +54,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstra
 
 
         $xmlObj = Mage::getModel('profileolabs_shoppingflux/export_xml');
-        echo $xmlObj->startXml(array('generated-at' => date('d/m/Y H:i:s', Mage::getModel('core/date')->timestamp(time())), 'size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'with-not-salable'=> intval($this->getConfig()->isExportNotSalable())  , 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
+        echo $xmlObj->startXml(array('store_id'=>Mage::app()->getStore()->getId(),'generated-at' => date('d/m/Y H:i:s', Mage::getModel('core/date')->timestamp(time())), 'size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'with-not-salable'=> intval($this->getConfig()->isExportNotSalable())  , 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
 
 
         if ($this->getProductSku()) {

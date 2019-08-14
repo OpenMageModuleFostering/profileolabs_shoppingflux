@@ -3,7 +3,7 @@
 class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
 
     public function render(Varien_Data_Form_Element_Abstract $element) {
-        if($this->shouldRenderUnregistered()) {
+        if(!$this->shouldRenderUnregistered()) {
             return parent::render($element);
         }
         

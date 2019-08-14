@@ -87,7 +87,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     'p.entity_id = main_table.product_id',
                     array()
                 );
-        $collection->getSelect()->where("p.entity_id IS NULL");
+        $existingStoreIds = array();
+        foreach(Mage::app()->getStores() as $store) {
+            $existingStoreIds[] = $store->getId();
+        }
+        $collection->getSelect()->where("p.entity_id IS NULL or main_table.store_id NOT IN (".implode(',',$existingStoreIds).")");
         //$collection->walk('delete');
         Mage::getSingleton('core/resource_iterator')
                         ->walk($collection->getSelect(), array(array($this, 'removeDeletedProduct')));
@@ -400,6 +404,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
         $data = array(
             'id' => $product->getId(),
+            'last-feed-update' => date('Y-m-d H:i:s'),
             'mage-sku' => $product->getSku(),
             'product-url' => $this->cleanUrl($product->getProductUrl(false)),
             'is-in-stock' => $_manageStock ? $product->getStockItem()->getIsInStock() : 1,

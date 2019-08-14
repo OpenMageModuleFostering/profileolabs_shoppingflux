@@ -37,8 +37,8 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $productCollection->getSelect()->join(
                     array('sf_stock' => $productCollection->getTable('cataloginventory/stock_item')), 'e.entity_id = sf_stock.product_id', array('qty', 'actual_qty'=>'qty')
             );
-        $productCollection->getSelect()->joinRight(
-                    array('flux' => $productCollection->getTable('profileolabs_shoppingflux/export_flux')), "e.sku = flux.sku and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
+        $productCollection->getSelect()->join(
+                    array('flux' => $productCollection->getTable('profileolabs_shoppingflux/export_flux')), "e.entity_id = flux.product_id and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
             );
         $productCollection->getSelect()->where('CAST(sf_stock.qty AS SIGNED) != flux.stock_value');
         if (Mage::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK, $storeId)) {
