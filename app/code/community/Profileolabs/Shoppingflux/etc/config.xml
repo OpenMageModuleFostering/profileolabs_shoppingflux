@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.9.6</version>
+            <version>0.9.7</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -375,14 +375,14 @@
                     <model>profileolabs_shoppingflux/export_observer::generateFluxInFile</model>
                 </run>
             </export_flux_in_file>
-            <fill_main_category>
+            <!--<fill_main_category>
                 <schedule>
                     <cron_expr>0 2 * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>profileolabs_shoppingflux/export_observer::fillMainCategory</model>
                 </run>
-            </fill_main_category>
+            </fill_main_category>-->
             <!--<export_shipments_shoppingflux>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
@@ -414,7 +414,7 @@
                 <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/</ws_uri_prod>-->
                 <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/magento/</ws_uri_prod>-->
                 <api_key></api_key>
-                <enable_buyline>0</enable_buyline>
+                <!--<enable_buyline>0</enable_buyline>-->
             </configuration>
         </shoppingflux>
         <shoppingflux_mo>

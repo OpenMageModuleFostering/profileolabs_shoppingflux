@@ -116,12 +116,15 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 $productCollection->addAttributeToSelect('sku', 'left');
                 $currentVersion = Mage::getVersion();
                 $tableName = Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux');
-                $productCollection->joinTable($tableName, "entity_id=product_id", array('skusf' => 'sku'), "{{table}}.store_id = '" . $storeId . "'", 'left');
+                $productCollection->getSelect()->joinLeft(
+                        array('sf'=>$tableName), 
+                        "entity_id=sf.product_id and store_id = '" . $storeId . "'", 
+                        array('skusf' => 'sku')
+                        );
                 //not compatible with mage 1.3
                 //$productCollection->joinTable(array('sf'=>'profileolabs_shoppingflux/export_flux'), "sku=sku", array('skusf'=>'sku'), "{{table}}.store_id = '".$storeId."'", 'left');
                 $productCollection->setPage(1, $maxImport);
-                $productCollection->getSelect()->where($tableName . '.sku
-                    IS NULL');
+                $productCollection->getSelect()->where('sf.product_id IS NULL');
                 //$productCollection->load();
                 //echo $productCollection->getSelect();
                 Mage::getSingleton('core/resource_iterator')
@@ -169,7 +172,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
     }
 
-    public function productNeedUpdateForStore($productId, $storeId) {
+    public function productNeedUpdateForStore($productId, $storeId, $ignoreRelations = false) {
         $product = $this->_getProduct($productId, $storeId);
         if ($product && $product->getId()) {
             $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
@@ -177,12 +180,23 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 $fluxEntry->setUpdateNeeded(1);
                 $fluxEntry->save();
             }
-            // update also parents
-            $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
-            foreach ($parentIds as $parentId) {
-                $this->productNeedUpdateForStore($parentId, $storeId);
+            if(!$ignoreRelations) {
+                // update also parents
+                $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+                foreach ($parentIds as $parentId) {
+                    $this->productNeedUpdateForStore($parentId, $storeId, true);
+                }
+                // ... and child
+                if($product->getTypeId() == 'configurable') {
+                    $childProducts = Mage::getModel('catalog/product_type_configurable')->getUsedProducts(null,$product);
+                     foreach($childProducts as $childProduct) {
+                        if($childProduct->getTypeId() == 'simple') {
+                            $this->productNeedUpdateForStore($childProduct->getId(), $storeId, true);
+                        }
+                    }
+                }
             }
-        }
+        } 
     }
 
     public function productNeedUpdate($productId) {
@@ -1091,6 +1105,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
                 if (!isset($usedProductsArray[$usedProduct->getId()]['child']['shipping_delay']) || !$usedProductsArray[$usedProduct->getId()]['child']['shipping_delay'])
                     $usedProductsArray[$usedProduct->getId()]['child']['shipping_delay'] = $this->getConfig()->getConfigData('shoppingflux_export/general/default_shipping_delay');
+                
+                unset($usedProductsArray[$usedProduct->getId()]['child']['price']);
+                unset($usedProductsArray[$usedProduct->getId()]['child']['special_price']);
             }
 
 

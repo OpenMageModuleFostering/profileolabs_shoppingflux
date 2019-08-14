@@ -40,7 +40,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Abstra
         }
         if($memoryLimit > 0) {
             if($memoryLimit <= 128 * 1024 * 1024) {
-                $maxImportLimit = 50;
+                $maxImportLimit = 100;
             } else if($memoryLimit <= 256 * 1024 * 1024) {
                 $maxImportLimit = 500;
             } else if($memoryLimit >= 1024 * 1024 * 1024) {

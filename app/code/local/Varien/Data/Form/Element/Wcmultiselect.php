@@ -75,7 +75,7 @@ class Varien_Data_Form_Element_Wcmultiselect extends Varien_Data_Form_Element_Ab
             $html .= '<input type="hidden" name="' . parent::getName() . '" value="" />';
         }
         
-        $html .= '<a href="javascript:void(0);" onclick="javascript:newelem=$(\''.$this->getHtmlId().'\').clone(true);newelem.removeAttribute(\'id\');newelem.setValue(\'\');$(this).next().insert({after:newelem});">';
+        $html .= '<a href="javascript:void(0);" onclick="javascript:newelem=$(\''.$this->getHtmlId().'\').cloneNode(true);newelem.removeAttribute(\'id\');newelem.setValue(\'\');$(this).next().insert({after:newelem});">';
         $html .= '<img src="' . Mage::getDesign()->getSkinUrl('images/icon_btn_add.gif') . '" alt="Add Row"/>';
         $html .= '</a>' . "\n";
         $html .= '<br/>' . "\n";

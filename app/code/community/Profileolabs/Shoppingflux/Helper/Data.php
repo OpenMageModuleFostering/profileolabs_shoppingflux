@@ -273,8 +273,11 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                 $this->_categoriesWithParents = array('name' => array(), 'url' => array(), 'id' => array());
 
 
-                $categories = Mage::getResourceModel('catalog/category_collection')
-                        ->addAttributeToSelect('name')
+                $categories = Mage::getResourceModel('catalog/category_collection');
+                if($storeId) {
+                    $categories->setStoreId($storeId);
+                }
+                $categories->addAttributeToSelect('name')
                         ->addAttributeToSelect('meta_title')
                         ->addAttributeToSelect('meta_description')
                         ->addAttributeToSelect('meta_keywords')

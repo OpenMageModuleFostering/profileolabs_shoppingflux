@@ -58,7 +58,9 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
         $shippingMethod = preg_replace('%[^a-zA-Z0-9_]%', '', $shippingMethod);
         $configData = $this->getConfigData();
         $path = 'shoppingflux_mo/advanced_shipping_method/' . $shippingMethod;
-          if (isset($configData[$path])) {
+        $data = '';
+        $inherit = false;
+        if (isset($configData[$path])) {
             $data = $configData[$path];
             $inherit = false;
         } else {

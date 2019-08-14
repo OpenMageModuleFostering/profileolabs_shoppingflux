@@ -208,7 +208,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
     public function observeAdminhtmlBlockHtmlBefore($observer) {
         $block = $observer->getEvent()->getBlock();
         if ($block instanceof Mage_Adminhtml_Block_Sales_Order_View) {
-           if ($block->getOrderId() && $block->getOrder() && $block->getOrder()->getShoppingfluxShipmentFlag() == 0 && $block->getOrder()->getFromShoppingflux() == 1 && $block->getOrder()->hasShipments()) {
+           if (method_exists($block, 'addButton') && $block->getOrderId() && $block->getOrder() && $block->getOrder()->getShoppingfluxShipmentFlag() == 0 && $block->getOrder()->getFromShoppingflux() == 1 && $block->getOrder()->hasShipments()) {
                 $block->addButton('shoppingflux_shipment', array(
                     'label' => $this->getHelper()->__('Send notification to ShoppingFeed'),
                     'onclick' => "setLocation('" . Mage::helper('adminhtml')->getUrl('shoppingflux/manageorders_adminhtml_import/sendShipment', array('order_id'=>$block->getOrder()->getId())) . "')",

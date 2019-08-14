@@ -14,7 +14,7 @@
         <?php if($this->storeHasFeed($store)): ?>
             <?php $_storeId = $store->getId() ?>
             <?php $_feedUrl = $this->getFeedUrl($store); ?>
-            <dt><?php echo $storeId ?> - <?php echo $store->getName() ?></dt>
+            <dt><?php echo $_storeId ?> - <?php echo $store->getName() ?></dt>
             <dd><a href="<?php echo $_feedUrl ?>" target="_blank"><?php echo $_feedUrl ?></a></dd>
         <?php endif; ?>
     <?php endforeach ?>
