@@ -182,8 +182,8 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
             if(!empty($categories)) {
                 shuffle($categories);
                 $categoryId = array_shift($categories);
-                $product->setData('shoppingflux_default_category', $categoryId);
-                $product->save();
+                Mage::getSingleton('catalog/product_action')
+                    ->updateAttributes(array($product->getId()), array('shoppingflux_default_category' => $categoryId), 0);
             }
         }
     }

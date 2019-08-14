@@ -16,6 +16,7 @@ class Profileolabs_Shoppingflux_Model_Export_Source_Attributes
         'news_from_date',
         'news_to_date',
         'gallery',
+        'media_gallery',
         'url_key',
         'url_path',
         'minimal_price',
