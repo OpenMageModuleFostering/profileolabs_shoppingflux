@@ -23,6 +23,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
     const METHOD_UPDATE_PRODUCT = "UpdateProduct";
     const METHOD_LOGIN = "getLogin";
     const METHOD_IS_CLIENT = "IsClient";
+    const METHOD_GET_MARKETPLACES = 'GetMarketplaces';
 
     /**
      * 
@@ -163,6 +164,12 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
         return $this->_xml;
     }
 
+    
+    public function getMarketplaces() {
+        $data = $this->_connect($this->_getApiKey(), self::METHOD_GET_MARKETPLACES);
+        return $data->Response->Marketplaces->Marketplace;
+    }
+    
     /**
      * Retrieve orders
      * 

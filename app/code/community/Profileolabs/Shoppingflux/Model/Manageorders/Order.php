@@ -130,12 +130,13 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         }
         
         /* Double vérification, pour gérer un appel simultané. (qui ne devrait pas arriver, mais au cas ou..) */
-        $flagPath = Mage::getStoreConfig('shoppingflux/order_flags/'.$idShoppingflux);
+        $config = new Mage_Core_Model_Config();
+        $flagPath = Mage::getStoreConfig('shoppingflux/order_flags/order_'.$idShoppingflux);
         if ($flagPath) { 
+            $config->saveConfig('shoppingflux/order_flags/order_'.$idShoppingflux, 0);
             return true;
         }
-        $config = new Mage_Core_Model_Config();
-        $config->saveConfig('shoppingflux/order_flags/'.$idShoppingflux, date('Y-m-d H:i:s'));
+        $config->saveConfig('shoppingflux/order_flags/order_'.$idShoppingflux, date('Y-m-d H:i:s'));
         /* end double check */
 
         return false;
@@ -244,7 +245,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                                 'Marketplace' => $orderSf['Marketplace'], 
                                 'MageOrderId' => is_object($importedOrder)?$importedOrder->getIncrementId():'', 
                                 'ShippingMethod' => $orderSf['ShippingMethod'],
-                                'ErrorOrder' => false
+                                'ErrorOrder' => is_object($importedOrder)?false:true
                            );
                            continue;
                        }
@@ -298,7 +299,6 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         $config = new Mage_Core_Model_Config();
         $orderFlags = Mage::getStoreConfig('shoppingflux/order_flags');
         foreach($orderFlags as $orderId => $importDate) {
-            echo $orderId;
             if(strtotime($importDate) < time()-3*60*60) {
                 $config->deleteConfig('shoppingflux/order_flags/' . $orderId);
             }
@@ -644,6 +644,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             $additionalData['shipping_description'] = "Frais de port de la place de marché (" . $shippingMethod . ")";
         }
         /* @var $service Mage_Sales_Model_Service_Quote */
+        $quote = $this->_getQuote();
         $service = Mage::getModel('sales/service_quote', $this->_getQuote());
         $service->setOrderData($additionalData);
         $order = false;
@@ -662,6 +663,11 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             }
         } catch(Exception $e) {
             throw $e;
+        }
+        try {
+            $quote->setIsActive(0)->save();
+        } catch (Exception $ex) {
+
         }
         
         if ($order) {

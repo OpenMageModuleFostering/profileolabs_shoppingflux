@@ -1,6 +1,6 @@
 <?php
 
-class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
+class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Customer_Group extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
 
     public function render(Varien_Data_Form_Element_Abstract $element) {
         if(!$this->shouldRenderUnregistered()) {
@@ -12,10 +12,12 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
          
         $marketplaceCsvFile = Mage::getModuleDir( '', 'Profileolabs_Shoppingflux' ) . DS . 'etc' . DS . 'marketplaces.csv';
         $marketplaces = file($marketplaceCsvFile);
-     
+        
+        
+        
         $i = 1;
         foreach($marketplaces as $marketplace) {
-            $this->_addShippingMethodField($element, $marketplace, 10*$i++);
+            $this->_addCustomerGroupField($element, $marketplace, 10*$i++);
         }
 
 
@@ -52,10 +54,10 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
     }
 
 
-    protected function _addShippingMethodField($fieldset, $marketplace, $sortOrder) {
-        $shippingMethod = strtolower(preg_replace('%[^a-zA-Z0-9_]%', '', $marketplace))."_method";
+    protected function _addCustomerGroupField($fieldset, $marketplace, $sortOrder) {
+        $customerGroup = strtolower(preg_replace('%[^a-zA-Z0-9_]%', '', $marketplace))."_group";
         $configData = $this->getConfigData();
-        $path = 'shoppingflux_mo/shipping_method/' . $shippingMethod;
+        $path = 'shoppingflux_mo/import_customer/' . $customerGroup;
         $data = '';
         $inherit = false;
         if (isset($configData[$path])) {
@@ -68,12 +70,12 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
             }
         }
         $e = $this->_getDummyElement();
-        $fieldset->addField($shippingMethod, 'select', array(
-                    'name' => 'groups[shipping_method][fields][' . $shippingMethod . '][value]',
-                    'label' => Mage::helper('profileolabs_shoppingflux')->__('Shipping Method for %s', $this->_getNiceName($marketplace)),
-                    'comment' => Mage::helper('profileolabs_shoppingflux')->__('Leave empty to use default shipping method.'),
+        $fieldset->addField($customerGroup, 'select', array(
+                    'name' => 'groups[import_customer][fields][' . $customerGroup . '][value]',
+                    'label' => Mage::helper('profileolabs_shoppingflux')->__('%s customer group', $this->_getNiceName($marketplace)),
+                    'comment' => Mage::helper('profileolabs_shoppingflux')->__('Leave empty to use default group'),
                     'value' => $data,
-                    'values' => Mage::getSingleton('adminhtml/system_config_source_shipping_allmethods')->toOptionArray(),
+                    'values' => Mage::getSingleton('adminhtml/system_config_source_customer_group')->toOptionArray(),
                     'sort_order' => $sortOrder,
                     'inherit' => $inherit,
                     'can_use_default_value' => 0,
@@ -82,7 +84,5 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
 
     }
 
-
- 
 
 }

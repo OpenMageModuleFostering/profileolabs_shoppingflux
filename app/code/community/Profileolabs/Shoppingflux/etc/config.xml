@@ -2,18 +2,11 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
         <routers>
-            <!--<shoppingflux>
-                <use>admin</use>
-                <args>
-                    <module>Profileolabs_Shoppingflux</module>
-                    <frontName>shoppingflux</frontName>
-                </args>
-            </shoppingflux>-->
             <adminhtml>
                 <args>
                     <modules>
@@ -379,6 +372,14 @@
                     <model>profileolabs_shoppingflux/export_flux::checkForDeletedProducts</model>
                 </run>
             </remove_old_products>
+            <update_marketplaces>
+                <schedule>
+                    <cron_expr>0 2 1 * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/manageorders_observer::updateMarketplaceList</model>
+                </run>
+            </update_marketplaces>
             <export_update_stock_shoppingflux>
                 <schedule>
                     <cron_expr>*/30 * * * *</cron_expr>

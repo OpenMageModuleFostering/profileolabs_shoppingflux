@@ -1,6 +1,6 @@
 <?php
 
-class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
+class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method_Extra extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
 
     public function render(Varien_Data_Form_Element_Abstract $element) {
         if(!$this->shouldRenderUnregistered()) {
@@ -9,13 +9,15 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
         
         $html = $this->_getHeaderHtml($element);
         
-         
-        $marketplaceCsvFile = Mage::getModuleDir( '', 'Profileolabs_Shoppingflux' ) . DS . 'etc' . DS . 'marketplaces.csv';
-        $marketplaces = file($marketplaceCsvFile);
-     
+        $collection = Mage::getModel('profileolabs_shoppingflux/manageorders_shipping_method')->getCollection();
+        
+        if($collection->count()<=0) {
+            $this->_addEmptyField($element);
+        }
+        
         $i = 1;
-        foreach($marketplaces as $marketplace) {
-            $this->_addShippingMethodField($element, $marketplace, 10*$i++);
+        foreach($collection as $shippingMethod) {
+            $this->_addShippingMethodField($element, $shippingMethod->getFullShippingMethodCode(), 10*$i++);
         }
 
 
@@ -52,10 +54,10 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
     }
 
 
-    protected function _addShippingMethodField($fieldset, $marketplace, $sortOrder) {
-        $shippingMethod = strtolower(preg_replace('%[^a-zA-Z0-9_]%', '', $marketplace))."_method";
+    protected function _addShippingMethodField($fieldset, $shippingMethod, $sortOrder) {
+        $shippingMethod = preg_replace('%[^a-zA-Z0-9_]%', '', $shippingMethod);
         $configData = $this->getConfigData();
-        $path = 'shoppingflux_mo/shipping_method/' . $shippingMethod;
+        $path = 'shoppingflux_mo/advanced_shipping_method/' . $shippingMethod;
         $data = '';
         $inherit = false;
         if (isset($configData[$path])) {
@@ -69,20 +71,28 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_
         }
         $e = $this->_getDummyElement();
         $fieldset->addField($shippingMethod, 'select', array(
-                    'name' => 'groups[shipping_method][fields][' . $shippingMethod . '][value]',
-                    'label' => Mage::helper('profileolabs_shoppingflux')->__('Shipping Method for %s', $this->_getNiceName($marketplace)),
-                    'comment' => Mage::helper('profileolabs_shoppingflux')->__('Leave empty to use default shipping method.'),
+                    'name' => 'groups[advanced_shipping_method][fields][' . $shippingMethod . '][value]',
+                    'label' => Mage::helper('profileolabs_shoppingflux')->__('Shipping Method for %s', $this->_getNiceName($shippingMethod)),
                     'value' => $data,
                     'values' => Mage::getSingleton('adminhtml/system_config_source_shipping_allmethods')->toOptionArray(),
                     'sort_order' => $sortOrder,
                     'inherit' => $inherit,
-                    'can_use_default_value' => 0,
-                    'can_use_website_value' => 0,
+                    'can_use_default_value' => $this->getForm()->canUseDefaultValue($e),
+                    'can_use_website_value' => $this->getForm()->canUseWebsiteValue($e),
                 ))->setRenderer($this->_getFieldRenderer());
 
     }
 
 
- 
+    protected function _addEmptyField($fieldset) {
+        $configData = $this->getConfigData();
+        $path = 'shoppingflux_mo/advanced_shipping_method/zzzzzz';
+        $e = $this->_getDummyElement();
+        $fieldset->addField('zzzzzz', 'note', array(
+                    'name' => 'groups[advanced_shipping_method][fields][zzzzzz][value]',
+                    'label' => Mage::helper('profileolabs_shoppingflux')->__('There is no marketplace shipping method registered yet.'),
+                ))->setRenderer($this->_getFieldRenderer());
+
+    }
 
 }

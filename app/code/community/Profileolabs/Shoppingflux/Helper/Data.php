@@ -44,7 +44,7 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
         } else {
             $line = mb_substr($street, 0 , $lineMaxLength);
         }
-        $street = preg_replace('%^'.$line.'%', '', $street);
+        $street = trim(mb_substr($street, strlen($line)));
         return array_merge(array($line), $this->truncateAddress($street, $lineMaxLength), $res);
     }
     

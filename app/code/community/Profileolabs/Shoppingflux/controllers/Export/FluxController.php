@@ -23,30 +23,39 @@ ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD INDEX (  `
 ");*/
         //$results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));
       // $results = $readConnection->fetchAll("SHOW INDEXES FROM shoppingflux_export_flux");
-         $results = $readConnection->fetchAll("SELECT  * FROM core_config_data where path like 'shoppingflux_mo/shi%'");
-        var_dump($results);die();
+         //$results = $readConnection->fetchAll("SELECT  * FROM core_config_data where path like 'shoppingflux_mo/shi%'");
+        //var_dump($results);die();
         
         
         //Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
         //Mage::helper('profileolabs_shoppingflux')->newInstallation();
         
-        /*
+        
         $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
-        $installer->addAttribute('catalog_category', 'sf_exclude', array(
-        'type'              => 'int',
-        'group'         => 'General Information',
-	'backend'           => '',
-	'frontend'          => '',
-	'label'        		=> 'Do not export this category in ShoppingFlux',
-	'input'             => 'select',
-	'global'            => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-	'visible'           => 1,
-	'required'          => 0,
-	'user_defined'      => 0,
-	'default'           => 0,
-        'source' => 'eav/entity_attribute_source_boolean',
-	'unique'            => 0,
-));*/
+       $installer->addAttribute('catalog_product', 'shoppingflux_default_category', array(
+        'group' => 'General',
+        'type' => 'int',
+        'backend' => '',
+        'frontend_input' => '',
+        'frontend' => '',
+        'label' => 'Default Shoppingflux Category',
+        'input' => 'select',
+        'class' => '',
+     //   'source' => 'profileolabs_shoppingflux/attribute_source_category', Optional. Needs to be added manually. To avoid having an error on uninstall if attribute is still there.
+        'global' => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
+        'visible' => false,// Optional. Needs to be added manually. To avoid having an error on uninstall if attribute is still there.
+        'used_in_product_listing' => true,
+        'frontend_class' => '',
+        'required' => false,
+        'user_defined' => true,
+        'default' => '',
+        'searchable' => false,
+        'filterable' => false,
+        'comparable' => false,
+        'visible_on_front' => false,
+        'unique' => false,
+        'position' => 60,
+    ));
         //$sql = "delete from `".$installer->getTable('core/config_data')."` where `path` = 'shoppingflux_export/attributes_mapping/additional,'";
         //$sql = sprintf("UPDATE `%s` SET `path` = '%s' WHERE `path` = '%s'",$installer->getTable('core/config_data'),  'shoppingflux_export/attributes_mapping/additional', 'shoppingflux_export/attributes_additionnal/list');
          //$installer->run($sql);

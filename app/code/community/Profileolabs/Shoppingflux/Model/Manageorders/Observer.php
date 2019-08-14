@@ -224,5 +224,31 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
             }
         }
     }
+    
+    public function updateMarketplaceList() {
+        $apiKey = false;
+        foreach(Mage::app()->getStores() as $store) {
+            if(!$apiKey) {
+                $apiKey = $this->getConfig()->getApiKey($store->getId());
+                $wsUri = $this->getConfig()->getWsUri();
+            }
+        }
+    
+        $service = new Profileolabs_Shoppingflux_Model_Service($apiKey, $wsUri);
+
+        try {
+            $marketplaces = $service->getMarketplaces();
+            if(count($marketplaces) > 5) {
+                $marketplaceCsvFile = Mage::getModuleDir( '', 'Profileolabs_Shoppingflux' ) . DS . 'etc' . DS . 'marketplaces.csv';
+                $handle = fopen($marketplaceCsvFile, 'w+');
+                foreach($marketplaces as $marketplace) {
+                    fwrite($handle, $marketplace."\n");
+                }
+                fclose($handle);
+            }
+        } catch(Exception $e) {
+            echo $e->getMessage();
+        }
+    }
 
 }
