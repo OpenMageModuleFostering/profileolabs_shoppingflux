@@ -5,7 +5,7 @@
  * @package    Profileolabs_Shoppingflux_ManageOrders
  * @author Vincent Enjalbert
  */
-class Profileolabs_Shoppingflux_Manageorders_Adminhtml_CronController extends Mage_Adminhtml_Controller_Action
+class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_Order_CronController extends Mage_Adminhtml_Controller_Action
 {
 	protected function _initAction() {
 		$this->loadLayout()

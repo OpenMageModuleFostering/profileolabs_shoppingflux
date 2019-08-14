@@ -5,7 +5,7 @@
  * @package    Profileolabs_Shoppingflux
  * @author vincent enjalbert - web cooking
  */
-class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminhtml_Controller_Action
+class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_GeneralController extends Mage_Adminhtml_Controller_Action
 {
 	public function userdefinedAction() {
             $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');

@@ -7,7 +7,7 @@
  * @author kassim belghait
  * @deprecated deprecated since 0.1.1
  */
-class Profileolabs_Shoppingflux_Export_Adminhtml_ExportController extends Mage_Adminhtml_Controller_Action {
+class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_ExportController extends Mage_Adminhtml_Controller_Action {
 
     protected $_flowModel = null;
 

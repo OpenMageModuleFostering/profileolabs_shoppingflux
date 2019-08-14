@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.9.9</version>
+            <version>1.0.0</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -17,7 +17,7 @@
             <adminhtml>
                 <args>
                     <modules>
-                        <shoppingflux after="Mage_Adminhtml">Profileolabs_Shoppingflux</shoppingflux>
+                        <shoppingflux after="Mage_Adminhtml">Profileolabs_Shoppingflux_Adminhtml</shoppingflux>
                     </modules>
                 </args>
             </adminhtml>

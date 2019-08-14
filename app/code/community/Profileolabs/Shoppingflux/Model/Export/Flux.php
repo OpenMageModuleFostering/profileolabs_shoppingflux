@@ -286,8 +286,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             }
 
 
-            if ($nameNode == 'ecotaxe' && $attribute->getFrontendInput() == 'weee') {
+            if ($attribute->getFrontendInput() == 'weee') {
                 $weeeAttributes = Mage::getSingleton('weee/tax')->getProductWeeeAttributes($product);
+                if(isset($data[0]['value'])) {//in case weeeAttributes is empty
+                        $data = $data[0]['value'];
+                }
 
                 foreach ($weeeAttributes as $wa) {
                     if ($wa->getCode() == $attributeCode) {

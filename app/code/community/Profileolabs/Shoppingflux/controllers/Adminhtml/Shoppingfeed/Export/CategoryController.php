@@ -8,7 +8,7 @@
  */
 include_once "Mage/Adminhtml/controllers/Catalog/CategoryController.php";
 
-class Profileolabs_Shoppingflux_Export_Adminhtml_CategoryController extends Mage_Adminhtml_Catalog_CategoryController {
+class Profileolabs_Shoppingflux_Adminhtml_Shoppingfeed_Export_CategoryController extends Mage_Adminhtml_Catalog_CategoryController {
 
     /**
      * Grid Action

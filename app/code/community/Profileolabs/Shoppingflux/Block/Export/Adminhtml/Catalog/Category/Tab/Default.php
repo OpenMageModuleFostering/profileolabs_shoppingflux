@@ -182,7 +182,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Catalog_Category_Tab_Defa
     }
 
     public function getGridUrl() {
-        return $this->getUrl('shoppingflux/export_adminhtml_category/grid', array('_current' => true));
+        return $this->getUrl('adminhtml/shoppingfeed_export_category/grid', array('_current' => true));
     }
     
     public function getColumnRenderers() {
