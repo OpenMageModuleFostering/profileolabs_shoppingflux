@@ -102,7 +102,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
                 $message = 'Erreur de mise à jour de l\'expédition #'.$shipment->getIncrementId().' (commande #'.$shipment->getOrder()->getIncrementId().') : <br/>' . $e->getMessage();
                 $message .= "<br/><br/> Merci de vérifier les infos de votre commandes ou de contacter le support Shopping Flux ou celui de la place de marché";
                 $this->getHelper()->notifyError($message);
-                if($item->getId() && !preg_match('%Error in cURL request: connect.. timed out%', $message)) {
+                if($item->getId() && !preg_match('%Error in cURL request: connect.. timed out%', $message) && !preg_match('%Result is not Varien_Simplexml_Element%', $message)) {
                     try {
                         $item->delete();
                     } catch(Exception $e) {}

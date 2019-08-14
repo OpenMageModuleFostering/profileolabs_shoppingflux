@@ -7,10 +7,10 @@ class Profileolabs_Shoppingflux_Model_Export_Source_Tracking_Delay
     public function toOptionArray()
     {
         return array(
-            array('label'=>30, 'value'=>10),
-            array('label'=>25, 'value'=>10),
-            array('label'=>20, 'value'=>10),
-            array('label'=>15, 'value'=>10),
+            array('label'=>30, 'value'=>30),
+            array('label'=>25, 'value'=>25),
+            array('label'=>20, 'value'=>20),
+            array('label'=>15, 'value'=>15),
             array('label'=>10, 'value'=>10),
             array('label'=>9, 'value'=>9),
             array('label'=>8, 'value'=>8),

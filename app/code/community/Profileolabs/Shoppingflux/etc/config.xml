@@ -2,18 +2,25 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.9.8</version>
+            <version>0.9.9</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
         <routers>
-            <shoppingflux>
+            <!--<shoppingflux>
                 <use>admin</use>
                 <args>
                     <module>Profileolabs_Shoppingflux</module>
                     <frontName>shoppingflux</frontName>
                 </args>
-            </shoppingflux>
+            </shoppingflux>-->
+            <adminhtml>
+                <args>
+                    <modules>
+                        <shoppingflux after="Mage_Adminhtml">Profileolabs_Shoppingflux</shoppingflux>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
     <global>
@@ -102,6 +109,11 @@
                     <stock_item>Profileolabs_Shoppingflux_Model_Export_Rewrite_CatalogInventory_Stock_Item</stock_item>
                 </rewrite>
             </cataloginventory>
+            <sales>
+                <rewrite>
+                    <service_quote>Profileolabs_Shoppingflux_Model_Sales_Service_Quote</service_quote>
+                </rewrite>
+            </sales>
         </models>
         <resources>
             <profileolabs_shoppingflux_setup>
@@ -359,6 +371,14 @@
                     <model>profileolabs_shoppingflux/export_observer::updateFlux</model>
                 </run>
             </export_updates_shoppingflux>
+            <remove_old_products>
+                <schedule>
+                    <cron_expr>20 2 */10 * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>profileolabs_shoppingflux/export_flux::checkForDeletedProducts</model>
+                </run>
+            </remove_old_products>
             <export_update_stock_shoppingflux>
                 <schedule>
                     <cron_expr>*/30 * * * *</cron_expr>
@@ -375,14 +395,6 @@
                     <model>profileolabs_shoppingflux/export_observer::generateFluxInFile</model>
                 </run>
             </export_flux_in_file>
-            <!--<fill_main_category>
-                <schedule>
-                    <cron_expr>0 2 * * *</cron_expr>
-                </schedule>
-                <run>
-                    <model>profileolabs_shoppingflux/export_observer::fillMainCategory</model>
-                </run>
-            </fill_main_category>-->
             <!--<export_shipments_shoppingflux>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
@@ -399,10 +411,6 @@
                     <model>profileolabs_shoppingflux/export_observer::manageUpdates</model>
                 </run>
             </export_updates_shoppingflux>-->
-            <!-- <generate_flow_shoppingflux>
-                        				<schedule><cron_expr>30 03 * * *</cron_expr></schedule>
-                        				<run><model>profileolabs_shoppingflux/export_observer::generateFlow</model></run>
-         			</generate_flow_shoppingflux> -->
         </jobs>
     </crontab>
     <default>
@@ -468,15 +476,18 @@
                 <enable_cron>0</enable_cron>
                 <memory_limit>2048</memory_limit>
                 <use_manage_stock>1</use_manage_stock>
-                <all_store_categories>0</all_store_categories>
                 <all_store_products>0</all_store_products>
-                <use_only_shoppingflux_category>0</use_only_shoppingflux_category>
-                <max_category_level>5</max_category_level>
                 <enable_events>0</enable_events>
                 <manage_configurable>1</manage_configurable>
                 <manage_catalog_rules>1</manage_catalog_rules>
                 <manage_media_gallery>1</manage_media_gallery>
             </general>
+            <category>
+                <use_shoppingflux_category>0</use_shoppingflux_category>
+                <use_only_shoppingflux_category>0</use_only_shoppingflux_category>
+                <all_store_categories>0</all_store_categories>
+                <max_category_level>5</max_category_level>
+            </category>
             <attributes_mapping>
                 <ean>ean</ean>
                 <isbn>isbn</isbn>

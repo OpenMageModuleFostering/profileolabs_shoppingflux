@@ -131,13 +131,14 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                         ->walk($productCollection->getSelect(), array(array($this, 'addMissingProduct')), array('store_id' => $storeId));
             }
         }
+        
     }
 
     public function updateFlux($store_id = false, $maxImportLimit = 1000, $shouldExportOnly = false) {
-        if(rand(0,100) == 50) {
+        //if(rand(0,100) == 50) {
             //no need to execute this every time. todo : move to cron task
-            $this->checkForDeletedProducts();
-        }
+        //    $this->checkForDeletedProducts();
+        //}
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
@@ -417,6 +418,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         } else {
             $_manageStock = true;
         }
+        
         $data = array(
             'id' => $product->getId(),
             'last-feed-update' => date('Y-m-d H:i:s'),

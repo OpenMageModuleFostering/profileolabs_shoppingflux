@@ -103,7 +103,7 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     }
 
     public function getUseAllStoreCategories($storeId = null) {
-        return $this->getConfigFlag('shoppingflux_export/general/all_store_categories', $storeId);
+        return $this->getConfigFlag('shoppingflux_export/category/all_store_categories', $storeId);
     }
 
     public function getUseAllStoreProducts($storeId = null) {
@@ -111,11 +111,11 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     }
     
     public function getUseOnlySFCategory($storeId = null) {
-        return $this->getConfigFlag('shoppingflux_export/general/use_only_shoppingflux_category', $storeId);
+        return $this->getConfigFlag('shoppingflux_export/category/use_only_shoppingflux_category', $storeId);
     }
     
     public function getMaxCategoryLevel($storeId = null) {
-        return $this->getConfigData('shoppingflux_export/general/max_category_level', $storeId);
+        return $this->getConfigData('shoppingflux_export/category/max_category_level', $storeId);
     }
     
     public function getEnableEvents($storeId = null) {
@@ -314,11 +314,11 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     }
     
     public function preferMobilePhone($storeId = null) {
-        return $this->getConfigFlag("shoppingflux_mo/import_customer/prefer_mobile_phone");
+        return $this->getConfigFlag("shoppingflux_mo/import_customer/prefer_mobile_phone", $storeId);
     }
     
     public function getMobilePhoneAttribute($storeId = null) {
-        return $this->getConfigData("shoppingflux_mo/import_customer/mobile_attribute");
+        return $this->getConfigData("shoppingflux_mo/import_customer/mobile_attribute", $storeId);
     }
 
 }

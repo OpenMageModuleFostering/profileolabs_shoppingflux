@@ -79,10 +79,10 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Shipping_Carrier_Shoppingflux
     */
     public function proccessAdditionalValidation(Mage_Shipping_Model_Rate_Request $request)
     {
-    	if(Mage::getVersion() == '1.4.1.0')
+    	//if(Mage::getVersion() == '1.4.1.0')
     	return $this->isActive();
     	 
-    	return parent::proccessAdditionalValidation($request);
+    	//return parent::proccessAdditionalValidation($request);
     }
     
     public function getSession()

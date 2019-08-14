@@ -185,6 +185,10 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         }
     }
     
+    
+    /**
+     * @deprecated Not used anymore. Caused problems and was not so helpfull..
+     */
     public function fillMainCategory() {
         $productCollection = Mage::getModel('catalog/product')->getCollection();
         $productCollection->addAttributeToSelect('shoppingflux_default_category', 'left');
@@ -431,5 +435,6 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
             $this->_scheduleProductUpdates($productId, array('stock_value' => 0));
         }
     }
+    
 
 }

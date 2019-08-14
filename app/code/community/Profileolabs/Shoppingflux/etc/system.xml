@@ -1054,48 +1054,8 @@
                             <show_in_website>0</show_in_website>
                              <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                        </all_store_products>
-                        <all_store_categories>
-                            <depends>
-                                <show_advanced_configuration>1</show_advanced_configuration>
-                            </depends>
-                            <label>Use categories from all stores ?</label>
-                            <comment>If any doubt exists, leave it to 'No'</comment>							
-                            <frontend_type>select</frontend_type>
-                            <sort_order>140</sort_order>
-                            <show_in_default>0</show_in_default>
-                            <show_in_website>0</show_in_website>
-                             <show_in_store>1</show_in_store>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
-                        </all_store_categories>		
-                        <use_only_shoppingflux_category>
-                            <depends>
-                                <show_advanced_configuration>1</show_advanced_configuration>
-                            </depends>
-                            <label>Use only ShoppingFlux category ?</label>
-                            <comment>Faster if yes.</comment>							
-                            <frontend_type>select</frontend_type>
-                            <sort_order>150</sort_order>
-                            <show_in_default>0</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
-                        </use_only_shoppingflux_category>	
-                        <max_category_level>
-                            <depends>
-                                <show_advanced_configuration>1</show_advanced_configuration>
-                            </depends>
-                            <label>Use only X first category levels</label>						
-                            <frontend_type>select</frontend_type>
-                            <sort_order>150</sort_order>
-                            <show_in_default>0</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <source_model>profileolabs_shoppingflux/export_source_category_level</source_model>
-                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
-                        </max_category_level>	
+                        </all_store_products>		
+                        	
                         <enable_events>
                             <depends>
                                 <show_advanced_configuration>1</show_advanced_configuration>
@@ -1165,6 +1125,73 @@
                         </transform_qty_increments>			
                     </fields>
                 </general>
+                <category>
+                    <label>Categories</label>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>15</sort_order>
+                    <fields>
+                        <use_shoppingflux_category>
+                            <label>Use only ShoppingFlux category ?</label>
+                            <comment>Warning : Be sure that this field is set to no before uninstalling the extension.</comment>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_category</backend_model>
+                        </use_shoppingflux_category>
+                        
+                        <use_only_shoppingflux_category>
+                            <depends>
+                                <use_shoppingflux_category>1</use_shoppingflux_category>
+                            </depends>
+                            <label>Use only ShoppingFlux category ?</label>
+                            <comment>Faster if yes.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>20</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </use_only_shoppingflux_category>
+                        
+                        
+                        <all_store_categories>
+                            <depends>
+                                <use_shoppingflux_category>1</use_shoppingflux_category>
+                            </depends>
+                            <label>Use categories from all stores ?</label>
+                            <comment>If any doubt exists, leave it to 'No'</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>30</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                             <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </all_store_categories>
+                        
+                        <max_category_level>
+                            <depends>
+                                <use_shoppingflux_category>1</use_shoppingflux_category>
+                            </depends>
+                            <label>Use only X first category levels</label>						
+                            <frontend_type>select</frontend_type>
+                            <sort_order>40</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>profileolabs_shoppingflux/export_source_category_level</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </max_category_level>
+                        
+                    </fields>
+                </category>
                 <attributes_mapping translate="label">
                     <label>Attribute mapping</label>
                     <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>

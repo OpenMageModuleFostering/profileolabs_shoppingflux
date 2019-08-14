@@ -8,26 +8,29 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
 
     public function testAction() {
         ini_set('display_errors', 1);
+        
+        
         //Mage::app()->cleanCache();
        $resource = Mage::getSingleton('core/resource');
         $readConnection = $resource->getConnection('core_read');
         $writeConnection = $resource->getConnection('core_write');
         $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
-       /* $installer->run("
+        /*$installer->run("
     ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `product_id` int( 11 ) NOT NULL default 0 AFTER  `id`;
         ");*/
+       /* $installer->run("
+ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD INDEX (  `product_id` )
+");*/
         //$results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));
-        $results = $readConnection->fetchAll("
-SELECT `e`.*, `sf`.`sku` AS `skusf` FROM `catalog_product_entity` AS `e`
- INNER JOIN `catalog_product_website` AS `product_website` ON product_website.product_id = e.entity_id AND product_website.website_id = '1'
- INNER JOIN `shoppingflux_export_flux` AS `sf` ON entity_id=sf.product_id where sf.store_id = '1' ");
+      // $results = $readConnection->fetchAll("SHOW INDEXES FROM shoppingflux_export_flux");
+         $results = $readConnection->fetchAll("SELECT  * FROM core_config_data where path like 'shoppingflux_mo/shi%'");
         var_dump($results);die();
         
         
         //Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
         //Mage::helper('profileolabs_shoppingflux')->newInstallation();
         
-        
+        /*
         $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
         $installer->addAttribute('catalog_category', 'sf_exclude', array(
         'type'              => 'int',
@@ -43,7 +46,7 @@ SELECT `e`.*, `sf`.`sku` AS `skusf` FROM `catalog_product_entity` AS `e`
 	'default'           => 0,
         'source' => 'eav/entity_attribute_source_boolean',
 	'unique'            => 0,
-));
+));*/
         //$sql = "delete from `".$installer->getTable('core/config_data')."` where `path` = 'shoppingflux_export/attributes_mapping/additional,'";
         //$sql = sprintf("UPDATE `%s` SET `path` = '%s' WHERE `path` = '%s'",$installer->getTable('core/config_data'),  'shoppingflux_export/attributes_mapping/additional', 'shoppingflux_export/attributes_additionnal/list');
          //$installer->run($sql);

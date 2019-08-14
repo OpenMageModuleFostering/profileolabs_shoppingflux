@@ -75,10 +75,10 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Convert_Customer extends Vari
             $address->setTelephone($data['PhoneMobile']);
         
         
-        if($data['PhoneMobile'] && strlen(trim($data['PhoneMobile'])) >= 10) {
-            if(Mage::getSingleton('profileolabs_shoppingflux/config')->getMobilePhoneAttribute()) {
+        if($data['PhoneMobile'] && strlen(trim($data['PhoneMobile'])) >= 9) {
+            if(Mage::getSingleton('profileolabs_shoppingflux/config')->getMobilePhoneAttribute($storeId)) {
                 $customer->setData(Mage::getSingleton('profileolabs_shoppingflux/config')->getMobilePhoneAttribute(), $data['PhoneMobile']);
-            } else if(Mage::getSingleton('profileolabs_shoppingflux/config')->preferMobilePhone()) {
+            } else if(Mage::getSingleton('profileolabs_shoppingflux/config')->preferMobilePhone($storeId)) {
                 $address->setTelephone($data['PhoneMobile']);
             }
         }

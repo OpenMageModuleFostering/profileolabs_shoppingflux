@@ -46,6 +46,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         'short_description', 
         'meta_title', 
         'meta_description', 
+        'meta_keyword', 
         'name', 
         'tax_class_id',
         'status',
@@ -164,6 +165,13 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
      * Get orders and create it
      */
     public function manageOrders() {
+        //Set boolean shopping flux
+        Mage::register('is_shoppingfeed_import', 1, true);
+        
+        
+        //compatibility with AutoShipping extension
+        Mage::app()->getStore()->setConfig('autoshipping/settings/enabled', "0");
+        
         $stores = Mage::app()->getStores();
 
         $storeCode = Mage::app()->getStore()->getCode();
@@ -234,7 +242,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                        if (($importedOrder = $this->isAlreadyImported($orderSf['IdOrder']))) {
                            $this->_ordersIdsImported[$orderSf['IdOrder']] = array(
                                 'Marketplace' => $orderSf['Marketplace'], 
-                                'MageOrderId' => $importedOrder?$importedOrder->getIncrementId():'', 
+                                'MageOrderId' => is_object($importedOrder)?$importedOrder->getIncrementId():'', 
                                 'ShippingMethod' => $orderSf['ShippingMethod'],
                                 'ErrorOrder' => false
                            );
@@ -311,9 +319,6 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
 
         //Super mode is setted to bypass check item qty ;)
         $this->_getQuote()->setIsSuperMode(true);
-
-        //Set boolean shopping flux and shipping prices in session for shopping method
-        Mage::register('is_shoppingfeed_import', 1, true);
        
         $this->_getQuote()->setCustomer($this->_customer);
     }
@@ -389,22 +394,22 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             else
                 $order = $this->_saveOrder13($orderSf, $storeId);
 
-            $this->getHelper()->log('Order ' . $orderSf['IdOrder'] . ' has been created (' . $order->getIncrementId() . ')');
+            $this->getHelper()->log('Order ' . $orderSf['IdOrder'] . ' has been created (' . $order->getIncrementId() . ' / ' . Mage::app()->getStore()->getId() . ')');
             $this->_nb_orders_imported++;
 
             if (!is_null($order) && $order->getId()) {
                 $useMarketplaceDate = $this->getConfig()->getConfigFlag('shoppingflux_mo/manageorders/use_marketplace_date');
-                $orderDate = date('Y-m-d H:i:s');
+                //$orderDate = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
                 if($useMarketplaceDate) {
                     $orderDate = $orderSf['OrderDate'];
+                    $this->_changeDateCreatedAt($order, $orderDate);
                 }
-                $this->_changeDateCreatedAt($order, $orderDate);
             }
 
             //Erase session for the next order
             $this->getSession()->clear();
         } catch (Exception $e) {
-            $this->getHelper()->log($e->getMessage(), $orderSf['IdOrder']);
+            $this->getHelper()->log($e->getMessage() . ' Trace : ' . $e->getTraceAsString(), $orderSf['IdOrder']);
             $this->_ordersIdsImported[$orderIdShoppingFlux]['ErrorOrder'] = $e->getMessage();
             //$this->clearOrderFlagFile($orderSf['IdOrder']);
             //Erase session for the next order
