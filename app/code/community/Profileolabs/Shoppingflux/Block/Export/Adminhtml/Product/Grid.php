@@ -31,7 +31,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
     protected function _prepareCollection()
     {
         $store = $this->_getStore();
-        $collection = Mage::getModel('catalog/product')->getCollection()
+        $collection = Mage::getModel('profileolabs_shoppingflux/catalog_product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
             ->addAttributeToSelect('shoppingflux_product')

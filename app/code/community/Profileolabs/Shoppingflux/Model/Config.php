@@ -248,6 +248,15 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         $shippingMethod = Mage::getStoreConfig('shoppingflux_mo/advanced_shipping_method/' . $sfShippingMethodCode, $storeId);
         return $shippingMethod?$shippingMethod:($marketplaceShippingMode?$marketplaceShippingMode:$defaultShippingMethod);
     }
+    
+    public function getShipmentUpdateLimit($storeId=null) {
+        $nbHours = Mage::getStoreConfig('shoppingflux_mo/shipment_update/limit_hours', $storeId);
+        $nbHours = intval($nbHours);
+        if(!$nbHours) {
+            return date('Y-m-d H:i:s', strtotime('-20 minutes'));
+        }
+        return date('Y-m-d H:i:s', strtotime('-'.$nbHours.' hours'));
+    }
 
     /**
      * Retrieve if we must to create invoice

@@ -86,11 +86,15 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
 
     public function sendScheduledShipments() {
         $collection = Mage::getModel('profileolabs_shoppingflux/manageorders_export_shipments')->getCollection();
-        $collection->addFieldToFilter('updated_at', array('lt'=>new Zend_Db_Expr("DATE_SUB('".date('Y-m-d H:i:s')."', INTERVAL 60 MINUTE)")));
+        //$collection->addFieldToFilter('updated_at', array('lt'=>new Zend_Db_Expr("DATE_SUB('".date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()))."', INTERVAL 60 MINUTE)")));
         foreach($collection as $item) {
             try {
-                $this->sendStatusShipped($item->getShipmentId());
-                $item->delete();
+                $shipment = Mage::getModel('sales/order_shipment')->load($item->getShipmentId());
+                $trakingInfos = $this->getShipmentTrackingNumber($shipment);
+                if($trakingInfos || $shipment->getUpdatedAt() < $this->getConfig()->getShipmentUpdateLimit()) {
+                    $this->sendStatusShipped($shipment);
+                    $item->delete();
+                }
             } catch(Exception $e) {
                 $shipment = Mage::getModel('sales/order_shipment')->load($item->getShipmentId());
                 $message = 'Erreur de mise à jour de l\'expédition #'.$shipment->getIncrementId().' (commande #'.$shipment->getOrder()->getIncrementId().') : <br/>' . $e->getMessage();
@@ -106,10 +110,11 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
         return $this;
     }
     
-    public function sendStatusShipped($shipmentId) {
-        $shipment = Mage::getModel('sales/order_shipment')->load($shipmentId);
+    public function sendStatusShipped($shipment) {
         if(!$shipment->getId())
             return $this;
+        
+        $shipmentId = $shipment->getId();
         $order = $shipment->getOrder();
         $storeId = $order->getStoreId();
 

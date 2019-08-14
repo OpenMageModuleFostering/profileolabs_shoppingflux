@@ -109,17 +109,31 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     public function updateFlux($store_id = false, $maxImportLimit = 500, $shouldExportOnly = false) {
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
+            $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
             if (!$store_id || $store_id == $storeId) {
-                $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
-                $collection->addFieldToFilter('update_needed', 1);
-                $collection->addFieldToFilter('store_id', $storeId);
-                if ($shouldExportOnly) {
-                    $collection->addFieldToFilter('should_export', 1);
+                if(!$isCurrentStore) {
+                    $appEmulation = Mage::getSingleton('core/app_emulation');
+                    $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
                 }
-                foreach ($collection as $item) {
-                    $this->updateProductInFlux($item->getSku(), $storeId);
+                try {
+                    $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+                    $collection->addFieldToFilter('update_needed', 1);
+                    $collection->addFieldToFilter('store_id', $storeId);
+                    if ($shouldExportOnly) {
+                        $collection->addFieldToFilter('should_export', 1);
+                    }
+                    foreach ($collection as $item) {
+                        $this->updateProductInFlux($item->getSku(), $storeId);
+                    }
+                    $this->checkForMissingProducts($storeId, $maxImportLimit);
+                    if(!$isCurrentStore) {
+                        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+                    }
+                } catch(Exception $e) {
+                    if(!$isCurrentStore) {
+                        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+                    }
                 }
-                $this->checkForMissingProducts($storeId, $maxImportLimit);
             }
         }
     }
@@ -178,19 +192,22 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
     protected $_attributes = array();
 
-    protected function _getAttribute($attributeCode) {
+    protected function _getAttribute($attributeCode, $storeId=null) {
         if (!isset($this->_attributes[$attributeCode])) {
             $this->_attributes[$attributeCode] = Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeCode);
+            if($storeId) {
+                $this->_attributes[$attributeCode]->setStoreId($storeId);
+            }
         }
         return $this->_attributes[$attributeCode];
     }
 
-    protected function _getAttributeDataForProduct($nameNode, $attributeCode, $product) {
+    protected function _getAttributeDataForProduct($nameNode, $attributeCode, $product, $storeId=null) {
         $_helper = Mage::helper('catalog/output');
 
         $data = $product->getData($attributeCode);
 
-        $attribute = $this->_getAttribute($attributeCode);
+        $attribute = $this->_getAttribute($attributeCode, $storeId);
         if ($attribute) {
             if ($attribute->getFrontendInput() == 'date') {
                 return $data;
@@ -275,7 +292,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($productSku, $storeId);
             $fluxEntry->setShouldExport(0);
             $fluxEntry->setUpdateNeeded(0);
-            $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s'));
+            $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
             $fluxEntry->save();
             return;
         }
@@ -285,7 +302,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
             $fluxEntry->setShouldExport(0);
             $fluxEntry->setUpdateNeeded(0);
-            $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s'));
+            $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
             $fluxEntry->save();
             return;
         }
@@ -310,7 +327,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         );
 
         foreach ($this->getConfig()->getMappingAllAttributes($storeId) as $nameNode => $code) {
-            $data[$nameNode] = $this->_getAttributeDataForProduct($nameNode, $code, $product); //trim($xmlObj->extractData($nameNode, $code, $product));
+            $data[$nameNode] = $this->_getAttributeDataForProduct($nameNode, $code, $product, $storeId); //trim($xmlObj->extractData($nameNode, $code, $product));
         }
 
         //Varien_Profiler::start("SF::Flux::getPrices");
@@ -333,7 +350,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //Varien_Profiler::start("SF::Flux::getAdditionalAttributes");
         foreach ($this->getConfig()->getAdditionalAttributes() as $attributeCode) {
             if ($attributeCode) {
-                $data[$attributeCode] = $this->_getAttributeDataForProduct($attributeCode, $attributeCode, $product);
+                $data[$attributeCode] = $this->_getAttributeDataForProduct($attributeCode, $attributeCode, $product, $storeId);
             }
         }
 
@@ -359,7 +376,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //Varien_Profiler::stop("SF::Flux::addEntry2");
         //Varien_Profiler::start("SF::Flux::saveProductFlux");
          $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
-          $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s'));
+          $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
           $fluxEntry->setXml($xml);
           $fluxEntry->setUpdateNeeded(0);
           $fluxEntry->setStockValue($product->getStockItem()->getQty());
@@ -478,8 +495,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         
         $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
 
-        $data["category-main"] = trim($categoryNames[0]);
-        $data["category-url-main"] = $categoryUrls[0];
+        $data["category-main"] = isset($categoryNames[0])?trim($categoryNames[0]):'';
+        $data["category-url-main"] = isset($categoryUrls[0])?$categoryUrls[0]:'';
 
 
         for ($i = 1; $i <= 5; $i++) {
@@ -507,7 +524,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         if (!$this->getConfig()->getUseOnlySFCategory()) {
             $rootCategoryId = Mage::app()->getStore($product->getStoreId())->getRootCategoryId();
 
-            $categoryWithParents = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
+            $categoryWithParents = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId(), false, false);
             $maxLevelCategory = $this->getConfig()->getMaxCategoryLevel()>0?$this->getConfig()->getMaxCategoryLevel():5;
             
             /*$productCategoryCollection = $product->getCategoryCollection()
@@ -563,37 +580,50 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
             unset($productCategoryCollection);*/
             
+            //Selection of the deepest category
             $productCategoryIds = $product->getCategoryIds();
+            $choosenProductCategoryId = false;
+            $choosenCategoryLevel = 0;
             foreach($productCategoryIds as $productCategoryId) {
                 if(isset($categoryWithParents['name'][$productCategoryId])) {
                     $categoryNames = explode(' > ', $categoryWithParents['name'][$productCategoryId]);
-                    $categoryUrls = explode(' > ', $categoryWithParents['url'][$productCategoryId]);
-                    //we drop root category, which is useless here
-                    array_shift($categoryNames);
-                    array_shift($categoryUrls);
-                    $categoryNames = array_slice($categoryNames, 0, $maxLevelCategory, true);
-                    $categoryUrls = array_slice($categoryUrls, 0, $maxLevelCategory, true);
-                    $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
-
-                    $data["category-main"] = trim($categoryNames[0]);
-                    $data["category-url-main"] = $categoryUrls[0];
-
-
-                    for ($i = 1; $i <= 5; $i++) {
-                        if (isset($categoryNames[$i])) {
-                            $data["category-sub-" . ($i)] = trim($categoryNames[$i]);
-                        } else {
-                            $data["category-sub-" . ($i)] = '';
-                        }
-                        if (isset($categoryUrls[$i])) {
-                            $data["category-url-sub-" . ($i)] = $categoryUrls[$i];
-                        } else {
-                            $data["category-url-sub-" . ($i)] = '';
-                        }
+                    if(count($categoryNames) > $choosenCategoryLevel) {
+                        $choosenProductCategoryId = $productCategoryId;
                     }
-                    break;
                 }
             }
+            
+            //Adding the deepest category to breadcrumb
+            if($choosenProductCategoryId) {
+                $categoryNames = explode(' > ', $categoryWithParents['name'][$choosenProductCategoryId]);
+                $categoryUrls = explode(' > ', $categoryWithParents['url'][$choosenProductCategoryId]);
+                //we drop root category, which is useless here
+                array_shift($categoryNames);
+                array_shift($categoryUrls);
+                $categoryNames = array_slice($categoryNames, 0, $maxLevelCategory, true);
+                $categoryUrls = array_slice($categoryUrls, 0, $maxLevelCategory, true);
+                $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
+
+                $data["category-main"] = trim($categoryNames[0]);
+                $data["category-url-main"] = $categoryUrls[0];
+
+
+                for ($i = 1; $i <= 5; $i++) {
+                    if (isset($categoryNames[$i])) {
+                        $data["category-sub-" . ($i)] = trim($categoryNames[$i]);
+                    } else {
+                        $data["category-sub-" . ($i)] = '';
+                    }
+                    if (isset($categoryUrls[$i])) {
+                        $data["category-url-sub-" . ($i)] = $categoryUrls[$i];
+                    } else {
+                        $data["category-url-sub-" . ($i)] = '';
+                    }
+                }
+            }
+            
+            
+            
 
         }
         
@@ -890,7 +920,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 }
 
                 foreach ($attributesFromConfig as $nameNode => $attributeCode) {
-                    $usedProductsArray[$usedProduct->getId()]['child'][$nameNode] = $this->_getAttributeDataForProduct($nameNode, $attributeCode, $usedProduct); //$xmlObj->extractData($nameNode, $attributeCode, $usedProduct);
+                    $usedProductsArray[$usedProduct->getId()]['child'][$nameNode] = $this->_getAttributeDataForProduct($nameNode, $attributeCode, $usedProduct, $storeId); //$xmlObj->extractData($nameNode, $attributeCode, $usedProduct);
                 }
 
 

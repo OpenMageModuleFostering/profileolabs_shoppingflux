@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.4</version>
+            <version>0.7.5</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -370,6 +370,9 @@
                 <processing_order_status>processing</processing_order_status>
                 <apply_tax>0</apply_tax>
             </manageorders>
+            <shipment_update>
+                <limit_hours>10</limit_hours>
+            </shipment_update>
         </shoppingflux_mo>
         <payment>
             <shoppingflux_purchaseorder>

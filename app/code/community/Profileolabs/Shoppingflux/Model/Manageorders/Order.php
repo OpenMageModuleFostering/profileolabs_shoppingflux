@@ -592,7 +592,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
 
        
             $processingStatus = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/processing_order_status', $order->getStoreId());
-            if ($processingStatus) {
+            if ($processingStatus && $order->getState() == 'processing') {
                 $order->setStatus($processingStatus);
                 $order->save();
             }

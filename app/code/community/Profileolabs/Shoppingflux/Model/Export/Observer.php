@@ -142,7 +142,6 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $products = array_keys($products);
         if (!empty($products)) {
             $currentVersion = Mage::getVersion();
-            /* if (version_compare($currentVersion, '1.4.0') < 0) { */
             $product = Mage::getModel('catalog/product');
             foreach ($products as $productId) {
 
@@ -160,16 +159,15 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
                 $dataChanged = $product->dataHasChangedFor('shoppingflux_default_category');
 
                 if ($dataChanged) {
-                    $product->save();
+                    if (version_compare($currentVersion, '1.4.0') < 0) { 
+                        $product->save();
+                    } else {
+                        //Note: we could use this directly, but it will put all updated products to "Need Update" even if no changes
+                        Mage::getSingleton('catalog/product_action')
+                            ->updateAttributes($products, array('shoppingflux_default_category' => $category->getId()), $storeId);
+                    }
                 }
             }
-            // This method may be faster alone, but put all updated products to "Need Update" even if no changes
-            /* } else {
-              Mage::getSingleton('catalog/product_action')
-              ->updateAttributes($products, array('shoppingflux_default_category' => $category->getId()), $storeId);
-
-              //var_dump($products);die();
-              } */
         }
     }
     

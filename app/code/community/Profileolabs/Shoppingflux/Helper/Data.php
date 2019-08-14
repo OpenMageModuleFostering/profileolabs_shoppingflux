@@ -235,11 +235,13 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
     }
 
     protected $_categoriesWithParents = null;
-    public function getCategoriesWithParents($key = false, $storeId=null) {
+    public function getCategoriesWithParents($key = false, $storeId=null, $withInactive=false, $withNotInMenu=true) {
         
 
         if(is_null($this->_categoriesWithParents)) {
             $mageCacheKey = 'shoppingflux_category_list' . (Mage::app()->getStore()->isAdmin() ? '_admin'.intval($storeId) : '_' . intval($storeId)) ;
+            $mageCacheKey .= $withInactive?'_inactive_':'_active_';
+            $mageCacheKey .= $withNotInMenu?'all':'inmenu';
             $cacheTags = array(Mage_Catalog_Model_Category::CACHE_TAG, 'shoppingflux');
             $this->_categoriesWithParents = unserialize(Mage::app()->loadCache($mageCacheKey));
             if (!$this->_categoriesWithParents) {
@@ -254,7 +256,14 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                         ->addAttributeToFilter('entity_id', array('neq' => 1))
                         ->addAttributeToSort('path', 'ASC')
                         ->addAttributeToSort('name', 'ASC');
-
+                
+                if(!$withInactive) {
+                  $categories->addFieldToFilter('is_active', array('eq'=>'1'));
+                }
+                if(!$withNotInMenu) {
+                  $categories->addFieldToFilter('include_in_menu', array('eq'=>'1'));
+                }
+                
                 if(!Mage::getSingleton('profileolabs_shoppingflux/config')->getUseAllStoreCategories()) {
                     $categories
                         ->addAttributeToFilter('entity_id', array('neq' => $rootCategoryId));
@@ -320,7 +329,7 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
             $notification = Mage::getModel('adminnotification/inbox');
             $notification->setseverity(Mage_AdminNotification_Model_Inbox::SEVERITY_CRITICAL);
             $notification->setTitle(Mage::helper('profileolabs_shoppingflux')->__('Shoppingflux alert'));
-            $notification->setDateAdded(date('Y-m-d H:i:s'));
+            $notification->setDateAdded(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
             $notification->setDescription(Mage::helper('profileolabs_shoppingflux')->__('Shoppingflux alert : <br/> %s', $message));
             $notification->save();
         } catch (Exception $e) {

@@ -133,37 +133,6 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>0</show_in_store>
                         </processing_order_status>
-                        <!--<import_store>
-                            <label>Import Store</label>
-                            <comment>Orders will be imported in selected store</comment>							
-                            <frontend_type>select</frontend_type>
-                            <sort_order>26</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
-                            <source_model>adminhtml/system_config_source_store</source_model>
-                        </import_store>-->
-                        <!--<apply_tax>
-                            <label>Apply tax</label>
-                            <comment><![CDATA[Calculation of tax when order is created.<b style='color:red'>Do not active if you sell your products Excl. Tax</b>]]>
-                            </comment>							
-                            <frontend_type>select</frontend_type>
-                            <sort_order>27</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>
-                            <source_model>adminhtml/system_config_source_yesno</source_model>
-                        </apply_tax>)-->
-                        <!-- <is_test>
-                         							<label>Test</label>							
-                         							<frontend_type>select</frontend_type>
-                         							<source_model>adminhtml/system_config_source_yesno</source_model>
-                         							<comment>Si oui, la requête se fait su l'url test de shopping flux</comment>
-                         							<sort_order>30</sort_order>
-                         							<show_in_default>1</show_in_default>
-                         							<show_in_website>0</show_in_website>
-                         							<show_in_store>0</show_in_store>
-                  						</is_test> -->
                     </fields>
                 </manageorders>
                 <import_customer translate="label" module="profileolabs_shoppingflux">
@@ -701,6 +670,24 @@
                     <show_in_store>1</show_in_store>
                     <sort_order>4</sort_order>
                 </advanced_shipping_method>
+                <shipment_update translate="label" module="profileolabs_shoppingflux">
+                    <label>Shipment Update</label>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                    <sort_order>5</sort_order>
+                    <fields>
+                        <limit_hours>
+                            <label>Max time before sending shipment update to marketplace</label>
+                            <comment>In hours. If the shipment has still not any tracking number filled after X hours, the shipment is sent to the marketplace without tracking number.</comment>							
+                            <frontend_type>text</frontend_type>
+                            <sort_order>10</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </limit_hours>
+                    </fields>
+                </shipment_update>
             </groups>
         </shoppingflux_mo>
         <shoppingflux_export translate="label" module="profileolabs_shoppingflux">

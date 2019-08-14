@@ -39,7 +39,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Shipping_Method extends Mage_
         
         public function saveShippingMethod($marketplace, $shippingMethod) {
             $model = $this->loadByMethod($marketplace, $shippingMethod);
-            $model->setLastSeenAt(date('Y-m-d H:i:s'));
+            $model->setLastSeenAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
             $model->save();
         }
 	

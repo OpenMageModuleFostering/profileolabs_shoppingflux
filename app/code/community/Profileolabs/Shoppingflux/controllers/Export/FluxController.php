@@ -26,7 +26,35 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         die('Le flux shopping flux sera mis a jour pour ce flux');
     }
 
+    public function refreshAllAllStoresAction() {
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $storeId = Mage::app()->getStore()->getId();
+        $write->beginTransaction();
+        try {
+            $query = "update " . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux') . " set update_needed = 1 where should_export = 1";
+            $write->query($query);
+            $write->commit();
+        } catch (Exception $e) {
+            $write->rollback();
+        }
+        die('Le flux shopping flux sera mis a jour pour ce flux');
+    }
+
     public function refreshEverythingAction() {
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $storeId = Mage::app()->getStore()->getId();
+        $write->beginTransaction();
+        try {
+            $query = "update " . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux') . " set update_needed = 1, should_export = 1 where store_id = '" . $storeId . "'";
+            $write->query($query);
+            $write->commit();
+        } catch (Exception $e) {
+            $write->rollback();
+        }
+        die('Le flux shopping flux sera mis a jour pour ce flux');
+    }
+
+    public function refreshEverythingAllStoresAction() {
         $write = Mage::getSingleton('core/resource')->getConnection('core_write');
         $storeId = Mage::app()->getStore()->getId();
         $write->beginTransaction();
