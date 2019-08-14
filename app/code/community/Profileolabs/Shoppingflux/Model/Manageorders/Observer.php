@@ -43,7 +43,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
         }
         $dataObj = new Varien_Object(array('result' => $result, 'shipment'=>$shipment));
         Mage::dispatchEvent('shoppingflux_get_shipment_tracking', array('data_obj' => $dataObj));
-        $result = $dataObj->getEntry();
+        $result = $dataObj->getResult();
         
         return $result;
     }
