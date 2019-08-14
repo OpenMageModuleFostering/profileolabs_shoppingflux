@@ -88,8 +88,16 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     array()
                 );
         $collection->getSelect()->where("p.entity_id IS NULL");
-        $collection->walk('delete');
+        //$collection->walk('delete');
+        Mage::getSingleton('core/resource_iterator')
+                        ->walk($collection->getSelect(), array(array($this, 'removeDeletedProduct')));
     }
+    
+    public function removeDeletedProduct($args) {
+        $fluxItem = Mage::getModel('profileolabs_shoppingflux/export_flux')->load($args['row']['id']);
+        $fluxItem->delete();
+    }
+    
     
     public function checkForMissingProducts($store_id = false, $maxImport = 1000) {
         ini_set('display_errors', 1);

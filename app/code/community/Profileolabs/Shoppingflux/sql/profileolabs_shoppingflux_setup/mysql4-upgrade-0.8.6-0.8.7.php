@@ -19,3 +19,5 @@ $installer->run("
 ALTER TABLE  `{$this->getTable('shoppingflux_export_flux')}` ADD INDEX (  `product_id` )
 ");
 $installer->endSetup();
+
+Mage::app()->cleanCache();
