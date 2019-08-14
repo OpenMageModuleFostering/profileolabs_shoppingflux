@@ -27,7 +27,6 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         foreach($productCollection as $product) {
             Mage::getModel('profileolabs_shoppingflux/export_flux')->updateProductInFluxForAllStores($product->getSku());
         }
-        die($productCollection->count().'a');
     }
 
     public function updateFlux() {

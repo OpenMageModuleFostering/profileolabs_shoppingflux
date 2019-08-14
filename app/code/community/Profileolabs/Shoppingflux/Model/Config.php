@@ -41,6 +41,12 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     public function getIdTracking($storeId = null) {
         return $this->getConfigData('shoppingflux/configuration/id_tracking', $storeId);
     }
+    
+    
+
+    public function isBuylineEnabled($storeId = null) {
+        return $this->getConfigFlag('shoppingflux_export/configuration/enable_buyline', $storeId);
+    }
 
     /*
      * Define is in test mode

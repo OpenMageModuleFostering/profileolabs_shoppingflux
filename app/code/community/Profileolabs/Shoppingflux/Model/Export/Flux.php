@@ -456,6 +456,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
         //Varien_Profiler::start("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
         $categoryId = $product->getData('shoppingflux_default_category');
+        if(!$categoryId) {
+            return $this->getCategoriesViaProductCategories($data, $product);
+        }
         $category = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
          //Varien_Profiler::stop("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
         if (!isset($category['name'][$categoryId])) {
@@ -471,7 +474,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //we drop root category, which is useless here
         array_shift($categoryNames);
         array_shift($categoryUrls);
-
+        
+        
         $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
 
         $data["category-main"] = trim($categoryNames[0]);
@@ -479,11 +483,14 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
 
         for ($i = 1; $i <= 5; $i++) {
-            if (isset($categoryNames[$i]) && isset($categoryUrls[$i])) {
+            if (isset($categoryNames[$i])) {
                 $data["category-sub-" . ($i)] = trim($categoryNames[$i]);
-                $data["category-url-sub-" . ($i)] = $categoryUrls[$i];
             } else {
                 $data["category-sub-" . ($i)] = '';
+            }
+            if (isset($categoryUrls[$i])) {
+                $data["category-url-sub-" . ($i)] = $categoryUrls[$i];
+            } else {
                 $data["category-url-sub-" . ($i)] = '';
             }
         }
@@ -500,10 +507,10 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         if (!$this->getConfig()->getUseOnlySFCategory()) {
             $rootCategoryId = Mage::app()->getStore($product->getStoreId())->getRootCategoryId();
 
-            //$categoryWithParents = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
-
+            $categoryWithParents = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
             $maxLevelCategory = $this->getConfig()->getMaxCategoryLevel()>0?$this->getConfig()->getMaxCategoryLevel():5;
-            $productCategoryCollection = $product->getCategoryCollection()
+            
+            /*$productCategoryCollection = $product->getCategoryCollection()
                     ->addAttributeToSelect(array('name'))
                     ->addFieldToFilter('level', array('lteq' => $maxLevelCategory+1))
                     ->addUrlRewriteToResult()
@@ -512,8 +519,6 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             if (!Mage::getSingleton('profileolabs_shoppingflux/config')->getUseAllStoreCategories()) {
                 $productCategoryCollection->addFieldToFilter('path', array('like' => "1/{$rootCategoryId}/%"));
             }
-
-          
             $lastCategory = null;
             foreach ($productCategoryCollection as $category) {
                 $name = $category->getName();
@@ -556,7 +561,39 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
 
 
-            unset($productCategoryCollection);
+            unset($productCategoryCollection);*/
+            
+            $productCategoryIds = $product->getCategoryIds();
+            foreach($productCategoryIds as $productCategoryId) {
+                if(isset($categoryWithParents['name'][$productCategoryId])) {
+                    $categoryNames = explode(' > ', $categoryWithParents['name'][$productCategoryId]);
+                    $categoryUrls = explode(' > ', $categoryWithParents['url'][$productCategoryId]);
+                    //we drop root category, which is useless here
+                    array_shift($categoryNames);
+                    array_shift($categoryUrls);
+                    $categoryNames = array_slice($categoryNames, 0, $maxLevelCategory, true);
+                    $categoryUrls = array_slice($categoryUrls, 0, $maxLevelCategory, true);
+                    $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
+
+                    $data["category-main"] = trim($categoryNames[0]);
+                    $data["category-url-main"] = $categoryUrls[0];
+
+
+                    for ($i = 1; $i <= 5; $i++) {
+                        if (isset($categoryNames[$i])) {
+                            $data["category-sub-" . ($i)] = trim($categoryNames[$i]);
+                        } else {
+                            $data["category-sub-" . ($i)] = '';
+                        }
+                        if (isset($categoryUrls[$i])) {
+                            $data["category-url-sub-" . ($i)] = $categoryUrls[$i];
+                        } else {
+                            $data["category-url-sub-" . ($i)] = '';
+                        }
+                    }
+                    break;
+                }
+            }
 
         }
         
@@ -567,9 +604,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
 
 
-        for ($i = ($cnt); $i <= 5; $i++) {
-            $data["category-sub-" . ($i)] = "";
-            $data["category-url-sub-" . ($i)] = "";
+        for ($i = 1; $i <= 5; $i++) {
+            if(!isset($data["category-sub-" . ($i)])) {
+                $data["category-sub-" . ($i)] = "";
+                $data["category-url-sub-" . ($i)] = "";
+            }
         }
         
         
