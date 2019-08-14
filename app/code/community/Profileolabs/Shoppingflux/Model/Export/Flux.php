@@ -113,7 +113,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             if (!$store_id || $store_id == $storeId) {
                 if(!$isCurrentStore) {
                     $appEmulation = Mage::getSingleton('core/app_emulation');
-                    $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+                    if($appEmulation) { // not available in 1.4
+                        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+                    }
                 }
                 try {
                     $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
@@ -126,11 +128,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                         $this->updateProductInFlux($item->getSku(), $storeId);
                     }
                     $this->checkForMissingProducts($storeId, $maxImportLimit);
-                    if(!$isCurrentStore) {
+                    if(!$isCurrentStore && $appEmulation) {
                         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                     }
                 } catch(Exception $e) {
-                    if(!$isCurrentStore) {
+                    if(!$isCurrentStore && $appEmulation) {
                         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                     }
                 }
@@ -176,6 +178,15 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         
         if ($product->getTypeId() == 'simple') {
             $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+            
+            //FIX Added on 2014-08-14 to solve a case : unexistant parent found, so product is never exported...
+            foreach($parentIds as $k=>$parentId) {
+            	if(!Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', $parentId)->count()) {
+            		unset($parentIds[$k]);	
+            	}
+            }
+            //END FIX
+
             if (!empty($parentIds))
                 return false;
         }
@@ -283,14 +294,16 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
              try {
                 if(!$isCurrentStore) {
                    $appEmulation = Mage::getSingleton('core/app_emulation');
-                   $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+                   if($appEmulation) {
+                        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+                   }
                 }
                 $this->updateProductInFlux($productSku, $storeId);
-                if(!$isCurrentStore) {
+                if(!$isCurrentStore && $appEmulation) {
                     $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                 }
              } catch(Exception $e) {
-                if(!$isCurrentStore) {
+                if(!$isCurrentStore && $appEmulation) {
                     $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                 }
              }
@@ -334,7 +347,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
         $data = array(
             'id' => $product->getId(),
-            'sku' => $product->getSku(),
+            'mage-sku' => $product->getSku(),
             'product-url' => $this->cleanUrl($product->getProductUrl(false)),
             'is-in-stock' => $_manageStock ? $product->getStockItem()->getIsInStock() : 1,
             'qty' => $_manageStock ? round($product->getStockItem()->getQty()) : 100,

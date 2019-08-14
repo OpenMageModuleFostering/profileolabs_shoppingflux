@@ -202,3 +202,5 @@
 "Orders","Commandes"
 "Enable background generation ?","Activer la génération en tache de fond ?"
 "Update feed on background if needed.","Mets à jour le flux en tache de fond."
+"Use Product ID's instead of SKU ?","Utiliser l'ID produit au lieu du SKU ?"
+"Should be yes in most cases.","Doit être à oui dans la majorité des cas."

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.8</version>
+            <version>0.7.9</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -435,6 +435,7 @@
                 <dimension>dimension</dimension>
             </attributes_unknow>
             <attributes_know>
+                <sku>name</sku>
                 <name>name</name>
                 <description>description</description>
                 <short_description>short_description</short_description>

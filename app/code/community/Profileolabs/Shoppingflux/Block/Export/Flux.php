@@ -2,6 +2,16 @@
 
 class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Template {
 
+    protected function _loadCache() {
+	return false;	
+    }
+
+    protected function _saveCache($data)
+    {
+        return;	
+    }
+
+    
     protected function _toHtml() {
         $useAllStores = $this->getForceMultiStores() || $this->getConfig()->getUseAllStoreProducts();
         if ($this->getProductSku() && $this->getRequest()->getParam('update') == 1) {

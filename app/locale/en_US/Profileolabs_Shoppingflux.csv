@@ -202,3 +202,5 @@
 "Orders","Orders"
 "Enable background generation ?","Enable background generation ?"
 "Update feed on background if needed.","Update feed on background if needed."
+"Use Product ID's instead of SKU ?","Use Product ID's instead of SKU ?"
+"Should be yes in most cases.","Should be yes in most cases."

@@ -432,8 +432,15 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         foreach ($productsToIterate as $key => $productSf) {
 
             $sku = $productSf['SKU'];
+            $useProductId = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/use_product_id');
+            
+            if($useProductId) {
+                $productId = $sku;
+            } else {
+                $productId = $this->getProductModel()->getResource()->getIdBySku($sku);
+            }
 
-            if (($productId = $this->getProductModel()->getResource()->getIdBySku($sku)) != false) {
+            if ($productId != false) {
                 $product = Mage::getModel('profileolabs_shoppingflux/manageorders_product')->load($productId); // $this->getProductModel()->reset()->load($productId);
 
                 $request = new Varien_Object(array('qty' => $productSf['Quantity']));
