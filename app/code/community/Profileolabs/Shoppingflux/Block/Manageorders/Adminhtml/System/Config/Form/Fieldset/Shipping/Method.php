@@ -1,8 +1,12 @@
 <?php
 
-class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method extends Mage_Adminhtml_Block_System_Config_Form_Fieldset {
+class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_System_Config_Form_Fieldset_Shipping_Method extends Profileolabs_Shoppingflux_Block_Adminhtml_System_Config_Form_Fieldset_Abstract {
 
     public function render(Varien_Data_Form_Element_Abstract $element) {
+        if($this->shouldRenderUnregistered()) {
+            return parent::render($element);
+        }
+        
         $html = $this->_getHeaderHtml($element);
         
         $collection = Mage::getModel('profileolabs_shoppingflux/manageorders_shipping_method')->getCollection();

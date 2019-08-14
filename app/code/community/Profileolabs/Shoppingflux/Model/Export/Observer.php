@@ -12,15 +12,33 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         return Mage::getSingleton('profileolabs_shoppingflux/config');
     }
     
+    public function catalogruleAfterApply($observer) {
+        if(!$this->getConfig()->getManageCatalogRules()) {
+            return;
+        }
+        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+        $write->beginTransaction();
+        try {
+            $query = "update " . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux') . " set update_needed = 1 ";
+            $write->query($query);
+            $write->commit();
+        } catch (Exception $e) {
+            $write->rollback();
+        }     
+    }
     
-    public static function checkStock() {
+    
+    public static function checkStock($storeId = false) {
+        if(!$storeId) {
+            $storeId = Mage::app()->getStore()->getId();
+        }
         $productCollection = Mage::getModel('catalog/product')->getCollection();
         $fluxCollection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $productCollection->getSelect()->join(
                     array('sf_stock' => $productCollection->getTable('cataloginventory/stock_item')), 'e.entity_id = sf_stock.product_id', array('qty')
             );
         $productCollection->getSelect()->joinRight(
-                    array('flux' => $fluxCollection->getMainTable()), 'e.sku = flux.sku and flux.should_export = 1', array('stock_value', 'sku')
+                    array('flux' => $fluxCollection->getMainTable()), "e.sku = flux.sku and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
             );
         $productCollection->getSelect()->where('CAST(sf_stock.qty AS SIGNED) != flux.stock_value');
         $productCollection->getSelect()->group('e.entity_id');
@@ -28,6 +46,8 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
             Mage::getModel('profileolabs_shoppingflux/export_flux')->productNeedUpdate($product);
         }
     }
+    
+    
 
     public function updateFlux() {
         if(Mage::getStoreConfigFlag('shoppingflux_export/general/enable_cron')) {
@@ -49,6 +69,9 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $sizeTotal = $collection->count();
         $collection->clear();
 
+        if (!$this->getConfig()->isExportNotSalable($storeId)) {
+            $collection->addFieldToFilter('salable', 1);
+        }
         if (!$this->getConfig()->isExportSoldout($storeId)) {
             $collection->addFieldToFilter('is_in_stock', 1);
         }
@@ -61,7 +84,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
 
 
         $xmlObj = Mage::getModel('profileolabs_shoppingflux/export_xml');
-        $startXml = $xmlObj->startXml(array('size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
+        $startXml = $xmlObj->startXml(array('size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'with-not-salable'=> intval($this->getConfig()->isExportNotSalable()), 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
         fwrite($handle, $startXml);
         Mage::getSingleton('core/resource_iterator')
                 ->walk($collection->getSelect(), array(array($this, 'saveProductXml')), array('handle'=>$handle));
@@ -287,12 +310,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $product = $observer->getProduct();
         $storeId = $product->getStoreId();
         $attributesToCheck = array('price', 'tax_class_id', 'special_price', 'special_to_date', 'special_from_date');
-        /*
-          $ecotaxeAttributeCode = Mage::getStoreConfigFlag('shoppingflux_export/attributes_unknow/ecotaxe', $storeId);
-          if ($ecotaxeAttributeCode) {
-          $attributesToCheck[] = $ecotaxeAttributeCode;
-          }
-         */
+      
         $somePriceChanged = false;
         foreach ($attributesToCheck as $attributeCode) {
             if ($product->getData($attributeCode) != $product->getOrigData($attributeCode)) {

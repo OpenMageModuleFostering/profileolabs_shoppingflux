@@ -18,6 +18,7 @@
             <groups>
                 <configuration translate="label" module="profileolabs_shoppingflux">
                     <label>Configuration</label>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -36,8 +37,8 @@
                             <label>API key</label>						
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </api_key>
                         <id_tracking>
@@ -45,8 +46,8 @@
                             <comment>Your ShoppingFlux Tracking ID</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </id_tracking>
                         <enable_buyline>
@@ -54,8 +55,8 @@
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enable_buyline>
                         <alert_email>
@@ -63,8 +64,8 @@
                             <comment>In case of issue while transfering data, an email will be sent to this address.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </alert_email>
                     </fields>
@@ -76,14 +77,15 @@
             <tab>shoppingflux</tab>
             <frontend_type>text</frontend_type>
             <sort_order>100</sort_order>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
+            <show_in_default>0</show_in_default>
+            <show_in_website>0</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
                 <manageorders translate="label" module="profileolabs_shoppingflux">
                     <label>Manage Orders</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
@@ -91,16 +93,16 @@
                             <label>Enable order management</label>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </enabled>
                         <limit_orders>
                             <label>Import by n orders</label>						
                             <sort_order>22</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <comment>Limit number of orders imported. 10 by default</comment>
                         </limit_orders>                   
@@ -109,17 +111,17 @@
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_order_status_new</source_model>
                             <sort_order>80</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                             <show_in_store>1</show_in_store>
                         </new_order_status>
                         <create_invoice>
                             <label>Create invoice ?</label>
                             <comment>If yes, an invoice will be created on ShoppingFlux's order creation</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>25</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </create_invoice>                 
@@ -128,26 +130,37 @@
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_order_status_processing</source_model>
                             <sort_order>80</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                             <show_in_store>1</show_in_store>
                         </processing_order_status>
                         <use_product_id>
                             <label>Use Product ID's instead of SKU ?</label>
-                            <comment>Should be yes in most cases.</comment>							
+                            <comment>Should be no in most cases.</comment>							
                             <frontend_type>select</frontend_type>
-                            <sort_order>25</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <sort_order>90</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </use_product_id>
+                        <use_marketplace_date>
+                            <label>Use Marketplace Order Date and Time ?</label>
+                            <comment>If no, the order date will be the import date.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>100</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </use_marketplace_date>
                     </fields>
                 </manageorders>
                 <import_customer translate="label" module="profileolabs_shoppingflux">
                     <label>Customer Import</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>2</sort_order>
                     <fields>
@@ -156,26 +169,38 @@
                             <comment>Leave empty to not limit length. Minimum value if filled : 20</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                         </limit_address_length>
+                        <mobile_attribute>
+                            <label>Customer Mobile Attribute</label>						
+                            <frontend_type>select</frontend_type>
+                            <sort_order>6</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                             <show_in_store>1</show_in_store>
+                            <source_model>profileolabs_shoppingflux/manageorders_source_attributes</source_model>
+                        </mobile_attribute>
                         <prefer_mobile_phone>
+                            <depends>
+                                <mobile_attribute></mobile_attribute>
+                            </depends>
                             <label>Import mobile phone instead of desk phone, if available</label>						
                             <frontend_type>select</frontend_type>
                             <sort_order>7</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </prefer_mobile_phone>
                         <default_group>
                             <label>Default customer group</label>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </default_group>
                         <amazon_group>
@@ -183,9 +208,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </amazon_group>
                         <cdiscount_group>
@@ -193,9 +218,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </cdiscount_group>
                         <ebay_group>
@@ -203,9 +228,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </ebay_group>
                         <fnac_group>
@@ -213,9 +238,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </fnac_group>
                         <pixmania_group>
@@ -223,9 +248,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </pixmania_group>
                         <priceminister_group>
@@ -233,9 +258,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </priceminister_group>
                         <rueducommerce_group>
@@ -243,9 +268,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </rueducommerce_group>
                         <brandalley_group>
@@ -253,9 +278,9 @@
                             <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </brandalley_group>
                         <toutaporter_group>
@@ -263,9 +288,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </toutaporter_group>
                         <greenrepublic_group>
@@ -273,9 +298,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </greenrepublic_group>
                         <laredoute_group>
@@ -283,9 +308,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </laredoute_group>
                         <babyssima_group>
@@ -293,9 +318,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </babyssima_group>
                         <ecitizen_group>
@@ -303,9 +328,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </ecitizen_group>
                         <decofinder_group>
@@ -313,9 +338,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </decofinder_group>
                         <docteurdiscount_group>
@@ -323,9 +348,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </docteurdiscount_group>
                         <glamour_group>
@@ -333,9 +358,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </glamour_group>
                         <gstk_group>
@@ -343,9 +368,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </gstk_group>
                         <mistergooddeal_group>
@@ -353,9 +378,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </mistergooddeal_group>
                         <placedumariage_group>
@@ -363,9 +388,9 @@
                             <comment>Leave empty to use default group</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </placedumariage_group>
                         <tap_group>
@@ -373,9 +398,9 @@
                             <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </tap_group>
                         <spartoo_group>
@@ -383,9 +408,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </spartoo_group>
                         <jardinermalin_group>
@@ -393,9 +418,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </jardinermalin_group>
                         <monechelle_group>
@@ -403,9 +428,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </monechelle_group>
                         <localismarket_group>
@@ -413,9 +438,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </localismarket_group>
                         <galerieslafayette_group>
@@ -423,9 +448,9 @@
                             <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </galerieslafayette_group>
                        <monchouchou_group>
@@ -433,9 +458,9 @@
                             <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </monchouchou_group>
                        <elevenmain_group>
@@ -443,9 +468,9 @@
                             <comment>Leave empty to use default group</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </elevenmain_group>
                        <sears_group>
@@ -453,9 +478,9 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </sears_group>
                        <wizacha_group>
@@ -463,17 +488,18 @@
                             <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </wizacha_group>
                     </fields>
                 </import_customer>
                 <shipping_method translate="label" module="profileolabs_shoppingflux">
                     <label>Shipping Method</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>3</sort_order>
                     <fields>
@@ -482,9 +508,9 @@
                             <comment>Specific shipping method to use for imported ShoppingFlux's order</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </default_method>
                         <amazon_method>
@@ -492,9 +518,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </amazon_method>
                         <cdiscount_method>
@@ -502,9 +528,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </cdiscount_method>
                         <ebay_method>
@@ -512,9 +538,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </ebay_method>
                         <fnac_method>
@@ -522,9 +548,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </fnac_method>
                         <pixmania_method>
@@ -532,9 +558,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </pixmania_method>
                         <priceminister_method>
@@ -542,9 +568,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </priceminister_method>
                         <rueducommerce_method>
@@ -552,9 +578,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </rueducommerce_method>
                         <brandalley_method>
@@ -562,9 +588,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </brandalley_method>
                         <toutaporter_method>
@@ -572,9 +598,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </toutaporter_method>
                         <greenrepublic_method>
@@ -582,9 +608,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </greenrepublic_method>
                         <laredoute_method>
@@ -592,9 +618,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </laredoute_method>
                         <babyssima_method>
@@ -602,9 +628,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </babyssima_method>
                         <monechelle_method>
@@ -612,9 +638,9 @@
                             <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </monechelle_method>
                         <ecitizen_method>
@@ -622,9 +648,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </ecitizen_method>
                         <decofinder_method>
@@ -632,9 +658,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </decofinder_method>
                         <docteurdiscount_method>
@@ -642,9 +668,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </docteurdiscount_method>
                         <glamour_method>
@@ -652,9 +678,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </glamour_method>
                         <gstk_method>
@@ -662,9 +688,9 @@
                             <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </gstk_method>
                         <mistergooddeal_method>
@@ -672,9 +698,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </mistergooddeal_method>
                         <placedumariage_method>
@@ -682,9 +708,9 @@
                             <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </placedumariage_method>
                         <tap_method>
@@ -692,9 +718,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </tap_method>
                         <spartoo_method>
@@ -702,9 +728,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </spartoo_method>
                         <jardinermalin_method>
@@ -712,9 +738,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </jardinermalin_method>
                         <localismarket_method>
@@ -722,9 +748,9 @@
                             <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </localismarket_method>
                         <galerieslafayette_method>
@@ -732,9 +758,9 @@
                             <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </galerieslafayette_method>
                         <monchouchou_method>
@@ -742,9 +768,9 @@
                             <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </monchouchou_method>
                         <elevenmain_method>
@@ -752,9 +778,9 @@
                             <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </elevenmain_method>
                         <sears_method>
@@ -762,9 +788,9 @@
                             <comment>Leave empty to use default shipping method.</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </sears_method>
                         <wizacha_method>
@@ -772,9 +798,9 @@
                             <comment>Leave empty to use default shipping method.</comment>				
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </wizacha_method>
                         
@@ -783,15 +809,16 @@
                 <advanced_shipping_method translate="label" module="profileolabs_shoppingflux">
                     <label>Advanced Shipping Methods Mapping</label>
                     <frontend_model>profileolabs_shoppingflux/manageorders_adminhtml_system_config_form_fieldset_shipping_method</frontend_model>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>4</sort_order>
                 </advanced_shipping_method>
                 <shipment_update translate="label" module="profileolabs_shoppingflux">
                     <label>Shipment Update</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>5</sort_order>
                     <fields>
@@ -800,8 +827,8 @@
                             <comment>In hours. If the shipment has still not any tracking number filled after X hours, the shipment is sent to the marketplace without tracking number.</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </limit_hours>
                     </fields>
@@ -813,15 +840,16 @@
             <tab>shoppingflux</tab>
             <frontend_type>text</frontend_type>
             <sort_order>90</sort_order>
-            <show_in_default>1</show_in_default>
-            <show_in_website>1</show_in_website>
+            <show_in_default>0</show_in_default>
+            <show_in_website>0</show_in_website>
             <show_in_store>1</show_in_store>
             <groups>
                 <general translate="label">
                     <label>General</label>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
                     <comment><![CDATA[<b style='color:red'>Feed URL :</b>&nbsp;&nbsp;<span style='font-size:14px;font-style:italic;'>http://domain.tld/shoppingflux/export_flux/</span><br /><br /><br />]]></comment>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
@@ -830,8 +858,8 @@
                             <comment></comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>1</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </active>
@@ -840,8 +868,8 @@
                             <comment><![CDATA[If yes, you'll have to select products in <strong>Shoppingflux > Product Selection</strong>]]></comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>5</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </filter_by_attribute>
@@ -849,8 +877,8 @@
                          							<label>Export par n produits</label>
                          							<comment></comment>							
                          							<sort_order>10</sort_order>
-                         							<show_in_default>1</show_in_default>
-                         							<show_in_website>1</show_in_website>
+                         							<show_in_default>0</show_in_default>
+                         							<show_in_website>0</show_in_website>
                          							<show_in_store>1</show_in_store>
                          							<comment>Limite le nombre de produit par lots</comment>
                   						</limit_product> -->
@@ -859,8 +887,8 @@
                             <comment><![CDATA[Shipping delay, in <strong>days</strong>. This will be used if no shipping delay attribute is mapped.]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </default_shipping_delay>
                         <default_shipping_price>
@@ -868,8 +896,8 @@
                             <comment>Default shipping fees amount</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </default_shipping_price>
                         <default_shipping_method>
@@ -878,8 +906,8 @@
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>						
                         </default_shipping_method>
                         <try_use_real_shipping_price>
@@ -887,171 +915,247 @@
                             <comment>Disable this option if you have memory issues.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </try_use_real_shipping_price>	
-                        <shipping_price_based_on>
-                            <label>Shipping Country</label>
-                            <comment>Default country used to calculate shipping fees</comment>
-                            <frontend_type>select</frontend_type>
-                            <source_model>adminhtml/system_config_source_country</source_model>
-                            <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
-                            <show_in_store>1</show_in_store>			
-                        </shipping_price_based_on>
                         <export_soldout>
                             <label>Export out of stock products</label>
                             <comment></comment>							
                             <frontend_type>select</frontend_type>
-                            <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <sort_order>50</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </export_soldout>
+                        <export_not_salable>
+                            <label>Export not salable products</label>
+                            <comment></comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>55</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </export_not_salable>
+                        <show_advanced_configuration>
+                            <label>Show advanced configuration ?</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>57</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>			
+                        </show_advanced_configuration>
+                        <shipping_price_based_on>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
+                            <label>Shipping Country</label>
+                            <comment>Default country used to calculate shipping fees</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_country</source_model>
+                            <sort_order>60</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>			
+                        </shipping_price_based_on>
                         <export_visibility>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Export product with visibility :</label>
                             <comment></comment>							
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>profileolabs_shoppingflux/export_source_visibility</source_model>
                         </export_visibility>
                         <memory_limit>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Memory limit</label>
                             <comment>in MB. Do not modify if you don't know what you are doing.</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                            <show_in_store>1</show_in_store>
                         </memory_limit>	
                         <enable_sync>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Enable automatic updates ?</label>
                             <comment>Update stocks and prices in real time. This could slow down price and stock modifications.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </enable_sync>		
                         <enable_cron>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Enable background generation ?</label>
                             <comment>Update feed on background if needed.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>125</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </enable_cron>	
                         <use_manage_stock>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Manage 'Manage stock' attribute ?</label>
                             <comment>If yes, products with 'Manage stock' = 'No' will have a stock qty to 100 in the feed.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>130</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </use_manage_stock>
                         <all_store_products>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Export products from all stores ?</label>
                             <comment>If any doubt exists, leave it to 'No'</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>135</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </all_store_products>
                         <all_store_categories>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Use categories from all stores ?</label>
                             <comment>If any doubt exists, leave it to 'No'</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>140</sort_order>
-                            <show_in_default>1</show_in_default>
+                            <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
-                            <show_in_store>0</show_in_store>
+                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </all_store_categories>		
                         <use_only_shoppingflux_category>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Use only ShoppingFlux category ?</label>
                             <comment>Faster if yes.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </use_only_shoppingflux_category>	
                         <max_category_level>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Use only X first category levels</label>						
                             <frontend_type>select</frontend_type>
                             <sort_order>150</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>profileolabs_shoppingflux/export_source_category_level</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </max_category_level>	
                         <enable_events>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Enable ShoppingFlux events ?</label>
                             <comment>Usefull only in case of specific developments.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>160</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </enable_events>
                         <manage_configurable>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Advanced management of configurable products ?</label>
                             <comment>If no, only configurable products will be transfered (without their children). In most cases, should be set to 'Yes'.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>170</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </manage_configurable>	
                         <manage_catalog_rules>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Manage catalog price rules ?</label>			
                             <frontend_type>select</frontend_type>
                             <sort_order>180</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </manage_catalog_rules>	
                         <manage_media_gallery>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
                             <label>Manage product galleries ?</label>
                             <comment>Does not concern main image. Faster if 'No'.</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>190</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
-                        </manage_media_gallery>			
+                        </manage_media_gallery>	
+                        <transform_qty_increments>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
+                            <label>Transform qty increments products ?</label>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>200</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                        </transform_qty_increments>			
                     </fields>
                 </general>
-                <attributes_unknow translate="label">
-                    <label>Unknown attribute mapping</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
+                <attributes_mapping translate="label">
+                    <label>Attribute mapping</label>
+                    <frontend_model>profileolabs_shoppingflux/adminhtml_system_config_form_fieldset_abstract</frontend_model>
+                    <show_in_default>0</show_in_default>
+                    <show_in_website>0</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>20</sort_order>
                     <fields>
@@ -1062,8 +1166,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </ean>
                         <isbn>
@@ -1073,8 +1177,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </isbn>
                         <ref_manufacturer>
@@ -1084,8 +1188,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </ref_manufacturer>
                         <ref_wholesaler>
@@ -1095,8 +1199,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </ref_wholesaler>
                         <shipping_delay>
@@ -1106,8 +1210,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>42</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>							
                         </shipping_delay>
                         <shipping_send_delay>
@@ -1117,8 +1221,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>43</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>							
                         </shipping_send_delay>
                         <brand>
@@ -1128,8 +1232,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </brand>
                         <brand_page_url>
@@ -1139,8 +1243,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>55</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </brand_page_url>	
                         <ecotaxe>
@@ -1149,8 +1253,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>					
                         </ecotaxe>
                         <short_name>
@@ -1160,8 +1264,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>					
                         </short_name>
                         <characteristics>
@@ -1171,8 +1275,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>80</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </characteristics>
                         <warranty>
@@ -1182,8 +1286,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>90</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </warranty>
                         <kind>
@@ -1193,8 +1297,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </kind>
                         <matter>
@@ -1204,8 +1308,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>100</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </matter>
                         <size>
@@ -1215,8 +1319,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>110</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </size>
                         <shoe_size>
@@ -1226,8 +1330,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>115</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </shoe_size>
                         <dimension>
@@ -1237,28 +1341,19 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>120</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </dimension>
-                    </fields>
-                </attributes_unknow>
-                <attributes_know translate="label">
-                    <label>Known Attribute Mapping</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <sort_order>30</sort_order>
-                    <fields>
                         <sku>
                             <label>Product SKU</label>
-                            <comment></comment>
+                            <comment>By default, you need to keep the 'sku' attribute. This value will be used as unique identifier for your products on ShoppingFeed and Marketplaces. Do not change unless shopping feed told you to.</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>0</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </sku>
                         <name>
@@ -1268,8 +1363,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>10</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </name>
                         <description>
@@ -1279,8 +1374,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>20</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </description>
                         <short_description>
@@ -1290,19 +1385,41 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </short_description>
-                        <meta_keyword>
-                            <label>Keywords</label>
+                        <meta_title>
+                            <label>Meta title</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>30</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meta_title>
+                        <meta_description>
+                            <label>Meta description</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </meta_description>
+                        <meta_keyword>
+                            <label>Meta Keywords</label>
+                            <comment></comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
+                            <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </meta_keyword>
                         <weight>
@@ -1312,8 +1429,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>40</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </weight>
                         <color>
@@ -1323,20 +1440,10 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>50</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </color>
-                    </fields>
-                </attributes_know>
-                <specific_prices>
-                    <label>Specific prices</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <sort_order>35</sort_order>
-                    <fields>
-                        
                         <price>
                             <label>Price</label>
                             <comment></comment>
@@ -1344,8 +1451,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>60</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </price>
                         <special_price>
@@ -1355,31 +1462,22 @@
                             <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>70</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </special_price>
-                    </fields>
-                </specific_prices>
-                <attributes_additionnal>
-                    <label>Additionnal Attributes</label>
-                    <show_in_default>1</show_in_default>
-                    <show_in_website>1</show_in_website>
-                    <show_in_store>1</show_in_store>
-                    <sort_order>40</sort_order>
-                    <fields>
-                        <list>
+                        <additional>
                             <label>Other attributes to export</label>
-                            <frontend_type>multiselect</frontend_type>
+                            <frontend_type>wcmultiselect</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                             <sort_order>125</sort_order>
-                            <show_in_default>1</show_in_default>
-                            <show_in_website>1</show_in_website>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </list>
+                        </additional>
                     </fields>
-                </attributes_additionnal>
+                </attributes_mapping>
             </groups>
         </shoppingflux_export>
     </sections>

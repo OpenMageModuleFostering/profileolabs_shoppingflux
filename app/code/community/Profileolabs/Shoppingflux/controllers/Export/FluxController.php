@@ -8,7 +8,18 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
 
     public function testAction() {
         ini_set('display_errors', 1);
-        Mage::app()->cleanCache();
+        //Mage::app()->cleanCache();
+       /* $resource = Mage::getSingleton('core/resource');
+        $readConnection = $resource->getConnection('core_read');
+        $writeConnection = $resource->getConnection('core_write');
+        $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
+        $installer->run("
+    UPDATE `{$installer->getTable('shoppingflux_export_flux')}`  SET update_needed = 1, should_export = 1;
+    ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `price_value` decimal( 12, 4 ) NOT NULL AFTER  `stock_value`;
+    ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `salable` tinyint( 1 ) NOT NULL AFTER  `is_in_stock`;
+        ");
+        $results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));*/
+        var_dump($results);die();
         die('TESTS_END');
     }
 
@@ -68,7 +79,30 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         die('Le flux shopping flux sera mis a jour pour ce flux');
     }
 
+    public function statusAction() {
+        $storeId = Mage::app()->getStore()->getId();
+        $productCollection = Mage::getModel('catalog/product')->getCollection()->addStoreFilter($storeId)->setStoreId($storeId);
+        $productCount = $productCollection->count();
+        $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+        $feedCount = $collection->count();
+        $collection->clear();
+        $collection->addFieldToFilter('update_needed', 1);
+        $feedUpdateNeededCount = $collection->count();
+        if(!headers_sent()) {
+    		header('Content-type: text/xml; charset=UTF-8');
+        }
+        echo "<status>";
+        echo "<feed_generation>";
+        echo "<product_count>{$productCount}</product_count>";
+        echo "<feed_count>{$feedCount}</feed_count>";
+        echo "<feed_update_needed_count>{$feedUpdateNeededCount}</feed_update_needed_count>";
+        echo "</feed_generation>";
+        echo "</status>";
+        exit();
+    }
+    
     public function indexAction() {
+        Mage::register('export_feed_start_at', microtime(true));
     	error_reporting(-1);
         ini_set('display_errors', 1);
         set_time_limit(0);

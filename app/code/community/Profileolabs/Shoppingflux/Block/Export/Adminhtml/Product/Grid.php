@@ -45,7 +45,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
                 'left');
 
         if ($store->getId()) {
-            //$collection->setStoreId($store->getId());
+            $collection->setStoreId($store->getId());
             $collection->addStoreFilter($store);
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $store->getId());

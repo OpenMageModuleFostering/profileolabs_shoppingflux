@@ -1,0 +1,14 @@
+<?php
+
+class Profileolabs_Shoppingflux_Manageorders_LaunchController extends Mage_Core_Controller_Front_Action {
+
+  
+
+    public function getordersAction() {
+    	Mage::getModel('profileolabs_shoppingflux/manageorders_observer')->manageOrders();
+    }
+
+    public function updateordersAction() {
+    	Mage::getModel('profileolabs_shoppingflux/manageorders_observer')->sendScheduledShipments();
+    }
+}

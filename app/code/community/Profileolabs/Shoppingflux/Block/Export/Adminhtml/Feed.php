@@ -18,7 +18,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Feed extends Mage_Adminht
     }
 
     public function getFeedUrl($store) {
-        return preg_replace('%^(.*)\?.*$%i', '$1', $store->getUrl('shoppingflux/export_flux/index'));
+        return Mage::helper('profileolabs_shoppingflux')->getFeedUrl($store);
     }
     
     public function storeHasFeed($store) {

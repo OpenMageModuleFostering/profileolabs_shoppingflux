@@ -26,10 +26,6 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_ImportController extends 
     public function importOrdersAction() {
         try {
 
-            if (!Mage::getSingleton('profileolabs_shoppingflux/config')->isOrdersEnabled())
-                Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__("Order import is disabled in ShoppingFlux configuration. You must enable it to use this functionnality."));
-
-
             error_reporting(E_ALL | E_STRICT);
             ini_set("display_errors", 1);
 
@@ -51,5 +47,14 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_ImportController extends 
     }
     
     
+     public function sendShipmentAction() {
+            $orderId = $this->getRequest()->getParam('order_id');
+            $order = Mage::getModel('sales/order')->load($orderId);
+            if($order->getId() && $order->hasShipments()) {
+                $shipment = $order->getShipmentsCollection()->getFirstItem();
+                Mage::getModel('profileolabs_shoppingflux/manageorders_observer')->sendStatusShipped($shipment);
+            }
+            $this->_redirect('adminhtml/sales_order/view', array('order_id' => $orderId));
+        }
 
 }

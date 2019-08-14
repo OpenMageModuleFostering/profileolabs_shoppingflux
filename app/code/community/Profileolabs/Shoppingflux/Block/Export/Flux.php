@@ -13,6 +13,8 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Templa
 
     
     protected function _toHtml() {
+        Profileolabs_Shoppingflux_Model_Export_Observer::checkStock();
+        
         $useAllStores = $this->getForceMultiStores() || $this->getConfig()->getUseAllStoreProducts();
         if ($this->getProductSku() && $this->getRequest()->getParam('update') == 1) {
             if($this->getConfig()->getUseAllStoreProducts()) {
@@ -33,6 +35,9 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Templa
         $sizeTotal = $collection->count();
         $collection->clear();
 
+        if (!$this->getConfig()->isExportNotSalable()) {
+            $collection->addFieldToFilter('salable', 1);
+        }
         if (!$this->getConfig()->isExportSoldout()) {
             $collection->addFieldToFilter('is_in_stock', 1);
         }
@@ -44,7 +49,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flux extends Mage_Core_Block_Templa
 
 
         $xmlObj = Mage::getModel('profileolabs_shoppingflux/export_xml');
-        echo $xmlObj->startXml(array('size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
+        echo $xmlObj->startXml(array('generated-at' => date('d/m/Y H:i:s', Mage::getModel('core/date')->timestamp(time())), 'size-exportable' => $sizeTotal, 'size-xml' => $collection->count(), 'with-out-of-stock' => intval($this->getConfig()->isExportSoldout()), 'with-not-salable'=> intval($this->getConfig()->isExportNotSalable())  , 'selected-only' => intval($this->getConfig()->isExportFilteredByAttribute()), 'visibilities' => implode(',', $visibilities)));
 
 
         if ($this->getProductSku()) {

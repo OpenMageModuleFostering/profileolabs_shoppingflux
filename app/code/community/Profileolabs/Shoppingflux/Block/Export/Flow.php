@@ -1,5 +1,8 @@
 <?php
 // V1 DEPRECATED
+/**
+ * @deprecated
+ */
 class Profileolabs_Shoppingflux_Block_Export_Flow extends Mage_Core_Block_Template {
 
     protected $_attributes = null;
@@ -278,7 +281,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flow extends Mage_Core_Block_Templa
             'qty' => round($product->getQty()),
         );
 
-        foreach ($this->getConfig()->getMappingAllAttributes($this->_getStoreId()) as $nameNode => $code) {
+        foreach ($this->getConfig()->getMappingAttributes($this->_getStoreId()) as $nameNode => $code) {
             $data[$nameNode] = trim($xmlObj->extractData($nameNode, $code, $product));
         }
 
@@ -558,7 +561,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flow extends Mage_Core_Block_Templa
 
 
 
-                foreach ($this->getConfig()->getMappingAllAttributes($this->_getStoreId()) as $nameNode => $attributeCode) {
+                foreach ($this->getConfig()->getMappingAttributes($this->_getStoreId()) as $nameNode => $attributeCode) {
                     $attributeId = Mage::getModel('eav/entity_attribute')->getIdByCode('catalog_product', $attributeCode);
                     $found = false;
                     foreach ($attributes as $attribute) {
@@ -931,7 +934,7 @@ class Profileolabs_Shoppingflux_Block_Export_Flow extends Mage_Core_Block_Templa
 
         Varien_Profiler::start("SF::Flow::getAttributesFromConfig");
         if (is_null($this->_attributes)) {
-            $attributes = $this->getConfig()->getMappingAllAttributes();
+            $attributes = $this->getConfig()->getMappingAttributes();
             if ($withAdditional) {
                 $additionalAttributes = $this->getConfig()->getAdditionalAttributes();
                 foreach ($additionalAttributes as $attributeCode) {

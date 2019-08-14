@@ -32,6 +32,8 @@ class Profileolabs_Shoppingflux_Model_Export_Source_Attributes
         'page_layout',
         'recurring_profile',
         'is_recurring',
+        'is_in_stock',
+        'qty'
     );
     
     protected $_attributes = null;
@@ -47,7 +49,7 @@ class Profileolabs_Shoppingflux_Model_Export_Source_Attributes
 	                $this->_attributes[] = array('value'=>$k, 'label'=>$v);
 	            }
 	        }
-	    	array_unshift($this->_attributes, array("value"=>"none","label"=>""));
+	    	array_unshift($this->_attributes, array("value"=>"","label"=>""));
     	}
         return $this->_attributes;        
     }

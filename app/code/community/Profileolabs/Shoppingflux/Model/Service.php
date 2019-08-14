@@ -22,6 +22,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
     const METHOD_UPDATE_ORDERS = "UpdateOrders";
     const METHOD_UPDATE_PRODUCT = "UpdateProduct";
     const METHOD_LOGIN = "getLogin";
+    const METHOD_IS_CLIENT = "IsClient";
 
     /**
      * 
@@ -86,6 +87,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
      */
     protected function _connect($apiKey, $method, $request='') {
         if (empty($apiKey)) {
+            Mage::helper('profileolabs_shoppingflux')->generateTokens();
             Mage::throwException("API Key (Token) is empty");
         }
         $mode = Mage::getSingleton('profileolabs_shoppingflux/config')->isSandbox() ? 'Sandbox' : 'Production';
@@ -283,6 +285,25 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
             return false;
 
         return true;
+    }
+    
+    
+    public function isClient() {
+        try {
+            $res = $this->_connect(
+                    $this->_getApiKey(), self::METHOD_IS_CLIENT
+            );
+            $status = (string) $res->Response->Status;
+            if($status == 'Client') {
+                return true;
+            }
+        }catch(Exception $e) {
+            if($e->getMessage() == 'API Key (Token) is empty') {
+                return false;
+            }
+            return true;
+        }
+        return false;
     }
 
 }

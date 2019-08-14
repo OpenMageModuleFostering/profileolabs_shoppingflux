@@ -43,5 +43,8 @@ class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminht
             die('OK');
         }
         
+        
+       
+        
 	
 }

@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.9</version>
+            <version>0.8.4</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -164,6 +164,14 @@
                     </shoppingflux_catalog_product_save_commit_after>
                 </observers>
             </catalog_product_save_commit_after>
+            <catalogrule_after_apply>
+                <observers>
+                    <shoppingflux_catalogrule_after_apply>
+                        <class>Profileolabs_Shoppingflux_Model_Export_Observer</class>
+                        <method>catalogruleAfterApply</method>
+                    </shoppingflux_catalogrule_after_apply>
+                </observers>
+            </catalogrule_after_apply>
         </events>
         <template>
             <email>
@@ -176,6 +184,7 @@
         </template>
     </global>
     <frontend>
+        
         <routers>
             <shoppingflux>
                 <use>standard</use>
@@ -200,6 +209,15 @@
                 </attributes>
               </collection>
           </product>
+        <translate>
+            <modules>
+                <Profileolabs_Shoppingflux>
+                    <files>
+                        <default>Profileolabs_Shoppingflux.csv</default>
+                    </files>
+                </Profileolabs_Shoppingflux>
+            </modules>
+        </translate>
     </frontend>
     <adminhtml>
         <layout>
@@ -283,18 +301,27 @@
                     </sf_catalog_category_prepare_save>
                 </observers>
             </catalog_category_prepare_save>
+            <adminhtml_block_html_before>
+                <observers>
+                    <sf_adminhtml_block_html_before>
+                        <type>singleton</type>
+                        <class>profileolabs_shoppingflux/manageorders_observer</class>
+                        <method>observeAdminhtmlBlockHtmlBefore</method>
+                    </sf_adminhtml_block_html_before>
+                </observers>
+            </adminhtml_block_html_before>
         </events>
     </adminhtml>
     <crontab>
         <jobs>
-            <import_orders_shoppingflux>
+            <!--<import_orders_shoppingflux>
                 <schedule>
                     <cron_expr>*/30 * * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>profileolabs_shoppingflux/manageorders_observer::manageOrders</model>
                 </run>
-            </import_orders_shoppingflux>
+            </import_orders_shoppingflux>-->
             <export_updates_shoppingflux>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
@@ -327,14 +354,14 @@
                     <model>profileolabs_shoppingflux/export_observer::fillMainCategory</model>
                 </run>
             </fill_main_category>
-            <export_shipments_shoppingflux>
+            <!--<export_shipments_shoppingflux>
                 <schedule>
                     <cron_expr>*/10 * * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>profileolabs_shoppingflux/manageorders_observer::sendScheduledShipments</model>
                 </run>
-            </export_shipments_shoppingflux>
+            </export_shipments_shoppingflux>-->
             <!--<export_updates_shoppingflux>
                 <schedule>
                     <cron_expr>*/5 * * * *</cron_expr>
@@ -369,6 +396,8 @@
                 <create_invoice>1</create_invoice>
                 <processing_order_status>processing</processing_order_status>
                 <apply_tax>0</apply_tax>
+                <use_product_id>0</use_product_id>
+                <use_marketplace_date>1</use_marketplace_date>
             </manageorders>
             <shipment_update>
                 <limit_hours>10</limit_hours>
@@ -402,6 +431,7 @@
                 <default_shipping_method>flatrate_flatrate</default_shipping_method>
                 <shipping_price_based_on>FR</shipping_price_based_on>
                 <export_soldout>1</export_soldout>
+                <export_not_salable>0</export_not_salable>
                 <export_visibility>2,3,4</export_visibility>
                 <enable_cron>0</enable_cron>
                 <memory_limit>512</memory_limit>
@@ -415,7 +445,7 @@
                 <manage_catalog_rules>1</manage_catalog_rules>
                 <manage_media_gallery>1</manage_media_gallery>
             </general>
-            <attributes_unknow>
+            <attributes_mapping>
                 <ean>ean</ean>
                 <isbn>isbn</isbn>
                 <ref_manufacturer>ref_manufacturer</ref_manufacturer>
@@ -433,20 +463,18 @@
                 <size>size</size>
                 <shoe_size>shoe_size</shoe_size>
                 <dimension>dimension</dimension>
-            </attributes_unknow>
-            <attributes_know>
-                <sku>name</sku>
+                <sku>sku</sku>
                 <name>name</name>
                 <description>description</description>
                 <short_description>short_description</short_description>
+                <meta_title>meta_title</meta_title>
+                <meta_description>meta_description</meta_description>
                 <meta_keyword>meta_keyword</meta_keyword>
                 <weight>weight</weight>
                 <color>color</color>
-            </attributes_know>
-            <specific_prices>
                 <price>price</price>
                 <special_price>special_price</special_price>
-            </specific_prices>
+            </attributes_mapping>
         </shoppingflux_export>
     </default>
 </config>

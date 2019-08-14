@@ -32,7 +32,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
     protected function _getProductBySku($productSku, $storeId) {
         $pId = Mage::getModel('catalog/product')->getIdBySku($productSku);
-        if(!$pId) {
+        if (!$pId) {
             return false;
         }
         return $this->_getProduct($pId, $storeId);
@@ -46,27 +46,27 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         } else {
             return false;
         }
-        
+
         $read = Mage::getSingleton('core/resource')->getConnection('core_read');
         $select = $read->select()
-                        ->distinct()
-                        ->from(Mage::getConfig()->getTablePrefix() . 'catalog_product_website', array('website_id'))
-                        ->where('product_id = ?', $productId);
+                ->distinct()
+                ->from(Mage::getConfig()->getTablePrefix() . 'catalog_product_website', array('website_id'))
+                ->where('product_id = ?', $productId);
         $result = $read->fetchAll($select);
         $websiteIds = array();
-        foreach($result as $row) {
+        foreach ($result as $row) {
             $websiteIds[] = $row['website_id'];
         }
-        
-        if(!in_array(Mage::app()->getStore($storeId)->getWebsiteId(), $websiteIds)) {
+
+        if (!in_array(Mage::app()->getStore($storeId)->getWebsiteId(), $websiteIds)) {
             return false;
         }
-        
+
         $product = Mage::getModel('catalog/product')->setStoreId($storeId)->load($productId);
-        if(!$product->getId()) {
+        if (!$product->getId()) {
             return false;
         }
-       
+
         return $product;
     }
 
@@ -77,7 +77,6 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     public function addMissingProduct($args) {
         $storeId = $args['store_id'];
         $this->updateProductInFlux($args['row']['sku'], $storeId);
-        
     }
 
     public function checkForMissingProducts($store_id = false, $maxImport = 200) {
@@ -85,7 +84,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         error_reporting(-1);
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
-            if(!$this->getConfig()->isExportEnabled($storeId)) {
+            if (!$this->getConfig()->isExportEnabled($storeId)) {
                 continue;
             }
             if (!$store_id || $storeId == $store_id) {
@@ -111,9 +110,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $storeId = $store->getId();
             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
             if (!$store_id || $store_id == $storeId) {
-                if(!$isCurrentStore) {
+                if (!$isCurrentStore) {
                     $appEmulation = Mage::getSingleton('core/app_emulation');
-                    if($appEmulation) { // not available in 1.4
+                    if ($appEmulation) { // not available in 1.4
                         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
                     }
                 }
@@ -128,14 +127,30 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                         $this->updateProductInFlux($item->getSku(), $storeId);
                     }
                     $this->checkForMissingProducts($storeId, $maxImportLimit);
-                    if(!$isCurrentStore && $appEmulation) {
+                    if (!$isCurrentStore && $appEmulation) {
                         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                     }
-                } catch(Exception $e) {
-                    if(!$isCurrentStore && $appEmulation) {
+                } catch (Exception $e) {
+                    if (!$isCurrentStore && $appEmulation) {
                         $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                     }
                 }
+            }
+        }
+    }
+
+    public function productNeedUpdateForStore($productId, $storeId) {
+        $product = $this->_getProduct($productId, $storeId);
+        if ($product && $product->getId()) {
+            $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
+            if ($fluxEntry->getUpdateNeeded() != 1) {
+                $fluxEntry->setUpdateNeeded(1);
+                $fluxEntry->save();
+            }
+            // update also parents
+            $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+            foreach ($parentIds as $parentId) {
+                $this->productNeedUpdateForStore($parentId, $storeId);
             }
         }
     }
@@ -143,77 +158,65 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     public function productNeedUpdate($productId) {
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
-            $product = $this->_getProduct($productId, $storeId);
-            if ($product && $product->getId()) {
-                $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
-                if ($fluxEntry->getUpdateNeeded() != 1) {
-                    $fluxEntry->setUpdateNeeded(1);
-                    $fluxEntry->save();
-                }
-                // update also parents
-                $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
-                foreach ($parentIds as $parentId) {
-                    $this->productNeedUpdate($parentId);
-                }
-            }
+            $this->productNeedUpdateForStore($productId, $storeId);
         }
         return;
     }
 
     protected function _shouldUpdate($product, $storeId) {
-        if(!$this->getConfig()->isExportEnabled($storeId)) {
+        if (!$this->getConfig()->isExportEnabled($storeId)) {
             return false;
         }
-        
+
         if ($product->getStatus() == 2)
             return false;
 
         if ($product->getTypeId() == 'grouped' || $product->getTypeId() == 'bundle' || $product->getTypeId() == 'virtual') {
             return false;
         }
-        
-        if(!$product->isSalable()) {
+
+        if (!$this->getConfig()->isExportNotSalable() && !$product->isSalable()) {
             return false;
         }
-        
+
         if ($product->getTypeId() == 'simple') {
             $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
-            
+
             //FIX Added on 2014-08-14 to solve a case : unexistant parent found, so product is never exported...
-            foreach($parentIds as $k=>$parentId) {
-            	if(!Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', $parentId)->count()) {
-            		unset($parentIds[$k]);	
-            	}
+            foreach ($parentIds as $k => $parentId) {
+                if (!Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', $parentId)->count()) {
+                    unset($parentIds[$k]);
+                }
             }
             //END FIX
 
             if (!empty($parentIds))
                 return false;
         }
-        
-        
-        
+
+
+
         $store = Mage::app()->getStore($storeId);
-        if(!in_array($store->getWebsiteId(), $product->getWebsiteIds())) {
+        if (!in_array($store->getWebsiteId(), $product->getWebsiteIds())) {
             return false;
         }
-        
+
         return true;
     }
 
     protected $_attributes = array();
 
-    protected function _getAttribute($attributeCode, $storeId=null) {
+    protected function _getAttribute($attributeCode, $storeId = null) {
         if (!isset($this->_attributes[$attributeCode])) {
             $this->_attributes[$attributeCode] = Mage::getSingleton('eav/config')->getAttribute('catalog_product', $attributeCode);
-            if($storeId) {
+            if ($storeId) {
                 $this->_attributes[$attributeCode]->setStoreId($storeId);
             }
         }
         return $this->_attributes[$attributeCode];
     }
 
-    protected function _getAttributeDataForProduct($nameNode, $attributeCode, $product, $storeId=null) {
+    protected function _getAttributeDataForProduct($nameNode, $attributeCode, $product, $storeId = null) {
         $_helper = Mage::helper('catalog/output');
 
         $data = $product->getData($attributeCode);
@@ -223,17 +226,17 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             if ($attribute->getFrontendInput() == 'date') {
                 return $data;
             }
-        
+
             //$data = $attribute->getFrontend()->getValue($product);
             //$data = $_helper->productAttribute($product, $data, $attributeCode);
             if ($attribute->usesSource()) {
                 $data = $attribute->getSource()->getOptionText($data);
-                if(is_array($data)) {
+                if (is_array($data)) {
                     $data = implode(', ', $data);
                 }
                 //$data = $product->getAttributeText($attributeCode);
             }
-            
+
 
             if ($nameNode == 'ecotaxe' && $attribute->getFrontendInput() == 'weee') {
                 $weeeAttributes = Mage::getSingleton('weee/tax')->getProductWeeeAttributes($product);
@@ -262,60 +265,75 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     }
 
     protected $_memoryLimit = null;
+    protected $_maxExecutionTime = null;
+
     protected function _checkMemory() {
         $request = Mage::app()->getRequest();
-        if($request->getControllerName() == 'export_flux' && $request->getActionName() == 'index') {
-            if(is_null($this->_memoryLimit)) {
+        if ($request->getControllerName() == 'export_flux' && $request->getActionName() == 'index') {
+            if (is_null($this->_memoryLimit)) {
                 $memoryLimit = ini_get('memory_limit');
-                if(preg_match('%M$%', $memoryLimit)) {
-                    $memoryLimit = intval($memoryLimit)*1024*1024;
-                } else if(preg_match('%G$%', $memoryLimit)) {
-                    $memoryLimit = intval($memoryLimit)*1024*1024*1024;
+                if (preg_match('%M$%', $memoryLimit)) {
+                    $memoryLimit = intval($memoryLimit) * 1024 * 1024;
+                } else if (preg_match('%G$%', $memoryLimit)) {
+                    $memoryLimit = intval($memoryLimit) * 1024 * 1024 * 1024;
                 } else {
                     $memoryLimit = false;
                 }
                 $this->_memoryLimit = $memoryLimit;
+                $this->_maxExecutionTime = ini_get('max_execution_time');
+                if ($this->_maxExecutionTime < 9.75 * 60) {
+                    $this->_maxExecutionTime = 9.75 * 60; //There is a 10min timeout on SF side.
+                }
             }
-            if($this->_memoryLimit > 0) {
+            $isTimeToDie = (microtime(true) - Mage::registry('export_feed_start_at') > $this->_maxExecutionTime);
+            if ($this->_memoryLimit > 0 || $isTimeToDie) {
                 $currentMemoryUsage = memory_get_usage(true);
-                if($this->_memoryLimit-10*1024*1024 <= $currentMemoryUsage) {
+                if ($isTimeToDie || $this->_memoryLimit - 15 * 1024 * 1024 <= $currentMemoryUsage) {
                     header('Content-type: text/html; charset=UTF-8');
-                    header('Refresh: 0;');
-                    die('<html><head><meta http-equiv="refresh" content="0"/></head><body></body></html>');
+                    header('Refresh: 0;'); 
+                    $reasons = array();
+                    if($isTimeToDie) {
+                    	$reasons[] = 'Is Time to die : Execution time : '.(microtime(true) - Mage::registry('export_feed_start_at')).' - Max execution time : ' . $this->_maxExecutionTime;
+                    }
+                    if($this->_memoryLimit-10*1024*1024 <= $currentMemoryUsage) {
+                    	$reasons[] = 'Memory limit : Used '.$currentMemoryUsage.' of '.$this->_memoryLimit;
+                    }
+                    
+                    die('<html><head><meta http-equiv="refresh" content="0"/></head><body>Reason : '.implode(',', $reasons).'</body></html>');
                 }
             }
         }
     }
-    
+
     public function updateProductInFluxForAllStores($productSku) {
-         foreach (Mage::app()->getStores() as $store) {
-             $storeId = $store->getId();
-             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
-             try {
-                if(!$isCurrentStore) {
-                   $appEmulation = Mage::getSingleton('core/app_emulation');
-                   if($appEmulation) {
+        foreach (Mage::app()->getStores() as $store) {
+            $storeId = $store->getId();
+            $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
+            try {
+                if (!$isCurrentStore) {
+                    $appEmulation = Mage::getSingleton('core/app_emulation');
+                    if ($appEmulation) {
                         $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
-                   }
+                    }
                 }
                 $this->updateProductInFlux($productSku, $storeId);
-                if(!$isCurrentStore && $appEmulation) {
+                if (!$isCurrentStore && $appEmulation) {
                     $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                 }
-             } catch(Exception $e) {
-                if(!$isCurrentStore && $appEmulation) {
+            } catch (Exception $e) {
+                if (!$isCurrentStore && $appEmulation) {
                     $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
                 }
-             }
-         }
+            }
+        }
     }
-    
+
     public function updateProductInFlux($productSku, $storeId) {
-        
+
         $this->_checkMemory();
-        
+
         $product = $this->_getProductBySku($productSku, $storeId);
-        
+
         if (!$product || !$product->getSku()) {
             $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($productSku, $storeId);
             $fluxEntry->setShouldExport(0);
@@ -329,6 +347,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         if (!$this->_shouldUpdate($product, $storeId)) {
             $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
             $fluxEntry->setShouldExport(0);
+            $fluxEntry->setStockValue($product->getStockItem()->getQty());
             $fluxEntry->setUpdateNeeded(0);
             $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
             $fluxEntry->save();
@@ -350,12 +369,30 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             'mage-sku' => $product->getSku(),
             'product-url' => $this->cleanUrl($product->getProductUrl(false)),
             'is-in-stock' => $_manageStock ? $product->getStockItem()->getIsInStock() : 1,
-            'qty' => $_manageStock ? round($product->getStockItem()->getQty()) : 100,
-            'tax-rate' => $product->getTaxPercent()
+            'salable' => intval($product->isSalable()),
+            'qty' => $product->isSalable() ? ($_manageStock ? round($product->getStockItem()->getQty()) : 100) : 0,
+            'qty-increments' => $this->getConfig()->getTransformQtyIncrements($product) ? 1 : $this->getConfig()->getQtyIncrements($product),
+            'tax-rate' => $product->getTaxPercent(),
         );
 
-        foreach ($this->getConfig()->getMappingAllAttributes($storeId) as $nameNode => $code) {
+        if ($this->getConfig()->getTransformQtyIncrements($product)) {
+            $qtyIncrements = $this->getConfig()->getQtyIncrements($product);
+            $data['qty'] = $data['qty'] / $qtyIncrements;
+        }
+
+
+        foreach ($this->getConfig()->getMappingAttributes($storeId) as $nameNode => $code) {
             $data[$nameNode] = $this->_getAttributeDataForProduct($nameNode, $code, $product, $storeId); //trim($xmlObj->extractData($nameNode, $code, $product));
+            if ($this->getConfig()->getTransformQtyIncrements($product)) {
+                $qtyIncrements = $this->getConfig()->getQtyIncrements($product);
+                if ($nameNode == 'name') {
+                    $data[$nameNode] = $data[$nameNode] . Mage::helper('profileolabs_shoppingflux')->__(' - Set of %d', $qtyIncrements);
+                } else if ($nameNode == 'sku') {
+                    $data[$nameNode] = '_SFQI_' . $qtyIncrements . '_' . $data[$nameNode];
+                } else if ($nameNode == 'weight') {
+                    $data[$nameNode] = $qtyIncrements * $data[$nameNode];
+                }
+            }
         }
 
         //Varien_Profiler::start("SF::Flux::getPrices");
@@ -370,7 +407,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //Varien_Profiler::start("SF::Flux::getShippingInfo");
         $data = $this->getShippingInfo($data, $product, $storeId);
         //Varien_Profiler::stop("SF::Flux::getShippingInfo");
-        if($this->getConfig()->getManageConfigurables()) {
+        if ($this->getConfig()->getManageConfigurables()) {
             //Varien_Profiler::start("SF::Flux::getConfigurableAttributes");
             $data = $this->getConfigurableAttributes($data, $product, $storeId);
             //Varien_Profiler::stop("SF::Flux::getConfigurableAttributes");
@@ -388,7 +425,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $data['shipping_delay'] = $this->getConfig()->getConfigData('shoppingflux_export/general/default_shipping_delay');
 
 
-        if($this->getConfig()->getEnableEvents()) {
+        if ($this->getConfig()->getEnableEvents()) {
             $dataObj = new Varien_Object(array('entry' => $data, 'store_id' => $storeId, 'product' => $product));
             Mage::dispatchEvent('shoppingflux_before_update_entry', array('data_obj' => $dataObj));
 
@@ -396,33 +433,36 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         } else {
             $entry = $data;
         }
-        
-        
+
+
         //Varien_Profiler::stop("SF::Flux::addEntry1");
         //Varien_Profiler::start("SF::Flux::addEntry2");
         $xml .= $xmlObj->_addEntry($entry);
         //Varien_Profiler::stop("SF::Flux::addEntry2");
         //Varien_Profiler::start("SF::Flux::saveProductFlux");
-         $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
-          $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
-          $fluxEntry->setXml($xml);
-          $fluxEntry->setUpdateNeeded(0);
-          $fluxEntry->setStockValue($product->getStockItem()->getQty());
-          $fluxEntry->setIsInStock($data['is-in-stock']);
-          $fluxEntry->setIsInFlux(intval($product->getData('shoppingflux_product')));
-          $fluxEntry->setType($product->getTypeId());
-          $fluxEntry->setVisibility($product->getVisibility());
-          $fluxEntry->setShouldExport(1);
-          $fluxEntry->save(); 
+        $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
+        $fluxEntry->setUpdatedAt(date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time())));
+        $fluxEntry->setXml($xml);
+        $fluxEntry->setUpdateNeeded(0);
+        $fluxEntry->setProductId($product->getId());
+        $fluxEntry->setStockValue($product->getStockItem()->getQty());
+        $fluxEntry->setPriceValue($product->getFinalPrice());
+        $fluxEntry->setIsInStock($data['is-in-stock']);
+        $fluxEntry->setSalable($product->isSalable());
+        $fluxEntry->setIsInFlux(intval($product->getData('shoppingflux_product')));
+        $fluxEntry->setType($product->getTypeId());
+        $fluxEntry->setVisibility($product->getVisibility());
+        $fluxEntry->setShouldExport(1);
+        $fluxEntry->save();
         // Faster
         /*
-        $tableName = Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux');
-        $write = Mage::getSingleton('core/resource')->getConnection('core_write');
-        $request = "INSERT INTO " . $tableName . " (sku, store_id, updated_at, xml, update_needed, is_in_stock, is_in_flux, type, visibility, should_export) VALUES ";
-        $request .= "(" . $write->quote($product->getSku()) . ", " . $write->quote($storeId) . ", " . $write->quote(date('Y-m-d H:i:s')) . ", " . $write->quote($xml) . ", '0', " . $write->quote($data['is-in-stock']) . ", " . $write->quote($product->getData('shoppingflux_product')) . ", '" . $product->getTypeId() . "', '" . $product->getVisibility() . "', '1')";
-        $request .= " on duplicate key update updated_at = VALUES(updated_at), xml = VALUES(xml), update_needed = VALUES(update_needed), is_in_stock = VALUES(is_in_stock), is_in_flux = VALUES(is_in_flux), type = VALUES(type), visibility = VALUES(visibility),  should_export = VALUES(should_export) ";
-        $write->query($request);
-        */
+          $tableName = Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux');
+          $write = Mage::getSingleton('core/resource')->getConnection('core_write');
+          $request = "INSERT INTO " . $tableName . " (sku, store_id, updated_at, xml, update_needed, is_in_stock, is_in_flux, type, visibility, should_export) VALUES ";
+          $request .= "(" . $write->quote($product->getSku()) . ", " . $write->quote($storeId) . ", " . $write->quote(date('Y-m-d H:i:s')) . ", " . $write->quote($xml) . ", '0', " . $write->quote($data['is-in-stock']) . ", " . $write->quote($product->getData('shoppingflux_product')) . ", '" . $product->getTypeId() . "', '" . $product->getVisibility() . "', '1')";
+          $request .= " on duplicate key update updated_at = VALUES(updated_at), xml = VALUES(xml), update_needed = VALUES(update_needed), is_in_stock = VALUES(is_in_stock), is_in_flux = VALUES(is_in_flux), type = VALUES(type), visibility = VALUES(visibility),  should_export = VALUES(should_export) ";
+          $write->query($request);
+         */
         //Varien_Profiler::stop("SF::Flux::saveProductFlux");
         //Varien_Profiler::stop("SF::Flux::updateProductInFlux");
     }
@@ -434,8 +474,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
      */
     protected function getPrices($data, $product, $storeId) {
 
-        $priceAttributeCode = $this->getConfig()->getConfigData('shoppingflux_export/specific_prices/price', $storeId);
-        $specialPriceAttributeCode = $this->getConfig()->getConfigData('shoppingflux_export/specific_prices/special_price', $storeId);
+        $priceAttributeCode = $this->getConfig()->getConfigData('shoppingflux_export/attributes_mapping/price', $storeId);
+        $specialPriceAttributeCode = $this->getConfig()->getConfigData('shoppingflux_export/attributes_mapping/special_price', $storeId);
         if (!$product->getData($priceAttributeCode)) {
             $priceAttributeCode = 'price';
             $specialPriceAttributeCode = 'special_price';
@@ -456,9 +496,15 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         $product->setData('final_price', $finalPrice);
         $currentVersion = Mage::getVersion();
         if (version_compare($currentVersion, '1.5.0') < 0) {
-       
+            if ($this->getConfig()->getManageCatalogRules()) {
+                Mage::dispatchEvent('catalog_product_get_final_price', array('product'=>$product));
+                $finalPrice = $product->getFinalPrice();
+                $discountAmount = $priceBeforeDiscount - $finalPrice;
+                $discountFromDate = '';
+                $discountToDate = '';
+            }
         } else {
-            if($this->getConfig()->getManageCatalogRules()) {
+            if ($this->getConfig()->getManageCatalogRules()) {
                 $catalogPriceRulePrice = Mage::getModel('catalogrule/rule')->calcProductPriceRule($product, $product->getPrice());
                 if ($catalogPriceRulePrice > 0 && $catalogPriceRulePrice < $finalPrice) {
                     $finalPrice = $catalogPriceRulePrice;
@@ -467,6 +513,12 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     $discountToDate = '';
                 }
             }
+        }
+
+        if ($this->getConfig()->getTransformQtyIncrements($product)) {
+            $qtyIncrements = $this->getConfig()->getQtyIncrements($product);
+            $finalPrice *= $qtyIncrements;
+            $priceBeforeDiscount *= $qtyIncrements;
         }
 
         $data["price-ttc"] = Mage::helper('tax')->getPrice($product, $finalPrice, true); //$finalPrice;
@@ -501,11 +553,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
         //Varien_Profiler::start("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
         $categoryId = $product->getData('shoppingflux_default_category');
-        if(!$categoryId) {
+        if (!$categoryId) {
             return $this->getCategoriesViaProductCategories($data, $product);
         }
         $category = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId());
-         //Varien_Profiler::stop("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
+        //Varien_Profiler::stop("SF::Flux::getCategoriesViaShoppingfluxCategory-1");
         if (!isset($category['name'][$categoryId])) {
             return $this->getCategoriesViaProductCategories($data, $product);
         }
@@ -513,18 +565,27 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         //Varien_Profiler::start("SF::Flux::getCategoriesViaShoppingfluxCategory");
 
         $categoryNames = explode(' > ', $category['name'][$categoryId]);
+        $categoryMetaTitles = explode(' > ', $category['meta_title'][$categoryId]);
+        $categoryMetaDescriptions = explode(' > ', $category['meta_description'][$categoryId]);
+        $categoryMetaKeywords = explode(' > ', $category['meta_keyword'][$categoryId]);
         $categoryUrls = explode(' > ', $category['url'][$categoryId]);
 
 
         //we drop root category, which is useless here
         array_shift($categoryNames);
+        array_shift($categoryMetaTitles);
+        array_shift($categoryMetaDescriptions);
+        array_shift($categoryMetaKeywords);
         array_shift($categoryUrls);
-        
-        
+
+
         $data['category-breadcrumb'] = trim(implode(' > ', $categoryNames));
 
-        $data["category-main"] = isset($categoryNames[0])?trim($categoryNames[0]):'';
-        $data["category-url-main"] = isset($categoryUrls[0])?$categoryUrls[0]:'';
+        $data["category-main"] = isset($categoryNames[0]) ? trim($categoryNames[0]) : '';
+        $data["category-url-main"] = isset($categoryUrls[0]) ? $categoryUrls[0] : '';
+        $data["category-metatitle-main"] = isset($categoryMetaTitles[0]) ? $categoryMetaTitles[0] : '';
+        $data["category-metadescription-main"] = isset($categoryMetaDescriptions[0]) ? $categoryMetaDescriptions[0] : '';
+        $data["category-metakeywords-main"] = isset($categoryMetaKeywords[0]) ? $categoryMetaKeywords[0] : '';
 
 
         for ($i = 1; $i <= 5; $i++) {
@@ -538,6 +599,21 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             } else {
                 $data["category-url-sub-" . ($i)] = '';
             }
+            if (isset($categoryMetaTitles[$i])) {
+                $data["category-metatitle-sub-" . ($i)] = $categoryMetaTitles[$i];
+            } else {
+                $data["category-metatitle-sub-" . ($i)] = '';
+            }
+            if (isset($categoryMetaDescriptions[$i])) {
+                $data["category-metadescription-sub-" . ($i)] = $categoryMetaDescriptions[$i];
+            } else {
+                $data["category-metadescription-sub-" . ($i)] = '';
+            }
+            if (isset($categoryMetaKeywords[$i])) {
+                $data["category-metakeywords-sub-" . ($i)] = $categoryMetaKeywords[$i];
+            } else {
+                $data["category-metakeywords-sub-" . ($i)] = '';
+            }
         }
 
         //Varien_Profiler::stop("SF::Flux::getCategoriesViaShoppingfluxCategory");
@@ -545,88 +621,42 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     }
 
     protected function getCategoriesViaProductCategories($data, $product) {
-        
+
         //Varien_Profiler::start("SF::Flux::getCategoriesViaProductCategories");
-         $cnt = 0;
-           
+        $cnt = 0;
+
         if (!$this->getConfig()->getUseOnlySFCategory()) {
             $rootCategoryId = Mage::app()->getStore($product->getStoreId())->getRootCategoryId();
 
             $categoryWithParents = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents(false, $product->getStoreId(), false, false);
-            $maxLevelCategory = $this->getConfig()->getMaxCategoryLevel()>0?$this->getConfig()->getMaxCategoryLevel():5;
-            
-            /*$productCategoryCollection = $product->getCategoryCollection()
-                    ->addAttributeToSelect(array('name'))
-                    ->addFieldToFilter('level', array('lteq' => $maxLevelCategory+1))
-                    ->addUrlRewriteToResult()
-                    ->groupByAttribute('level')
-                    ->setOrder('level', 'ASC');
-            if (!Mage::getSingleton('profileolabs_shoppingflux/config')->getUseAllStoreCategories()) {
-                $productCategoryCollection->addFieldToFilter('path', array('like' => "1/{$rootCategoryId}/%"));
-            }
-            $lastCategory = null;
-            foreach ($productCategoryCollection as $category) {
-                $name = $category->getName();
-                $level = $category->getLevel();
-                $url = $this->cleanUrl($category->getUrl());
-                if ($cnt == 0) {
-
-                    $data["category-main"] = trim($name);
-                    $data["category-url-main"] = $url;
-                } else {
-
-                    $data["category-sub-" . ($cnt)] = trim($name);
-                    $data["category-url-sub-" . ($cnt)] = $url;
-                }
-
-                $lastCategory = $category;
-
-                $cnt++;
-            }
-
-            $data['category-breadcrumb'] = "";
-            if (!is_null($lastCategory) && is_object($lastCategory)) {
-
-                $breadCrumb = array();
-
-                $pathInStore = $category->getPathInStore();
-                $pathIds = array_reverse(explode(',', $pathInStore));
-
-                $categories = $category->getParentCategories();
-
-                // add category path breadcrumb
-                foreach ($pathIds as $categoryId) {
-                    if ($categoryId != $rootCategoryId && isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                        $breadCrumb[] = trim($categories[$categoryId]->getName());
-                    }
-                }
-                unset($categories);
-                $data['category-breadcrumb'] = trim(implode(" > ", $breadCrumb));
-            }
+            $maxLevelCategory = $this->getConfig()->getMaxCategoryLevel() > 0 ? $this->getConfig()->getMaxCategoryLevel() : 5;
 
 
-
-            unset($productCategoryCollection);*/
-            
             //Selection of the deepest category
             $productCategoryIds = $product->getCategoryIds();
             $choosenProductCategoryId = false;
             $choosenCategoryLevel = 0;
-            foreach($productCategoryIds as $productCategoryId) {
-                if(isset($categoryWithParents['name'][$productCategoryId])) {
+            foreach ($productCategoryIds as $productCategoryId) {
+                if (isset($categoryWithParents['name'][$productCategoryId])) {
                     $categoryNames = explode(' > ', $categoryWithParents['name'][$productCategoryId]);
-                    if(count($categoryNames) > $choosenCategoryLevel) {
+                    if (count($categoryNames) > $choosenCategoryLevel) {
                         $choosenProductCategoryId = $productCategoryId;
                     }
                 }
             }
-            
+
             //Adding the deepest category to breadcrumb
-            if($choosenProductCategoryId) {
+            if ($choosenProductCategoryId) {
                 $categoryNames = explode(' > ', $categoryWithParents['name'][$choosenProductCategoryId]);
+                $categoryMetaTitles = explode(' > ', $categoryWithParents['meta_title'][$choosenProductCategoryId]);
+                $categoryMetaDescriptions = explode(' > ', $categoryWithParents['meta_description'][$choosenProductCategoryId]);
+                $categoryMetaKeywords = explode(' > ', $categoryWithParents['meta_keywords'][$choosenProductCategoryId]);
                 $categoryUrls = explode(' > ', $categoryWithParents['url'][$choosenProductCategoryId]);
                 //we drop root category, which is useless here
                 array_shift($categoryNames);
+                array_shift($categoryMetaTitles);
+                array_shift($categoryMetaDescriptions);
+                array_shift($categoryMetaKeywords);
                 array_shift($categoryUrls);
                 $categoryNames = array_slice($categoryNames, 0, $maxLevelCategory, true);
                 $categoryUrls = array_slice($categoryUrls, 0, $maxLevelCategory, true);
@@ -634,6 +664,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
                 $data["category-main"] = trim($categoryNames[0]);
                 $data["category-url-main"] = $categoryUrls[0];
+                $data["category-metatitle-main"] = $categoryMetaTitles[0];
+                $data["category-metadescription-main"] = $categoryMetaDescriptions[0];
+                $data["category-metakeywords-main"] = $categoryMetaKeywords[0];
 
 
                 for ($i = 1; $i <= 5; $i++) {
@@ -647,14 +680,25 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     } else {
                         $data["category-url-sub-" . ($i)] = '';
                     }
+                    if (isset($categoryMetaTitles[$i])) {
+                        $data["category-metatitle-sub-" . ($i)] = $categoryMetaTitles[$i];
+                    } else {
+                        $data["category-metatitle-sub-" . ($i)] = '';
+                    }
+                    if (isset($categoryMetaDescriptions[$i])) {
+                        $data["category-metadescription-sub-" . ($i)] = $categoryMetaDescriptions[$i];
+                    } else {
+                        $data["category-metadescription-sub-" . ($i)] = '';
+                    }
+                    if (isset($categoryMetaKeywords[$i])) {
+                        $data["category-metakeywords-sub-" . ($i)] = $categoryMetaKeywords[$i];
+                    } else {
+                        $data["category-metakeywords-sub-" . ($i)] = '';
+                    }
                 }
             }
-            
-            
-            
-
         }
-        
+
         if (!isset($data["category-main"])) {
             $data["category-main"] = "";
             $data["category-url-main"] = "";
@@ -663,13 +707,13 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
 
         for ($i = 1; $i <= 5; $i++) {
-            if(!isset($data["category-sub-" . ($i)])) {
+            if (!isset($data["category-sub-" . ($i)])) {
                 $data["category-sub-" . ($i)] = "";
                 $data["category-url-sub-" . ($i)] = "";
             }
         }
-        
-        
+
+
         //Varien_Profiler::stop("SF::Flux::getCategoriesViaProductCategories");
         return $data;
     }
@@ -682,8 +726,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
     public function getImages($data, $product, $storeId) {
 
-        
-       
+
+
         $mediaUrl = Mage::getBaseUrl('media') . 'catalog/product';
 
         $i = 1;
@@ -695,7 +739,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
 
 
-        if($this->getConfig()->getManageMediaGallery()) {
+        if ($this->getConfig()->getManageMediaGallery()) {
             //LOAD media gallery for this product			
             $mediaGallery = $product->getResource()->getAttribute('media_gallery');
             $mediaGallery->getBackend()->afterLoad($product);
@@ -747,7 +791,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     protected function getAttributesFromConfig($checkIfExist = false, $withAdditional = true) {
 
         if (is_null($this->_attributesFromConfig)) {
-            $attributes = $this->getConfig()->getMappingAllAttributes();
+            $attributes = $this->getConfig()->getMappingAttributes();
             if ($withAdditional) {
                 $additionalAttributes = $this->getConfig()->getAdditionalAttributes();
                 foreach ($additionalAttributes as $attributeCode) {
@@ -852,14 +896,14 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $salable = false;
             foreach (Mage::getSingleton('core/resource')->getConnection('core_read')->fetchAll($usedProducts->getSelect()) as $usedProduct) { //Prevent Old magento bug
                 $usedProduct = $this->_getProduct($usedProduct['entity_id'], $storeId);
-                
-                if(!$usedProduct) {
+
+                if (!$usedProduct) {
                     continue;
                 }
-                if($usedProduct->getStatus() == 2) {
+                if ($usedProduct->getStatus() == 2) {
                     continue;
                 }
-                
+
                 $salable = $salable || $usedProduct->isSalable();
 
 
@@ -901,7 +945,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 $attributesFromConfig = $this->getAttributesFromConfig(true, true);
 
                 $discountPercent = 0;
-                if($priceBeforeDiscount) {
+                if ($priceBeforeDiscount) {
                     $discountPercent = round((($priceBeforeDiscount - $price) * 100) / $priceBeforeDiscount);
                 }
 
@@ -917,7 +961,11 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
                     $isInStock = $_manageStock ? $usedProduct->getStockItem()->getIsInStock() : 1;
 
-                    $qty = $_manageStock ? $usedProduct->getStockItem()->getQty() : 100;
+                    if ($usedProduct->isSalable()) {
+                        $qty = $_manageStock ? $usedProduct->getStockItem()->getQty() : 100;
+                    } else {
+                        $qty = 0;
+                    }
                 }
 
                 $usedProductsArray[$usedProduct->getId()]['child']["sku"] = $usedProduct->getSku();

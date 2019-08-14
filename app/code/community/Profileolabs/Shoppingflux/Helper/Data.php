@@ -9,6 +9,28 @@
 class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
 
     
+    public function getFeedUrl($store) {
+        return preg_replace('%^(.*)\?.*$%i', '$1', $store->getUrl('shoppingflux/export_flux/index'));
+    }
+    
+    public function generateTokens() {
+        foreach(Mage::app()->getStores() as $store) {
+            if(!trim(Mage::getConfig()->getNode('stores/'.$store->getCode().'/shoppingflux/configuration/api_key'))) {
+                $shoppingFluxToken = Mage::getStoreConfig('shoppingflux/configuration/api_key', 0);
+                if(!$shoppingFluxToken) {
+                    $shoppingFluxToken = Mage::helper('profileolabs_shoppingflux')->generateToken($store->getId());
+                }
+                Mage::getConfig()->saveConfig('shoppingflux/configuration/api_key', $shoppingFluxToken, 'stores', $store->getId());
+                Mage::getConfig()->cleanCache();
+            }
+        }
+        Mage::getConfig()->saveConfig('shoppingflux/configuration/api_key', '', 'default');
+    }
+    
+    public function generateToken($prefix='0') {
+       return md5($prefix.$_SERVER['SERVER_ADDR'].time());
+    }
+    
     public function formatFeesDescription($fees, $marketplace) {
         return $this->__('%s fees', $marketplace);
     }
@@ -242,7 +264,7 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
             $mageCacheKey = 'shoppingflux_category_list' . (Mage::app()->getStore()->isAdmin() ? '_admin'.intval($storeId) : '_' . intval($storeId)) ;
             $mageCacheKey .= $withInactive?'_inactive_':'_active_';
             $mageCacheKey .= $withNotInMenu?'all':'inmenu';
-            $cacheTags = array(Mage_Catalog_Model_Category::CACHE_TAG, 'shoppingflux');
+            $cacheTags = array(/*Mage_Catalog_Model_Category::CACHE_TAG,If On, cause this cache to be invalidated on product duplication :( Commenting this will maybe cause un-updated category list, but will improve performances*/ 'shoppingflux');
             $this->_categoriesWithParents = unserialize(Mage::app()->loadCache($mageCacheKey));
             if (!$this->_categoriesWithParents) {
 
@@ -253,6 +275,9 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                 $categories = Mage::getModel('catalog/category')
                         ->getCollection()
                         ->addAttributeToSelect('name')
+                        ->addAttributeToSelect('meta_title')
+                        ->addAttributeToSelect('meta_description')
+                        ->addAttributeToSelect('meta_keywords')
                         ->addAttributeToFilter('entity_id', array('neq' => 1))
                         ->addAttributeToSort('path', 'ASC')
                         ->addAttributeToSort('name', 'ASC');
@@ -277,6 +302,9 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                     while ($parent > 1) {
                         $parentCategory = Mage::getModel('catalog/category')->load($parent);
                         $category->setName($parentCategory->getName() . " > " . $category->getName());
+                        $category->setMetaTitle($parentCategory->getMetaTitle() . " > " . $category->getMetaTitle());
+                        $category->setMetaDescription($parentCategory->getMetaDescription() . " > " . $category->getMetaDescription());
+                        $category->setMetaKeywords($parentCategory->getMetaKeywords() . " > " . $category->getMetaKeywords());
                         if (!Mage::app()->getStore()->isAdmin()) {
                             //To avoid exception launched by third part module : ManaPro_FilterSeoLinks
                             $category->setUrl($parentCategory->getUrl() . " > " . $category->getUrl());
@@ -288,6 +316,9 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
 
                 foreach ($categories as $_category) {
                     $this->_categoriesWithParents['name'][$_category->getId()] = $_category->getName();
+                    $this->_categoriesWithParents['meta_title'][$_category->getId()] = $_category->getMetaTitle();
+                    $this->_categoriesWithParents['meta_description'][$_category->getId()] = $_category->getMetaDescription();
+                    $this->_categoriesWithParents['meta_keywords'][$_category->getId()] = $_category->getMetaKeywords();
                     if ($this->isModuleInstalled('ManaPro_FilterSeoLinks') && Mage::app()->getStore()->isAdmin()) {
                         $this->_categoriesWithParents['url'][$_category->getId()] = '';
                     } else {
@@ -337,4 +368,5 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
         }
     }
 
+    
 }

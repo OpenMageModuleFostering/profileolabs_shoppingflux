@@ -84,6 +84,10 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         return $this->getConfigFlag('shoppingflux_export/general/export_soldout', $storeId);
     }
     
+    public function isExportNotSalable($storeId = null) {
+        return $this->getConfigFlag('shoppingflux_export/general/export_not_salable', $storeId);
+    }
+    
  
     public function getVisibilitiesToExport($storeId = null) {
         return explode(',', $this->getConfigData('shoppingflux_export/general/export_visibility', $storeId));
@@ -130,12 +134,27 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
         return $this->getConfigFlag('shoppingflux_export/general/manage_media_gallery', $storeId);
     }
     
+    public function getQtyIncrements($product) {
+        if(!$product->getStockItem()->getData('enable_qty_increments')) {
+            return 1;
+        }
+        return max(1, intval($product->getStockItem()->getData('qty_increments')));
+    }
+    
+    public function getTransformQtyIncrements($product, $storeId = null) {
+        if(!$this->getConfigFlag('shoppingflux_export/general/transform_qty_increments', $storeId)) {
+            return false;
+        }
+        return $this->getQtyIncrements($product) > 1;
+    }
+    
     
     
     /**
      * Return Attributes Knowed in array with key=>value
      * key = node adn value = inner text
      * @return array 
+     * @deprecated since version 0.8.0
      */
     public function getMappingAttributesKnow($storeId = null) {
         return $this->getConfigData('shoppingflux_export/attributes_know', $storeId);
@@ -145,10 +164,19 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
      * Return Attributes Unknowed in array with key=>value
      * key = node adn value = inner text
      * @param int $storeId
-     * @return array 
+     * @return array
+     * @deprecated since version 0.8.0 
      */
     public function getMappgingAttributesUnKnow($storeId = null) {
         return $this->getConfigData('shoppingflux_export/attributes_unknow', $storeId);
+    }
+    
+    
+    public function getMappingAttributes($storeId = null) {
+        $data = $this->getConfigData('shoppingflux_export/attributes_mapping', $storeId);
+        unset($data['additional']);
+        unset($data['additional,']);
+        return $data;
     }
 
     /**
@@ -158,11 +186,12 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
      * @return array 
      */
     public function getAdditionalAttributes($storeId = null) {
-        $additionnal = explode(',',$this->getConfigData('shoppingflux_export/attributes_additionnal/list', $storeId));
-        $unknow = $this->getMappgingAttributesUnKnow($storeId);
-        $know = $this->getMappingAttributesKnow($storeId);
+        $additionnal = $this->getConfigData('shoppingflux_export/attributes_mapping/additional', $storeId);
+        $additionnal = explode(',',$additionnal);
+        $additionnal = array_filter($additionnal);
+        $allAttributes = $this->getMappingAttributes($storeId);
         //We do not want attributes that are already in known or unknown lists
-        $additionnal = array_diff($additionnal, $know, $unknow);
+        $additionnal = array_diff($additionnal, $allAttributes);
         return $additionnal;
     }
 
@@ -171,9 +200,11 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
      * key = node adn value = inner text
      * @return array 
      * @param int $storeId
+     * @deprecated since version 0.8.0
      */
     public function getMappingAllAttributes($storeId = null) {
-        return array_merge($this->getMappingAttributesKnow($storeId), $this->getMappgingAttributesUnKnow($storeId));
+        return $this->getMappingAttributes($storeId);
+        //return array_merge($this->getMappingAttributesKnow($storeId), $this->getMappgingAttributesUnKnow($storeId));
     }
     
     public function getMemoryLimit() {
@@ -279,6 +310,10 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     
     public function preferMobilePhone($storeId = null) {
         return $this->getConfigFlag("shoppingflux_mo/import_customer/prefer_mobile_phone");
+    }
+    
+    public function getMobilePhoneAttribute($storeId = null) {
+        return $this->getConfigFlag("shoppingflux_mo/import_customer/mobile_attribute");
     }
 
 }
