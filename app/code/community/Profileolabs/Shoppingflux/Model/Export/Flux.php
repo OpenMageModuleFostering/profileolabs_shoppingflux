@@ -799,7 +799,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         return $url;
     }
 
-    public function getImages($data, $product, $storeId) {
+    public function getImages($data, $product, $storeId, $checkParentIfNone = true) {
 
 
 
@@ -823,6 +823,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             foreach ($product->getMediaGallery('images') as $image) {
                 if ($mediaUrl . $product->getImage() == $product->getMediaConfig()->getMediaUrl($image['file']))
                     continue;
+                if($image['disabled'])
+                    continue;
 
                 $data["image-url-" . $i] = $product->getMediaConfig()->getMediaUrl($image['file']);
                 $data["image-label-" . $i] = $image['label'];
@@ -839,6 +841,18 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
             $data["image-label-" . $i] = "";
             $i++;
         }
+        
+        if(!$data['image-url-1'] && $checkParentIfNone) {
+            $groupedParentsIds = Mage::getResourceSingleton('catalog/product_link')
+                   ->getParentIdsByChild($product->getId(), Mage_Catalog_Model_Product_Link::LINK_TYPE_GROUPED);
+            $parentId = current($groupedParentsIds);
+            $parentProduct = $this->_getProduct($parentId, $storeId);
+            if($parentProduct && $parentProduct->getId()) {
+                return $this->getImages($data, $parentProduct, $storeId, false);
+            }
+        }
+        
+        
         return $data;
     }
 
@@ -1066,7 +1080,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                 }
                 $usedProductsArray[$usedProduct->getId()]['child']["ean"] = isset($attributesFromConfig['ean']) ? $usedProduct->getData($attributesFromConfig['ean']) : '';
 
-                $images = $this->getImages($images, $usedProduct, $storeId);
+                $images = $this->getImages($images, $usedProduct, $storeId, false);
                 if (!$images['image-url-1']) {
                     $images = $this->getImages($images, $product, $storeId);
                 }

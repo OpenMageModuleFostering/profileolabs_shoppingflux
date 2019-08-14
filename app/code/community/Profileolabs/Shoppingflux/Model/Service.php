@@ -212,11 +212,13 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
         $xml .= '<IdOrder>' . $orderId . '</IdOrder>';
         $xml .= '<Marketplace>' . $marketplace . '</Marketplace>';
         $xml .= '<Status>' . $status . '</Status>';
-        if ($trackNum) {
+        if ($trackNum && !preg_match('%^http%i', $trackNum)) {
             $xml .= '<TrackingNumber><![CDATA[' . $trackNum . ']]></TrackingNumber>';
         }
         if ($trackUrl) {
             $xml .= '<TrackingUrl><![CDATA[' . $trackUrl . ']]></TrackingUrl>';
+        } else if ($trackNum && preg_match('%^http%i', $trackNum)) {
+            $xml .= '<TrackingUrl><![CDATA[' . $trackNum . ']]></TrackingUrl>';
         }
         if ($trackCarrier) {
             $xml .= '<CarrierName><![CDATA[' . $trackCarrier . ']]></CarrierName>';

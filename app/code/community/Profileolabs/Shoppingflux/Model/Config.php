@@ -318,7 +318,7 @@ class Profileolabs_Shoppingflux_Model_Config extends Varien_Object {
     }
     
     public function getMobilePhoneAttribute($storeId = null) {
-        return $this->getConfigFlag("shoppingflux_mo/import_customer/mobile_attribute");
+        return $this->getConfigData("shoppingflux_mo/import_customer/mobile_attribute");
     }
 
 }

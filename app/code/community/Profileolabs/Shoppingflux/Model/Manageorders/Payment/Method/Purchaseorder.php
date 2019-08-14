@@ -37,9 +37,8 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Payment_Method_Purchaseorder 
      */
     public function isAvailable($quote = null)
     {
-        if(Mage::getSingleton('checkout/session')->getIsShoppingFlux())
+        if(Mage::registry('is_shoppingfeed_import')/*Mage::getSingleton('checkout/session')->getIsShoppingFlux()*/)
         	return true;
-        	
         return parent::isAvailable($quote);
     }
 }

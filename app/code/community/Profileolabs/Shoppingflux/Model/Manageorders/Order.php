@@ -30,12 +30,12 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
     protected $_nb_orders_imported = 0;
     protected $_nb_orders_read = 0;
     protected $_ordersIdsImported = array();
-    protected $_orderIdsAlreadyImported = null;
+    //protected $_orderIdsAlreadyImported = null;
     protected $_result;
     protected $_resultSendOrder = "";
     protected $_isUnderVersion14 = null;
     
-    //security for some mal-configured magento
+    //security for some mal-configured magento, or old ones.
     protected $_excludeConfigurableAttributes = array(
         'weight', 
         'news_from_date', 
@@ -44,8 +44,11 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         'sku', 
         'description', 
         'short_description', 
+        'meta_title', 
+        'meta_description', 
         'name', 
         'tax_class_id',
+        'status',
         'price',
         'special_price',
         'special_from_date',
@@ -60,6 +63,8 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         'options_container',
         'msrp_enabled',
         'msrp_display_actual_price_type',
+        'shoppingflux_default_category',
+        'shoppingflux_product',
         );
 
     /**
@@ -93,6 +98,10 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         return Mage::objects()->load($this->_productModel);
     }
 
+    /**
+     * 
+     * @deprecated
+     */
     public function getOrderIdsAlreadyImported() {
         if (is_null($this->_orderIdsAlreadyImported)) {
             $orders = Mage::getModel('sales/order')->getCollection()
@@ -108,38 +117,25 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         return $this->_orderIdsAlreadyImported;
     }
 
-    public function getOrderFlagFile($idShoppingflux) {
-        if(!file_exists(BP . DS . 'var/shoppingflux')) {
-            @mkdir(BP . DS . 'var/shoppingflux');
-        }
-        return BP . DS . 'var/shoppingflux/' . $idShoppingflux . '.flag';
-    }
-
-    public function clearOrderFlagFile($idShoppingflux) {
-        @unlink($this->getOrderFlagFile($idShoppingflux));
-    }
-
-    public function clearOldOrderFlagFiles() {
-        $files = glob(BP . DS . 'var/shoppingflux/*.flag');
-        if($files) {
-            foreach ($files as $filename) {
-                if (filemtime($filename) < time() - 2 * 60 * 60) {
-                    @unlink($filename);
-                }
-            }
-        }
-    }
+   
 
     public function isAlreadyImported($idShoppingflux) {
-        $alreadyImported = $this->getOrderIdsAlreadyImported();
-        if (in_array($idShoppingflux, $alreadyImported))
-            return true;
-        $flagPath = $this->getOrderFlagFile($idShoppingflux);
-        if (file_exists($flagPath)) { //double check
+        $orders = Mage::getModel('sales/order')->getCollection()
+                ->addAttributeToFilter('from_shoppingflux', 1)
+                ->addAttributeToFilter('order_id_shoppingflux', $idShoppingflux)
+                ->addAttributeToSelect('increment_id');
+        if($orders->count() > 0) {
+           return $orders->getFirstItem();
+        }
+        
+        /* Double vérification, pour gérer un appel simultané. (qui ne devrait pas arriver, mais au cas ou..) */
+        $flagPath = Mage::getStoreConfig('shoppingflux/order_flags/'.$idShoppingflux);
+        if ($flagPath) { 
             return true;
         }
-
-        touch($flagPath);
+        $config = new Mage_Core_Model_Config();
+        $config->saveConfig('shoppingflux/order_flags/'.$idShoppingflux, date('Y-m-d H:i:s'));
+        /* end double check */
 
         return false;
     }
@@ -170,8 +166,11 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
     public function manageOrders() {
         $stores = Mage::app()->getStores();
 
-        if (Mage::app()->getStore()->getCode() != 'admin')
+        $storeCode = Mage::app()->getStore()->getCode();
+        $isAdmin = ($storeCode == 'admin');
+        if (!$isAdmin) {
             Mage::app()->setCurrentStore('admin');
+        }
 
         $apiKeyManaged = array();
 
@@ -190,6 +189,9 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
 
 
         foreach ($stores as $_store) {
+            if(!$isAdmin && $storeCode != $_store->getCode()) {
+                continue;
+            }
             $storeId = $_store->getId();
             if ($this->getConfig()->isOrdersEnabled($storeId)) {
                 $apiKey = $this->getConfig()->getApiKey($storeId);
@@ -229,13 +231,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                         $orderSf = $this->getHelper()->asArray($child);
 
 
-                       if ($this->isAlreadyImported($orderSf['IdOrder'])) {
-                           $orders = Mage::getModel('sales/order')->getCollection()
-                                ->addAttributeToFilter('from_shoppingflux', 1)
-                                ->addAttributeToFilter('order_id_shoppingflux', $orderSf['IdOrder'])
-                                ->addAttributeToFilter('from_shoppingflux', 1)
-                                ->addAttributeToSelect('increment_id');
-                           $importedOrder = $orders->getFirstItem();
+                       if (($importedOrder = $this->isAlreadyImported($orderSf['IdOrder']))) {
                            $this->_ordersIdsImported[$orderSf['IdOrder']] = array(
                                 'Marketplace' => $orderSf['Marketplace'], 
                                 'MageOrderId' => $importedOrder?$importedOrder->getIncrementId():'', 
@@ -259,7 +255,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
 
                         $result = $service->sendValidOrders($this->_ordersIdsImported);
                         foreach($this->_ordersIdsImported as $importedOrder) {
-                            $shippingMethod = $importedOrder['ShippingMethod'];
+                            $shippingMethod = isset($importedOrder['ShippingMethod'])?$importedOrder['ShippingMethod']:'';
                             $marketplace = $importedOrder['Marketplace'];
                             try {
                                 Mage::getModel('profileolabs_shoppingflux/manageorders_shipping_method')->saveShippingMethod($marketplace, $shippingMethod);
@@ -289,6 +285,17 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         $this->clearOldOrderFlagFiles();
         return $this;
     }
+    
+    public function clearOldOrderFlagFiles() {
+        $config = new Mage_Core_Model_Config();
+        $orderFlags = Mage::getStoreConfig('shoppingflux/order_flags');
+        foreach($orderFlags as $orderId => $importDate) {
+            echo $orderId;
+            if(strtotime($importDate) < time()-3*60*60) {
+                $config->deleteConfig('shoppingflux/order_flags/' . $orderId);
+            }
+        }
+    }
 
     /**
      * Inititalize the quote with minimum requirement
@@ -306,9 +313,8 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         $this->_getQuote()->setIsSuperMode(true);
 
         //Set boolean shopping flux and shipping prices in session for shopping method
-        $this->getSession()->setIsShoppingFlux(true);
-        //$this->getSession()->setShippingPrice((float)$orderSf['TotalShipping']);
-
+        Mage::register('is_shoppingfeed_import', 1, true);
+       
         $this->_getQuote()->setCustomer($this->_customer);
     }
 
@@ -363,6 +369,16 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             $this->_createCustomer($orderSf, $storeId);
 
             $this->_initQuote($orderSf, $storeId);
+            
+            if(Mage::registry('current_order_sf')) {
+                Mage::unregister('current_order_sf');
+            }
+            Mage::register('current_order_sf', $orderSf);
+            
+            if(Mage::registry('current_quote_sf')) {
+                Mage::unregister('current_quote_sf');
+            }
+            Mage::register('current_quote_sf', $this->_getQuote());
 
             //Add products to quote with data from ShoppingFlux
             $this->_addProductsToQuote($orderSf, $storeId);
@@ -377,7 +393,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             $this->_nb_orders_imported++;
 
             if (!is_null($order) && $order->getId()) {
-                $useMarketplaceDate = $this->getConfig()->getConfigData('shoppingflux_mo/manageorders/use_marketplace_date');
+                $useMarketplaceDate = $this->getConfig()->getConfigFlag('shoppingflux_mo/manageorders/use_marketplace_date');
                 $orderDate = date('Y-m-d H:i:s');
                 if($useMarketplaceDate) {
                     $orderDate = $orderSf['OrderDate'];
@@ -390,7 +406,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         } catch (Exception $e) {
             $this->getHelper()->log($e->getMessage(), $orderSf['IdOrder']);
             $this->_ordersIdsImported[$orderIdShoppingFlux]['ErrorOrder'] = $e->getMessage();
-            $this->clearOrderFlagFile($orderSf['IdOrder']);
+            //$this->clearOrderFlagFile($orderSf['IdOrder']);
             //Erase session for the next order
             $this->getSession()->clear();
         }
@@ -441,32 +457,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         $addressShipping->setSameAsBilling(0);
 
 
-        //Convert shipping price by tax rate
-        $shippingPrice = (float) $orderSf['TotalShipping'];
-        $this->getSession()->setShippingPrice($shippingPrice);
-        if (!Mage::helper('tax')->shippingPriceIncludesTax() && Mage::helper('tax')->getShippingTaxClass(null)) {
-            $percent = null;
-            $pseudoProduct = new Varien_Object();
-            $pseudoProduct->setTaxClassId(Mage::helper('tax')->getShippingTaxClass(null));
-
-            $taxClassId = $pseudoProduct->getTaxClassId();
-            if (is_null($percent)) {
-                if ($taxClassId) {
-                    $request = Mage::getSingleton('tax/calculation')->getRateRequest($addressShipping, $addressBilling, null, null);
-                    $request->setProductClassId($taxClassId);
-                    $request->setCustomerClassId($this->_getQuote()->getCustomerTaxClassId());
-                    $percent = Mage::getSingleton('tax/calculation')->getRate($request);
-
-                    if ($percent !== false || !is_null($percent)) {
-
-                        $shippingPrice = $shippingPrice - ($shippingPrice / (100 + $percent) * $percent);
-                        $this->getSession()->setShippingPrice($shippingPrice);
-                    }
-                }
-            }
-
-            //Mage::log("including tax = ".$includingTax." shipping price = ".$shippingPrice,null,'test_shipping_price.log');
-        }
+        
 
         //Set shipping Mehtod and collect shipping rates
         $addressShipping->setShippingMethod($this->_shippingMethod)->setCollectShippingRates(true);
@@ -491,37 +482,12 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                 $productId = $this->getProductModel()->getResource()->getIdBySku($sku);
             }
 
-            $product = Mage::getModel('profileolabs_shoppingflux/manageorders_product')->load($productId);
+            $product = Mage::getModel('profileolabs_shoppingflux/manageorders_product')->setStoreId($storeId)->load($productId);
 
             if ($product->getId()) {
                 
                 $request = new Varien_Object(array('qty' => $productSf['Quantity'] * $qtyIncrements));
-                /*if ($product->getTypeId() == 'simple' && $product->getVisibility() == Mage_Catalog_Model_Product_Visibility::VISIBILITY_NOT_VISIBLE) {
-
-                    $parentIds = Mage::getResourceSingleton('catalog/product_type_configurable')
-                            ->getParentIdsByChild($product->getId());
-
-                    if (count($parentIds)) {
-                        $parentId = current($parentIds);
-                        $confProduct = Mage::getModel('profileolabs_shoppingflux/manageorders_product')->load($parentId);
-                        if ($confProduct->getId() && $confProduct->isSalable()) {
-
-                            $attributesConf = $this->getHelper()->getAttributesConfigurable($parentId);
-                            $superAttributes = array();
-
-                            foreach ($attributesConf as $attribute) {
-
-                                $attributeCode = $attribute['attribute_code'];
-                                $attributeId = $attribute['attribute_id'];
-
-                                $superAttributes[$attributeId] = $product->getData($attributeCode);
-                            }
-
-                            $product = $confProduct;
-                            $request->setData('super_attribute', $superAttributes);
-                        }
-                    }
-                }*/
+               
 
 
                 $item = $this->_getQuote()->addProduct($product, $request);
@@ -564,8 +530,13 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                 
                 //add configurable attributes informations
                 $confAttributeValues = array();
-                $configurableAttributesCollection = Mage::getResourceModel('catalog/product_attribute_collection')
-                    ->addVisibleFilter()
+                if($this->isUnderVersion14()) {
+                    $configurableAttributesCollection =  Mage::getResourceModel('eav/entity_attribute_collection')
+                        ->setEntityTypeFilter( Mage::getModel('eav/entity')->setType('catalog_product')->getTypeId() );
+                } else {
+                    $configurableAttributesCollection = Mage::getResourceModel('catalog/product_attribute_collection');
+                }
+                $configurableAttributesCollection->addVisibleFilter()
                     ->addFieldToFilter('is_configurable', 1);
                 
 
@@ -601,9 +572,18 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             }
         }
 
-
-        $this->_getQuote()->collectTotals();
-        $this->_getQuote()->save();
+        try {
+            $this->_getQuote()->collectTotals();
+            $this->_getQuote()->save();
+        } catch(Exception $e) {
+            if($e->getMessage() == Mage::helper('sales')->__('Please specify a shipping method.')) {
+                $this->_getQuote()->getShippingAddress()->setShippingMethod($this->_shippingMethod)->setCollectShippingRates(true);
+                $this->_getQuote()->setTotalsCollectedFlag(false)->collectTotals();
+                $this->_getQuote()->save();
+            } else {
+                throw $e;
+            }
+        }
 
         //Set payment method
         /* @var $payment Mage_Sales_Quote_Payment */
@@ -613,8 +593,24 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
         $payment->importData($dataPayment);
         //$addressShipping->setShippingMethod($this->_shippingMethod)->setCollectShippingRates(true);
 
-        $this->_getQuote()->collectTotals();
-        $this->_getQuote()->save();
+        try {
+            $this->_getQuote()->collectTotals();
+            $this->_getQuote()->save();
+        } catch(Exception $e) {
+            if($e->getMessage() == Mage::helper('sales')->__('Please specify a shipping method.')) {
+                $this->_getQuote()->getShippingAddress()->setShippingMethod($this->_shippingMethod)->setCollectShippingRates(true);
+                
+                $this->_getQuote()->getShippingAddress()->setPaymentMethod($this->_paymentMethod);
+                $payment = $this->_getQuote()->getPayment();
+                $dataPayment = array('method' => $this->_paymentMethod, 'marketplace' => $orderSf['Marketplace']);
+                $payment->importData($dataPayment);
+                
+                $this->_getQuote()->setTotalsCollectedFlag(false)->collectTotals();
+                $this->_getQuote()->save();
+            } else {
+                throw $e;
+            }
+        }
     }
 
  
@@ -721,7 +717,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             }
 
             
-            $this->_orderIdsAlreadyImported[] = $orderIdShoppingFlux;
+            //$this->_orderIdsAlreadyImported[] = $orderIdShoppingFlux;
             $this->_ordersIdsImported[$orderIdShoppingFlux]['MageOrderId'] = $order->getIncrementId();
             
             //if(Mage::helper('sales')->canSendNewOrderEmail()) {

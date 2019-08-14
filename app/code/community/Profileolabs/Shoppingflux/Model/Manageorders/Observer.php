@@ -3,7 +3,7 @@
 class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
 
     public function setCustomerTaxClassId($observer) {
-        if (!$this->getConfig()->applyTax() && Mage::getSingleton('checkout/session')->getIsShoppingFlux()) {
+        if (!$this->getConfig()->applyTax() && Mage::registry('is_shoppingfeed_import')/*Mage::getSingleton('checkout/session')->getIsShoppingFlux()*/) {
             $customerGroup = $observer->getEvent()->getObject();
             $customerGroup->setData('tax_class_id', 999);
         }
@@ -90,10 +90,12 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
         foreach($collection as $item) {
             try {
                 $shipment = Mage::getModel('sales/order_shipment')->load($item->getShipmentId());
-                $trakingInfos = $this->getShipmentTrackingNumber($shipment);
-                if($trakingInfos || $shipment->getUpdatedAt() < $this->getConfig()->getShipmentUpdateLimit()) {
-                    $this->sendStatusShipped($shipment);
-                    $item->delete();
+                if(Mage::app()->getStore()->getCode() == 'admin' || Mage::app()->getStore()->getId() == $shipment->getStoreId()) {
+                    $trakingInfos = $this->getShipmentTrackingNumber($shipment);
+                    if($trakingInfos || $shipment->getUpdatedAt() < $this->getConfig()->getShipmentUpdateLimit()) {
+                        $this->sendStatusShipped($shipment);
+                        $item->delete();
+                    }
                 }
             } catch(Exception $e) {
                 $shipment = Mage::getModel('sales/order_shipment')->load($item->getShipmentId());
@@ -191,11 +193,16 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
             return;
         }
         try {
-            if(!$order->getRemoteIp() || $order->getFromShoppingflux()) {
+            if(version_compare(Mage::getVersion(), '1.6.0') > 0) {
+                if(!$order->getRemoteIp() || $order->getFromShoppingflux()) {
+                    //backend order
+                    return;
+                }
+            } else if ($order->getFromShoppingflux()) {
                 //backend order
                 return;
             }
-            $ip = Mage::helper('core/http')->getRemoteAddr(false);
+            $ip = $order->getRemoteIp()?$order->getRemoteIp():Mage::helper('core/http')->getRemoteAddr(false);
             $grandTotal = $order->getBaseGrandTotal();
             $incrementId = $order->getIncrementId();
             $tagUrl = 'https://tag.shopping-flux.com/order/'.base64_encode($idTracking.'|'.$incrementId.'|'.$grandTotal).'?ip='.$ip;

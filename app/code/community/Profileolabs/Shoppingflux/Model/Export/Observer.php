@@ -57,8 +57,12 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
 
     public function updateFlux() {
         if(Mage::getStoreConfigFlag('shoppingflux_export/general/enable_cron')) {
-            Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
-            Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux();
+            foreach(Mage::app()->getStores() as $store) {
+                $feedUrl = Mage::helper('profileolabs_shoppingflux')->getFeedUrl($store);
+                if($feedUrl) {
+                    file_get_contents($feedUrl);
+                }
+            }
         }
     }
 

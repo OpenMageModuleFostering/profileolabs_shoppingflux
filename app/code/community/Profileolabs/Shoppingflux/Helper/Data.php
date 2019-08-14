@@ -307,7 +307,7 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
                 foreach ($categories as $category) {
                     $parent = $category->getParentId();
                     while ($parent > 1) {
-                        $parentCategory = Mage::getModel('catalog/category')->load($parent);
+                        $parentCategory = Mage::getModel('catalog/category')->setStoreId($storeId)->load($parent);
                         if(!$parentCategory->getSfExclude()) {
                             $category->setName($parentCategory->getName() . " > " . $category->getName());
                             $category->setMetaTitle($parentCategory->getMetaTitle() . " > " . $category->getMetaTitle());

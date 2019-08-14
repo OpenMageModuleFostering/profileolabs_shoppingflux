@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.9.7</version>
+            <version>0.9.8</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -353,7 +353,7 @@
             </import_orders_shoppingflux>-->
             <export_updates_shoppingflux>
                 <schedule>
-                    <cron_expr>*/10 * * * *</cron_expr>
+                    <cron_expr>20 * * * *</cron_expr>
                 </schedule>
                 <run>
                     <model>profileolabs_shoppingflux/export_observer::updateFlux</model>
@@ -429,7 +429,7 @@
                 <use_marketplace_date>1</use_marketplace_date>
             </manageorders>
             <shipment_update>
-                <limit_hours>2</limit_hours>
+                <limit_hours>1</limit_hours>
             </shipment_update>
             <import_customer>
                 <prefer_mobile_phone>1</prefer_mobile_phone>

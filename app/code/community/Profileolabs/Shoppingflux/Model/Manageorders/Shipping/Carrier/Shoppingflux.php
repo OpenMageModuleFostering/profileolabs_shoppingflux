@@ -37,8 +37,33 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Shipping_Carrier_Shoppingflux
         $method->setMethod('shoppingflux');
         $method->setMethodTitle($this->getConfigData('name'));
 
-        $method->setPrice($this->getSession()->getShippingPrice());
-        $method->setCost($this->getSession()->getShippingPrice());
+        $orderSf = Mage::registry('current_order_sf');
+        $quoteSf = Mage::registry('current_quote_sf');
+        $shippingPrice = $orderSf['TotalShipping'];
+        if (!Mage::helper('tax')->shippingPriceIncludesTax() && Mage::helper('tax')->getShippingTaxClass(null)) {
+            $percent = null;
+            $pseudoProduct = new Varien_Object();
+            $pseudoProduct->setTaxClassId(Mage::helper('tax')->getShippingTaxClass(null));
+
+            $taxClassId = $pseudoProduct->getTaxClassId();
+            if (is_null($percent)) {
+                if ($taxClassId) {
+                    $request = Mage::getSingleton('tax/calculation')->getRateRequest($quoteSf->getShippingAddress(), $quoteSf->getBillingAddress(), null, null);
+                    $request->setProductClassId($taxClassId);
+                    $request->setCustomerClassId($quoteSf->getCustomerTaxClassId());
+                    $percent = Mage::getSingleton('tax/calculation')->getRate($request);
+
+                    if ($percent !== false || !is_null($percent)) {
+
+                        $shippingPrice = $shippingPrice - ($shippingPrice / (100 + $percent) * $percent);
+                    }
+                }
+            }
+
+            //Mage::log("including tax = ".$includingTax." shipping price = ".$shippingPrice,null,'test_shipping_price.log');
+        }
+        $method->setPrice($shippingPrice);
+        $method->setCost($shippingPrice);
 
         $result->append($method);
         
@@ -67,7 +92,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Shipping_Carrier_Shoppingflux
     
 	public function isActive()
     {
-       if($this->getSession()->getIsShoppingFlux())
+       if(Mage::registry('is_shoppingfeed_import')/*$this->getSession()->getIsShoppingFlux()*/)
        	return true;
        	
        return false;
