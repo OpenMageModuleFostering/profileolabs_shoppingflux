@@ -26,6 +26,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         $model = Mage::getModel('profileolabs_shoppingflux/export_flux')
                 ->setStoreId($storeId)
                 ->setSku($productSku)
+                ->setProductId(Mage::getModel('catalog/product')->getIdBySku($productSku))
                 ->setUpdateNeeded(0);
         return $model;
     }
@@ -79,7 +80,18 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         $this->updateProductInFlux($args['row']['sku'], $storeId);
     }
 
-    public function checkForMissingProducts($store_id = false, $maxImport = 200) {
+    public function checkForDeletedProducts() {
+        $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+        $collection->getSelect()->joinLeft(
+                    array('p' => $collection->getTable('catalog/product')),
+                    'p.entity_id = main_table.product_id',
+                    array()
+                );
+        $collection->getSelect()->where("p.entity_id IS NULL");
+        $collection->walk('delete');
+    }
+    
+    public function checkForMissingProducts($store_id = false, $maxImport = 500) {
         ini_set('display_errors', 1);
         error_reporting(-1);
         foreach (Mage::app()->getStores() as $store) {
@@ -105,7 +117,8 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
     }
 
-    public function updateFlux($store_id = false, $maxImportLimit = 500, $shouldExportOnly = false) {
+    public function updateFlux($store_id = false, $maxImportLimit = 20000, $shouldExportOnly = false) {
+        $this->checkForDeletedProducts();
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
@@ -184,7 +197,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
             //FIX Added on 2014-08-14 to solve a case : unexistant parent found, so product is never exported...
             foreach ($parentIds as $k => $parentId) {
-                if (!Mage::getModel('catalog/product')->getCollection()->addFieldToFilter('entity_id', $parentId)->count()) {
+                if (!Mage::getModel('catalog/product')->getCollection()->addStoreFilter($storeId)->addFieldToFilter('entity_id', $parentId)->count()) {
                     unset($parentIds[$k]);
                 }
             }
@@ -280,10 +293,13 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     $memoryLimit = false;
                 }
                 $this->_memoryLimit = $memoryLimit;
-                $this->_maxExecutionTime = ini_get('max_execution_time');
-                if ($this->_maxExecutionTime < 9.75 * 60) {
-                    $this->_maxExecutionTime = 9.75 * 60; //There is a 10min timeout on SF side.
+                if(intval(Mage::getStoreConfig('shoppingflux_export/general/execution_time_limit')) > 1) {
+                    $this->_maxExecutionTime = intval(Mage::getStoreConfig('shoppingflux_export/general/execution_time_limit'));
+                } else {
+                    $this->_maxExecutionTime = (ini_get('max_execution_time')>1)?ini_get('max_execution_time'):600;
                 }
+                $this->_maxExecutionTime = min($this->_maxExecutionTime, 9 * 60); //There is a 10min timeout on SF side. We took 9 for margin.
+                
             }
             $isTimeToDie = (microtime(true) - Mage::registry('export_feed_start_at') > $this->_maxExecutionTime);
             if ($this->_memoryLimit > 0 || $isTimeToDie) {
@@ -293,13 +309,13 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
                     header('Refresh: 0;'); 
                     $reasons = array();
                     if($isTimeToDie) {
-                    	$reasons[] = 'Is Time to die : Execution time : '.(microtime(true) - Mage::registry('export_feed_start_at')).' - Max execution time : ' . $this->_maxExecutionTime;
+                    	$reasons[] = 'Is Time to die : Execution time : '.(round(microtime(true) - Mage::registry('export_feed_start_at'), 2)).' - Max execution time : ' . $this->_maxExecutionTime;
                     }
                     if($this->_memoryLimit-10*1024*1024 <= $currentMemoryUsage) {
                     	$reasons[] = 'Memory limit : Used '.$currentMemoryUsage.' of '.$this->_memoryLimit;
                     }
                     
-                    die('<html><head><meta http-equiv="refresh" content="0"/></head><body>Reason : '.implode(',', $reasons).'</body></html>');
+                    die('<html><head><meta http-equiv="refresh" content="0"/></head><body><!--Reason : '.implode(',', $reasons).'--></body></html>');
                 }
             }
         }
@@ -544,9 +560,24 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
      */
     protected function getCategories($data, $product, $storeId) {
         if ($product->getData('shoppingflux_default_category') && $product->getData('shoppingflux_default_category') > 0) {
-            return $this->getCategoriesViaShoppingfluxCategory($data, $product);
+            $data =  $this->getCategoriesViaShoppingfluxCategory($data, $product);
+        } else {
+            $data = $this->getCategoriesViaProductCategories($data, $product);
         }
-        return $this->getCategoriesViaProductCategories($data, $product);
+        if(!$data['category-breadcrumb']) {
+            $parentIds = Mage::getModel('catalog/product_type_configurable')->getParentIdsByChild($product->getId());
+            $parentIds = array_merge($parentIds, Mage::getModel('catalog/product_type_grouped')->getParentIdsByChild($product->getId()));
+            $parentIds = array_merge($parentIds, Mage::getModel('bundle/product_type')->getParentIdsByChild($product->getId()));
+            $parentIds = array_unique($parentIds);
+            foreach ($parentIds as $parentId) {
+                if(!$data['category-breadcrumb']) {
+                    $parentProduct = $this->_getProduct($parentId, $storeId);
+                    $data = $this->getCategories($data, $parentProduct, $storeId);
+                }
+                
+            }
+        }
+        return $data;
     }
 
     protected function getCategoriesViaShoppingfluxCategory($data, $product) {
@@ -700,6 +731,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
 
         if (!isset($data["category-main"])) {
+            $data["category-breadcrumb"] = "";
             $data["category-main"] = "";
             $data["category-url-main"] = "";
             $cnt++;

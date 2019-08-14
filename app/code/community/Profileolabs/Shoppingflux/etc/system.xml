@@ -987,7 +987,19 @@
                             <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </memory_limit>	
+                        </memory_limit>
+                        <execution_time_limit>
+                            <depends>
+                                <show_advanced_configuration>1</show_advanced_configuration>
+                            </depends>
+                            <label>Execution time limit</label>
+                            <comment>in seconds. Do not modify if you don't know what you are doing.</comment>							
+                            <frontend_type>text</frontend_type>
+                            <sort_order>110</sort_order>
+                            <show_in_default>0</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </execution_time_limit>	
                         <enable_sync>
                             <depends>
                                 <show_advanced_configuration>1</show_advanced_configuration>

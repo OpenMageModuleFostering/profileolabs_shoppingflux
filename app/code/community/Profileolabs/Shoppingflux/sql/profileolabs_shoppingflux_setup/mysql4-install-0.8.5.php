@@ -250,6 +250,7 @@ $installer->run(
 $installer->run(
         "CREATE TABLE IF NOT EXISTS `{$this->getTable('shoppingflux_export_flux')}` (
 			`id` int(11) NOT NULL auto_increment,
+			`product_id` int(11) NOT NULL default 0,
 			`sku` varchar(255) NOT NULL default '',
                         `store_id` smallint(5) NOT NULL default 1,
 			`xml` MEDIUMTEXT NOT NULL,

@@ -34,7 +34,6 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
         $collection = Mage::getModel('profileolabs_shoppingflux/catalog_product_collection')
             ->addAttributeToSelect('sku')
             ->addAttributeToSelect('name')
-            ->addAttributeToSelect('shoppingflux_product')
             ->addAttributeToSelect('attribute_set_id')
             ->addAttributeToSelect('type_id')
             ->joinField('qty',
@@ -47,6 +46,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
         if ($store->getId()) {
             $collection->setStoreId($store->getId());
             $collection->addStoreFilter($store);
+            $collection->joinAttribute('shoppingflux_product', 'catalog_product/shoppingflux_product', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('custom_name', 'catalog_product/name', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('status', 'catalog_product/status', 'entity_id', null, 'inner', $store->getId());
             $collection->joinAttribute('visibility', 'catalog_product/visibility', 'entity_id', null, 'inner', $store->getId());
@@ -56,6 +56,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
             $collection->addAttributeToSelect('price');
             $collection->addAttributeToSelect('status');
             $collection->addAttributeToSelect('visibility');
+            $collection->addAttributeToSelect('shoppingflux_product');
         }
         
         $collection->getSelect()->joinLeft(
@@ -191,7 +192,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
                 'type'  => 'options',
                 'options' => Mage::getSingleton('catalog/product_status')->getOptionArray(),
         ));
-        $optionsSf = array(0=>"Non",1=>"Oui");
+        $optionsSf = array(0=>Mage::helper('profileolabs_shoppingflux')->__('No'),1=>Mage::helper('profileolabs_shoppingflux')->__('Yes'));
         $this->addColumn('shoppingflux_product',
             array(
                 'header'=> Mage::helper('profileolabs_shoppingflux')->__('Send to Shoppingflux ?'),

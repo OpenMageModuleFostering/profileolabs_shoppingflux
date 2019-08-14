@@ -54,7 +54,7 @@ foreach (array(
     'shoppingflux_export/attributes_know/color'                 => 'shoppingflux_export/attributes_mapping/color',
     'shoppingflux_export/specific_prices/price'                 => 'shoppingflux_export/attributes_mapping/price',
     'shoppingflux_export/specific_prices/special_price'         => 'shoppingflux_export/attributes_mapping/special_price',
-    'shoppingflux_export/attributes_additionnal/list'           => 'shoppingflux_export/attributes_mapping/additional,'
+    'shoppingflux_export/attributes_additionnal/list'           => 'shoppingflux_export/attributes_mapping/additional',
     ) as $was => $become) {
     $installer->run(sprintf("UPDATE `%s` SET `path` = '%s' WHERE `path` = '%s'",
         $this->getTable('core/config_data'), $become, $was

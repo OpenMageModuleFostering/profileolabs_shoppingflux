@@ -14,12 +14,15 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         $writeConnection = $resource->getConnection('core_write');
         $installer = Mage::getResourceModel('catalog/setup','profileolabs_shoppingflux_setup');
         $installer->run("
-    UPDATE `{$installer->getTable('shoppingflux_export_flux')}`  SET update_needed = 1, should_export = 1;
-    ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `price_value` decimal( 12, 4 ) NOT NULL AFTER  `stock_value`;
-    ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `salable` tinyint( 1 ) NOT NULL AFTER  `is_in_stock`;
+    ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD  `product_id` int( 11 ) NOT NULL default 0 AFTER  `id`;
         ");
-        $results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));*/
-        var_dump($results);die();
+        $results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));
+        var_dump($results);die();*/
+        
+        
+        //Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
+        //Mage::helper('profileolabs_shoppingflux')->newInstallation();
+        
         die('TESTS_END');
     }
 
@@ -80,14 +83,34 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
     }
 
     public function statusAction() {
+        Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();
         $storeId = Mage::app()->getStore()->getId();
-        $productCollection = Mage::getModel('catalog/product')->getCollection()->addStoreFilter($storeId)->setStoreId($storeId);
+        $productCollection = Mage::getModel('catalog/product')
+                ->getCollection()
+                ->addStoreFilter($storeId)
+                ->setStoreId($storeId);
         $productCount = $productCollection->count();
         $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+        $collection->addFieldToFilter('store_id', $storeId);
         $feedCount = $collection->count();
-        $collection->clear();
+        /*$collection->clear();
         $collection->addFieldToFilter('update_needed', 1);
         $feedUpdateNeededCount = $collection->count();
+        $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+        $collection->addFieldToFilter('store_id', $storeId);
+        $collection->addFieldToFilter('should_export', 1);
+        $feedExportCount = $collection->count();*/
+        $feedExportCount = $feedUpdateNeededCount = 0;
+        foreach($collection as $feedProduct) {
+            if($feedProduct->getUpdateNeeded()) {
+                $feedUpdateNeededCount++;
+            }
+            if($feedProduct->getShouldExport()) {
+                $feedExportCount++;
+            }
+        }
+        
+        $feedNotExportCount = $feedCount-$feedExportCount;
         if(!headers_sent()) {
     		header('Content-type: text/xml; charset=UTF-8');
         }
@@ -95,6 +118,8 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
         echo "<feed_generation>";
         echo "<product_count>{$productCount}</product_count>";
         echo "<feed_count>{$feedCount}</feed_count>";
+        echo "<feed_not_export_count>{$feedNotExportCount}</feed_not_export_count>";
+        echo "<feed_export_count>{$feedExportCount}</feed_export_count>";
         echo "<feed_update_needed_count>{$feedUpdateNeededCount}</feed_update_needed_count>";
         echo "</feed_generation>";
         echo "</status>";

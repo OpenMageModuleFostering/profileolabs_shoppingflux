@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.8.4</version>
+            <version>0.8.5</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -385,7 +385,7 @@
                 <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/</ws_uri_prod>-->
                 <!--<ws_uri_prod>https://clients.shopping-flux.com/webservice/magento/</ws_uri_prod>-->
                 <api_key></api_key>
-                <enable_buyline>1</enable_buyline>
+                <enable_buyline>0</enable_buyline>
             </configuration>
         </shoppingflux>
         <shoppingflux_mo>
@@ -431,7 +431,7 @@
                 <default_shipping_method>flatrate_flatrate</default_shipping_method>
                 <shipping_price_based_on>FR</shipping_price_based_on>
                 <export_soldout>1</export_soldout>
-                <export_not_salable>0</export_not_salable>
+                <export_not_salable>1</export_not_salable>
                 <export_visibility>2,3,4</export_visibility>
                 <enable_cron>0</enable_cron>
                 <memory_limit>512</memory_limit>

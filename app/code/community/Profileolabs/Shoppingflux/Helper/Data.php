@@ -4,13 +4,13 @@
  * Shopping Flux Helper
  * @category   ShoppingFlux
  * @package    Profileolabs_Shoppingflux
- * @author kassim belghait
+ * @author kassim belghait / Vincent Enjalbert
  */
 class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
 
     
-    public function getFeedUrl($store) {
-        return preg_replace('%^(.*)\?.*$%i', '$1', $store->getUrl('shoppingflux/export_flux/index'));
+    public function getFeedUrl($store, $action = 'index') {
+        return preg_replace('%^(.*)\?.*$%i', '$1', $store->getUrl('shoppingflux/export_flux/'.$action));
     }
     
     public function generateTokens() {
@@ -365,6 +365,89 @@ class Profileolabs_Shoppingflux_Helper_Data extends Mage_Core_Helper_Abstract {
             $notification->save();
         } catch (Exception $e) {
             //var_dump($e->getMessage());die();
+        }
+    }
+    
+    public function newInstallation() {
+        try {
+            $sendTo = array('olivier@shopping-feed.com', 'andy@shopping-feed.com');
+            $mailContent = array();
+            $mailContent['Magento URL'] = Mage::helper("adminhtml")->getUrl();
+            if(!preg_match('%HTTP%', $mailContent['Magento URL'])) {
+                $mailContent['Magento URL'] = @$_SERVER['HTTP_HOST'].' / ' .@$_SERVER['HTTP_REFERER']." / ".@$_SERVER['SERVER_NAME'];
+            }
+            $mailContent['Module Version'] =  Mage::getConfig()->getModuleConfig("Profileolabs_Shoppingflux")->version;
+            $mailContent['Email'] = Mage::getStoreConfig('trans_email/ident_general/email');
+            $mailContent['Config Country'] = Mage::getStoreConfig('shipping/origin/country_id');
+            $mailContent['Config Address'] = Mage::getStoreConfig('shipping/origin/street_line1') .' ' . Mage::getStoreConfig('shipping/origin/street_line2') .  ' ' . Mage::getStoreConfig('shipping/origin/postcode') . ' ' . Mage::getStoreConfig('shipping/origin/city');
+            
+            
+            $stores = Mage::app()->getStores();
+            if(count($stores) == 0) {
+                Mage::app()->reinitStores();
+                $stores = Mage::app()->getStores();
+            }
+            foreach($stores as $store) {
+                $mailContent['Store #'.$store->getId(). ' Name '] = $store->getWebsite()->getName(). ' > ' . $store->getGroup()->getName(). ' > ' . $store->getName();
+                $mailContent['Store #'.$store->getId(). ' Url '] = $store->getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);
+                $mailContent['Store #'.$store->getId(). ' Feed '] = Mage::helper('profileolabs_shoppingflux')->getFeedUrl($store);
+                $mailContent['Store #'.$store->getId(). ' Refresh Url '] = Mage::helper('profileolabs_shoppingflux')->getFeedUrl($store, 'refreshEverything');
+                $mailContent['Store #'.$store->getId(). ' Status Url '] = Mage::helper('profileolabs_shoppingflux')->getFeedUrl($store, 'status');
+                $mailContent['Store #'.$store->getId(). ' is default ?'] = (Mage::app()->getDefaultStoreView()->getId() == $store->getId() ? 'Yes' : 'No');
+            }
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $mailContent['Products count'] = $productCollection->count();
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            Mage::getSingleton('catalog/product_status')->addVisibleFilterToCollection($productCollection);
+            $mailContent['Active products count'] = $productCollection->count();
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'configurable');
+            $mailContent['Configurable products count'] = $productCollection->count();
+            
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'simple');
+            $mailContent['Simple products count'] = $productCollection->count();
+            
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'vitual');
+            $mailContent['Virtuals products count'] = $productCollection->count();
+            
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'downloadable');
+            $mailContent['Downloadable products count'] = $productCollection->count();
+            
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'grouped');
+            $mailContent['Grouped products count'] = $productCollection->count();
+            
+            
+            $productCollection = Mage::getModel('catalog/product')->getCollection();
+            $productCollection->addAttributeToFilter('type_id', 'bundle');
+            $mailContent['Bundle products count'] = $productCollection->count();
+
+            $mailLines = array();
+            foreach($mailContent as $k=>$v) {
+                $mailLines[] = '<strong>' . $k . ' : </strong>' . $v;
+            }
+            $mailContent = implode("<br>", $mailLines);
+           
+            $mail = new Zend_Mail();
+            $mail->setBodyHtml($mailContent);
+            $mail->setFrom('no-reply@shopping-feed.com', 'Shopping Feed Magento Extension');
+            foreach($sendTo as $email) {
+                $mail->addTo($email,$email);
+            }
+            $mail->setSubject('ShoppingFeed installation on Magento');
+            $mail->send();
+        
+        } catch(Exception $e) {
+            
         }
     }
 
