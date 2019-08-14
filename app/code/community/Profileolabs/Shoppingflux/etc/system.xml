@@ -363,6 +363,66 @@
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_customer_group</source_model>
                         </gstk_group>
+                        <mistergooddeal>
+                            <label>MisterGoodDeal customer group</label>
+                            <comment>Set specific customer group for imported customer from MisterGoodDeal Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </mistergooddeal>
+                        <placedumariage>
+                            <label>PlaceDuMariage customer group</label>
+                            <comment>Set specific customer group for imported customer from PlaceDuMariage Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </placedumariage>
+                        <tap>
+                            <label>Tap customer group</label>
+                            <comment>Set specific customer group for imported customer from Tap Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </tap>
+                        <spartoo>
+                            <label>Spartoo customer group</label>
+                            <comment>Set specific customer group for imported customer from Spartoo Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </spartoo>
+                        <jardinermalin>
+                            <label>Jardinermalin customer group</label>
+                            <comment>Set specific customer group for imported customer from Jardinermalin Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </jardinermalin>
+                        <monechelle>
+                            <label>Monechelle customer group</label>
+                            <comment>Set specific customer group for imported customer from Monechelle Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>70</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_customer_group</source_model>
+                        </monechelle>
                     </fields>
                 </import_customer>
                 <shipping_method translate="label" module="profileolabs_shoppingflux">
@@ -562,6 +622,66 @@
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                         </gstk_method>
+                        <mistergooddeal_method>
+                            <label>Mistergooddeal shipping method</label>
+                            <comment>Set specific shipping method for imported order from Mistergooddeal Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </mistergooddeal_method>
+                        <placedumariage_method>
+                            <label>PlaceDuMariage shipping method</label>
+                            <comment>Set specific shipping method for imported order from PlaceDuMariage. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </placedumariage_method>
+                        <tap_method>
+                            <label>Tout à porter shipping method</label>
+                            <comment>Set specific shipping method for imported order from Tout à porter. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </tap_method>
+                        <spartoo_method>
+                            <label>Spartoo shipping method</label>
+                            <comment>Set specific shipping method for imported order from Spartoo. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </spartoo_method>
+                        <jardinermalin_method>
+                            <label>Jardinermalin shipping method</label>
+                            <comment>Set specific shipping method for imported order from Jardinermalin. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </jardinermalin_method>
+                        <monechelle_method>
+                            <label>Monechelle shipping method</label>
+                            <comment>Set specific shipping method for imported order from Monechelle. Leave empty to use default.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>60</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
+                        </monechelle_method>
                     </fields>
                 </shipping_method>
                 <advanced_shipping_method translate="label" module="profileolabs_shoppingflux">
