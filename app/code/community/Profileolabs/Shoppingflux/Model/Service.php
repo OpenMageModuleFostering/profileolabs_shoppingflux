@@ -105,7 +105,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
         
         $responseText = $response->getBody();
                
-         /*$responseText = '<?xml version="1.0" encoding="utf-8"?>
+        /* $responseText = '<?xml version="1.0" encoding="utf-8"?>
 <Result>
             <Request>
             <Date>2015-06-02T11:08:42+01:00</Date><Call>GetOrders</Call><Token>bezeezra17ee07d2a87e444827c18a77e01d</Token><Mode>Sandbox</Mode><Version>2</Version>
@@ -113,7 +113,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
             <Response>
             <Orders>
                  <Order>
-                   <IdOrder>402-8aaee9840e085-1568300</IdOrder>
+                   <IdOrder>402-81an7840e085-1568300</IdOrder>
                    <Marketplace>Amazon</Marketplace>
                    <Currency>EUR</Currency>
                    <TotalAmount>299.00</TotalAmount>
@@ -121,14 +121,14 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
                    <TotalShipping>0.00</TotalShipping>
                    <TotalFees>0.49</TotalFees>
                    <NumberOfProducts>1</NumberOfProducts>
-                   <OrderDate>2015-06-02T12:08:41+01:00</OrderDate>
+                   <OrderDate>2015-11-05T13:09:41+01:00</OrderDate>
                    <Other></Other>
                    <ShippingMethod>Nouvelle Shipping method</ShippingMethod>
                    <BillingAddress><LastName>moon chan kim</LastName><FirstName></FirstName><Phone>0698750828</Phone><PhoneMobile></PhoneMobile><Street><![CDATA[121 rue du faubourg du temple etg 2, porte droit]]></Street><Street1><![CDATA[121 rue du faubourg du temple]]></Street1><Street2><![CDATA[etg 2, porte droit]]></Street2><Company><![CDATA[]]></Company><PostalCode>75010</PostalCode><Town><![CDATA[paris]]></Town><Country>FR</Country><Email>vbdels5s4sfpc98p7@marketplace.amazon.fr</Email></BillingAddress>
-                   <ShippingAddress><LastName>moon chan kim</LastName><FirstName></FirstName><Phone>0698750828</Phone><PhoneMobile></PhoneMobile><Street><![CDATA[121 rue du faubourg du temple etg 2, porte droit]]></Street><Street1><![CDATA[121 rue du faubourg du temple]]></Street1><Street2><![CDATA[etg 2, porte droit]]></Street2><Company><![CDATA[]]></Company><PostalCode>75010</PostalCode><Town><![CDATA[paris]]></Town><Country>FR</Country><Email>vbldes5s4sfpc98p7@marketplace.amazon.fr</Email></ShippingAddress>
+                   <ShippingAddress><RelayID>1234</RelayID><LastName>moon chan kim</LastName><FirstName></FirstName><Phone>0698750828</Phone><PhoneMobile></PhoneMobile><Street><![CDATA[121 rue du faubourg du temple etg 2, porte droit]]></Street><Street1><![CDATA[121 rue du faubourg du temple]]></Street1><Street2><![CDATA[etg 2, porte droit]]></Street2><Company><![CDATA[]]></Company><PostalCode>75010</PostalCode><Town><![CDATA[paris]]></Town><Country>FR</Country><Email>vbldes5s4sfpc98p7@marketplace.amazon.fr</Email></ShippingAddress>
                    <Products>
                    <Product>
-                       <SKU>BKN-16-2P</SKU>
+                       <SKU>CLAVIER</SKU>
                        <Quantity>1</Quantity>
                        <Price>8.000000</Price>
                        <Ecotax>0</Ecotax>
@@ -138,7 +138,6 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
             </Orders>
             </Response>
             </Result>';
-          * 
           */
         
         

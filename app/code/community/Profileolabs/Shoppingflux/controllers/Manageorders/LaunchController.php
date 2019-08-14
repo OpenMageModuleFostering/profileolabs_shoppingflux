@@ -5,10 +5,26 @@ class Profileolabs_Shoppingflux_Manageorders_LaunchController extends Mage_Core_
   
 
     public function getordersAction() {
+        $forceStore = $this->getRequest()->getParam('force_store', false);
+        
+        if($forceStore) {
+            $appEmulation = Mage::getSingleton('core/app_emulation');
+            if ($appEmulation) { // not available in 1.4
+                $appEmulation->startEnvironmentEmulation($forceStore);
+            }
+        }
     	Mage::getModel('profileolabs_shoppingflux/manageorders_order')->manageOrders();
     }
 
     public function updateordersAction() {
+        $forceStore = $this->getRequest()->getParam('force_store', false);
+        
+        if($forceStore) {
+            $appEmulation = Mage::getSingleton('core/app_emulation');
+            if ($appEmulation) { // not available in 1.4
+                $appEmulation->startEnvironmentEmulation($forceStore);
+            }
+        }
     	Mage::getModel('profileolabs_shoppingflux/manageorders_observer')->sendScheduledShipments();
     }
     

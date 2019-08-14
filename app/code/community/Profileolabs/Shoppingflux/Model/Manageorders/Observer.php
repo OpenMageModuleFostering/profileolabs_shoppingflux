@@ -26,10 +26,9 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
         $trackUrl = '';
         if (is_array($tracks) && !empty($tracks)) {
             $firstTrack = array_shift($tracks);
-            if (preg_match('%^owebia%i', $firstTrack->getCarrierCode())) {
+            if($firstTrack) {
                 $carrierInstance = Mage::getSingleton('shipping/config')->getCarrierInstance($firstTrack->getCarrierCode());
                 if ($carrierInstance) {
-                    // Gestion du cas Owebia Shipping
                     $trackingInfo = $carrierInstance->getTrackingInfo($firstTrack->getData('number'));
                     $status = $trackingInfo->getStatus();
                     if (preg_match('%href="(.*)"%i', $status, $regs)) {

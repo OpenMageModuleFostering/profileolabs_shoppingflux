@@ -9,7 +9,7 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
     public function testAction() {
         ini_set('display_errors', 1);
         
-        
+        die();
         //Mage::app()->cleanCache();
        $resource = Mage::getSingleton('core/resource');
         $readConnection = $resource->getConnection('core_read');
@@ -23,8 +23,13 @@ ALTER TABLE  `{$installer->getTable('shoppingflux_export_flux')}` ADD INDEX (  `
 ");*/
         //$results = $readConnection->fetchAll('SHOW COLUMNS FROM '.$installer->getTable('shoppingflux_export_flux'));
       // $results = $readConnection->fetchAll("SHOW INDEXES FROM shoppingflux_export_flux");
-         //$results = $readConnection->fetchAll("SELECT  * FROM core_config_data where path like 'shoppingflux_mo/shi%'");
-        //var_dump($results);die();
+         $results = $readConnection->fetchAll("SELECT  * FROM sales_flat_shipment_track where track_number ='CD108646420BE'");
+        var_dump($results);
+        //die();
+        
+        $track = Mage::getModel('sales/order_shipment_track')->load(8294);
+        var_dump($track->getData(), $track->getStatus(), $track->getUrl());
+        die();
         
         
         //Mage::getModel('profileolabs_shoppingflux/export_flux')->checkForDeletedProducts();

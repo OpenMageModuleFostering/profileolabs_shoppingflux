@@ -235,8 +235,12 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $collection->addItem($object);
         $apiKey = $this->getConfig()->getApiKey($data['store_id']);
         $wsUri = $this->getConfig()->getWsUri();
-        $service = new Profileolabs_Shoppingflux_Model_Service($apiKey, $wsUri);
-        $service->updateProducts($collection);
+        try {
+            $service = new Profileolabs_Shoppingflux_Model_Service($apiKey, $wsUri);
+            $service->updateProducts($collection);
+        } catch(Exception $e) {
+            
+        }
         /*         * SCHEDULED* */
         /*
           $data['updated_at'] = date('Y-m-d H:i:s');

@@ -1068,6 +1068,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
 
                 $usedProductsArray[$usedProduct->getId()]['child']["sku"] = $usedProduct->getSku();
                 $usedProductsArray[$usedProduct->getId()]['child']["id"] = $usedProduct->getId();
+                $usedProductsArray[$usedProduct->getId()]['child']["child-url"] = $this->cleanUrl($usedProduct->getProductUrl(false));
                 $usedProductsArray[$usedProduct->getId()]['child']["price-ttc"] = $price;
                 $usedProductsArray[$usedProduct->getId()]['child']["price-before-discount"] = $priceBeforeDiscount;
                 $usedProductsArray[$usedProduct->getId()]['child']["discount-amount"] = $discountAmount;

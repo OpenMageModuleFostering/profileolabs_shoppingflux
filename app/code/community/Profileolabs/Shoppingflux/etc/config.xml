@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -37,9 +37,6 @@
                 <Company>
                     <to_customer_address>company</to_customer_address>
                 </Company>
-                <Street>
-                    <to_customer_address>street_full</to_customer_address>
-                </Street>
                 <PostalCode>
                     <to_customer_address>postcode</to_customer_address>
                 </PostalCode>

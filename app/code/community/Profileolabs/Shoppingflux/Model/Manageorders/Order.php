@@ -298,6 +298,9 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
     public function clearOldOrderFlagFiles() {
         $config = new Mage_Core_Model_Config();
         $orderFlags = Mage::getStoreConfig('shoppingflux/order_flags');
+        if(!$orderFlags || empty($orderFlags)) {
+            return;
+        }
         foreach($orderFlags as $orderId => $importDate) {
             if(strtotime($importDate) < time()-3*60*60) {
                 $config->deleteConfig('shoppingflux/order_flags/' . $orderId);
@@ -394,18 +397,20 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             else
                 $order = $this->_saveOrder13($orderSf, $storeId);
 
-            $this->getHelper()->log('Order ' . $orderSf['IdOrder'] . ' has been created (' . $order->getIncrementId() . ' / ' . Mage::app()->getStore()->getId() . ')');
-            $this->_nb_orders_imported++;
+            if($order) {
+                $this->getHelper()->log('Order ' . $orderSf['IdOrder'] . ' has been created (' . $order->getIncrementId() . ' / ' . Mage::app()->getStore()->getId() . ')');
+                $this->_nb_orders_imported++;
 
-            if (!is_null($order) && $order->getId()) {
-                $useMarketplaceDate = $this->getConfig()->getConfigFlag('shoppingflux_mo/manageorders/use_marketplace_date');
-                //$orderDate = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
-                if($useMarketplaceDate) {
-                    $orderDate = $orderSf['OrderDate'];
-                    $this->_changeDateCreatedAt($order, $orderDate);
+                if (!is_null($order) && $order->getId()) {
+                    $useMarketplaceDate = $this->getConfig()->getConfigFlag('shoppingflux_mo/manageorders/use_marketplace_date');
+                    //$orderDate = date('Y-m-d H:i:s', Mage::getModel('core/date')->timestamp(time()));
+                    if($useMarketplaceDate) {
+                        $orderDate = $orderSf['OrderDate'];
+                        $this->_changeDateCreatedAt($order, $orderDate);
+                    }
                 }
-            }
 
+            }
             //Erase session for the next order
             $this->getSession()->clear();
         } catch (Exception $e) {
@@ -637,6 +642,13 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             "store_currency_code" => isset($orderSf['Currency'])?$orderSf['Currency']:'EUR',
         
             );
+        
+        if(isset($orderSf['ShippingAddress'][0]['RelayID']) && $orderSf['ShippingAddress'][0]['RelayID']) {
+            if($additionalData['other_shoppingflux']) {
+                $additionalData['other_shoppingflux'] .= '<br/>';
+            }
+            $additionalData['other_shoppingflux'] .= 'Relay ID : ' . $orderSf['ShippingAddress'][0]['RelayID'];
+        }
 
         $shippingMethod = $this->getConfig()->getShippingMethodFor($orderSf['Marketplace'], $orderSf['ShippingMethod'], $storeId);
         if($shippingMethod) {
@@ -665,7 +677,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             throw $e;
         }
         try {
-            $quote->setIsActive(0)->save();
+            $quote->setIsActive(0)->setUpdatedAt(date('Y-m-d H:i:s', strtotime('-1 year')))->save();
         } catch (Exception $ex) {
 
         }

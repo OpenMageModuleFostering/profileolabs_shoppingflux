@@ -74,6 +74,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Convert_Customer extends Vari
         if ($address->getTelephone() == "" && $data['PhoneMobile'])
             $address->setTelephone($data['PhoneMobile']);
         
+        $address->setStreet(array($data['Street1'], $data['Street2']));
         
         if($data['PhoneMobile'] && strlen(trim($data['PhoneMobile'])) >= 9) {
             if(Mage::getSingleton('profileolabs_shoppingflux/config')->getMobilePhoneAttribute($storeId)) {
