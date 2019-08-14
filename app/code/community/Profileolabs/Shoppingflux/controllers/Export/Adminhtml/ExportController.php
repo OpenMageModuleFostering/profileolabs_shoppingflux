@@ -37,6 +37,14 @@ class Profileolabs_Shoppingflux_Export_Adminhtml_ExportController extends Mage_A
         return $this;
     }
 
+    public function showAction() {
+
+        $this->loadLayout();
+        $this->renderLayout();
+
+        return $this;
+    }
+
     /**
      * Product grid for AJAX request
      */

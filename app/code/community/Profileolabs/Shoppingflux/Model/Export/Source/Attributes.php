@@ -33,16 +33,21 @@ class Profileolabs_Shoppingflux_Model_Export_Source_Attributes
         'is_recurring',
     );
     
+    protected $_attributes = null;
+    
     public function toOptionArray()
     {
-        $attributes = array();
-    	$attributesArray= Mage::getSingleton('profileolabs_shoppingflux/export_convert_parser_product')->getExternalAttributes();
-        foreach($attributesArray as $k=>$v) {
-            if(!in_array($k, $this->_exceptions)) {
-                $attributes[] = array('value'=>$k, 'label'=>$v);
-            }
-        }
-    	array_unshift($attributes, array("value"=>"none","label"=>""));
-        return $attributes;        
+    	if(is_null($this->_attributes)) {
+	    	$this->_attributes = array();
+	        
+	    	$attributesArray= Mage::getSingleton('profileolabs_shoppingflux/export_convert_parser_product')->getExternalAttributes();
+	        foreach($attributesArray as $k=>$v) {
+	            if(!in_array($k, $this->_exceptions)) {
+	                $this->_attributes[] = array('value'=>$k, 'label'=>$v);
+	            }
+	        }
+	    	array_unshift($this->_attributes, array("value"=>"none","label"=>""));
+    	}
+        return $this->_attributes;        
     }
 }

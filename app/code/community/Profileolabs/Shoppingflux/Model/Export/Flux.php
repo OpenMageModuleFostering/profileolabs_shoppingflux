@@ -124,10 +124,10 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         }
     }
 
-    public function productNeedUpdate($product) {
+    public function productNeedUpdate($productId) {
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
-            $product = $this->_getProduct($product, $storeId);
+            $product = $this->_getProduct($productId, $storeId);
             if ($product && $product->getId()) {
                 $fluxEntry = Mage::getModel('profileolabs_shoppingflux/export_flux')->getEntry($product->getSku(), $storeId);
                 if ($fluxEntry->getUpdateNeeded() != 1) {

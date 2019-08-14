@@ -57,12 +57,25 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
             $collection->addAttributeToSelect('status');
             $collection->addAttributeToSelect('visibility');
         }
+        
+        $collection->getSelect()->joinLeft(
+                array('category_product' => $collection->getTable('catalog/category_product')), 'category_product.product_id = e.entity_id', array('categories' => new Zend_Db_Expr('group_concat(category_product.category_id)'))
+        );
 
+        $collection->groupByAttribute('entity_id');
+        
         $this->setCollection($collection);
 
         parent::_prepareCollection();
         $this->getCollection()->addWebsiteNamesToResult();
         return $this;
+    }
+    
+    protected function _afterLoadCollection()
+    {
+        foreach($this->getCollection() as $item) {
+            $item->setCategories(explode(',',$item->getCategories()));
+        }
     }
 
     protected function _addColumnFilterToCollection($column)
@@ -103,6 +116,16 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
                     'index' => 'custom_name',
             ));
         }
+
+        $categories = Mage::helper('profileolabs_shoppingflux')->getCategoriesWithParents('name', Mage::app()->getRequest()->getParam('store', null));
+        $this->addColumn('categories',
+            array(
+                'header'=> Mage::helper('catalog')->__('Categories'),
+                'index' => 'categories',
+                'type'  => 'options',
+                'options' => $categories,
+                'filter_condition_callback' => array($this, '_filterCategoriesCondition')
+        ));
 
         $this->addColumn('type',
             array(
@@ -224,5 +247,13 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
     public function getRowUrl($row)
     {
         return '';
+    }
+    
+    protected function _filterCategoriesCondition($collection, $column) {
+        if (!$value = $column->getFilter()->getValue()) {
+            return;
+        }
+
+        $this->getCollection()->getSelect()->where('category_product.category_id = ?',  $value);
     }
 }

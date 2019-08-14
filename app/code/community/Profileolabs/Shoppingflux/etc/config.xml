@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.1</version>
+            <version>0.7.2</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -218,119 +218,6 @@
                 </Profileolabs_Shoppingflux>
             </modules>
         </translate>
-        <menu>
-            <shoppingflux>
-                <title>Shopping Flux</title>
-                <sort_order>20</sort_order>
-                <depends>
-                    <module>Profileolabs_Shoppingflux</module>
-                </depends>
-                <children>
-                    <manageorders translate="title" module="profileolabs_shoppingflux">
-                        <title>Commandes</title>
-                        <sort_order>200</sort_order>
-                        <children>
-                            <order translate="title" module="profileolabs_shoppingflux">
-                                <title>Shopping flux orders</title>
-                                <action>shoppingflux/manageorders_adminhtml_order</action>
-                                <sort_order>10</sort_order>
-                            </order>
-                            <import translate="title" module="profileolabs_shoppingflux">
-                                <title>Shopping flux import orders</title>
-                                <action>shoppingflux/manageorders_adminhtml_import</action>
-                                <sort_order>20</sort_order>
-                            </import>
-                            <log translate="title" module="profileolabs_shoppingflux">
-                                <title>Shopping flux log</title>
-                                <action>shoppingflux/manageorders_adminhtml_log</action>
-                                <sort_order>30</sort_order>
-                            </log>
-                        </children>
-                    </manageorders>
-                    <export translate="title" module="profileolabs_shoppingflux">
-                        <title>Export</title> 
-                        <sort_order>200</sort_order>
-                        <children>
-                            <!-- @deprecated since version 0.1.1 -->
-                            <!-- <run_export translate="title" module="profileolabs_shoppingflux">
-                                          		<title>Lancer l'export</title>
-                                          		<action>shoppingflux/export_adminhtml_export/edit</action>
-                                          		<sort_order>10</sort_order>
-                           	</run_export> -->
-                            <set_product translate="title" module="profileolabs_shoppingflux">
-                                <title>Sélection de produit</title>
-                                <action>shoppingflux/export_adminhtml_export/update</action>
-                                <sort_order>20</sort_order>
-                            </set_product>
-                        </children>
-                    </export>
-                    <crons translate="title" module="profileolabs_shoppingflux">
-                        <title>Suivi des crons</title>
-                        <sort_order>900</sort_order>
-                        <action>shoppingflux/manageorders_adminhtml_cron</action>  
-                    </crons>
-                </children>
-            </shoppingflux>
-        </menu>
-        <acl>
-            <resources>
-                <admin>
-                    <children>
-                        <system>
-                            <children>
-                                <config>
-                                    <children>
-                                        <shoppingflux translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shoppingflux general</title>
-                                        </shoppingflux>
-                                        <shoppingflux_mo translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shoppingflux manage orders</title>
-                                        </shoppingflux_mo>
-                                        <shoppingflux_export translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shoppingflux Export des produits</title>
-                                        </shoppingflux_export>
-                                    </children>
-                                </config>
-                            </children>
-                        </system>
-                        <shoppingflux>
-                            <title>Shopping Flux</title>
-                            <children>
-                                <manageorders translate="title" module="profileolabs_shoppingflux">
-                                    <title>Commandes</title>
-                                    <children>
-                                        <order translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shopping flux orders</title>
-                                        </order>
-                                        <import translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shopping flux import orders</title>
-                                        </import>
-                                        <log translate="title" module="profileolabs_shoppingflux">
-                                            <title>Shopping flux log</title>
-                                        </log>
-                                    </children>
-                                </manageorders>
-                                <export>
-                                    <title>Export</title>
-                                    <children>
-                                        <!-- @deprecated since version 0.1.1 -->
-                                        <!-- <run_export translate="title" module="profileolabs_shoppingflux">
-                                              										<title>Lancer l'export</title>
-                               									</run_export> -->
-                                        <set_product translate="title" module="profileolabs_shoppingflux">
-                                            <title>Sélection de produit</title>
-                                        </set_product>
-                                    </children>
-                                </export>
-                                <crons translate="title" module="profileolabs_shoppingflux">
-                                     <title>Suivi des crons</title>
-                                </crons>
-                            </children>
-                        </shoppingflux>
-                    </children>
-                </admin>
-            </resources>
-        </acl>
         <events>
             <catalog_product_delete_after_done>
                 <observers>
