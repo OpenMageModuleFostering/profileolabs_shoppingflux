@@ -21,9 +21,8 @@ class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminht
         }
         
         public function testAction() {
-            Profileolabs_Shoppingflux_Model_Export_Observer::fillMainCategory();
-            return;
-            
+            //Profileolabs_Shoppingflux_Model_Export_Observer::fillMainCategory();
+            //return;
             
             
             ini_set('display_errors',1);
@@ -31,7 +30,7 @@ class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminht
             //$write = Mage::getSingleton('core/resource')->getConnection('core_write');
             //$query = "delete from " . Mage::getConfig()->getTablePrefix() . 'core_resource' . " where code = 'profileolabs_shoppingflux_setup' ";
             //$write->query($query);
-            $read = Mage::getSingleton('core/resource')->getConnection('core_read');
+            /*$read = Mage::getSingleton('core/resource')->getConnection('core_read');
             $select = $read->select()
                             ->distinct()
                             ->from(Mage::getConfig()->getTablePrefix() . 'core_resource', array('code', 'version', 'data_version'))
@@ -39,7 +38,9 @@ class Profileolabs_Shoppingflux_Adminhtml_GeneralController extends Mage_Adminht
             $values = $read->fetchAll($select);
             foreach($values as $value) {
                 var_dump($value);
-            }
+            }*/
+            
+            die('OK');
         }
         
 	

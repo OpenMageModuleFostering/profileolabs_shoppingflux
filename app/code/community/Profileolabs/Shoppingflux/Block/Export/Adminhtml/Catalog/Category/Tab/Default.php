@@ -172,7 +172,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Catalog_Category_Tab_Defa
         
         $optionsSf = array(0 => Mage::helper('profileolabs_shoppingflux')->__('No'), 1 => Mage::helper('profileolabs_shoppingflux')->__('Yes'));
         $this->addColumn('shoppingflux_product', array(
-            'header' => Mage::helper('profileolabs_shoppingflux')->__('Importé dans Shoppingflux'),
+            'header' => Mage::helper('profileolabs_shoppingflux')->__('Send to Shoppingflux ?'),
             'width' => '80',
             'index' => 'shoppingflux_product',
             'type' => 'options',

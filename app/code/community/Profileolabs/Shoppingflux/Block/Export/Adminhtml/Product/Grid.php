@@ -112,7 +112,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
         if ($store->getId()) {
             $this->addColumn('custom_name',
                 array(
-                    'header'=> Mage::helper('catalog')->__('Name In %s', $store->getName()),
+                    'header'=> Mage::helper('profileolabs_shoppingflux')->__('Name In %s', $store->getName()),
                     'index' => 'custom_name',
             ));
         }
@@ -194,7 +194,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
         $optionsSf = array(0=>"Non",1=>"Oui");
         $this->addColumn('shoppingflux_product',
             array(
-                'header'=> Mage::helper('catalog')->__('Importé dans Shoppingflux'),
+                'header'=> Mage::helper('profileolabs_shoppingflux')->__('Send to Shoppingflux ?'),
                 'width' => '70px',
                 'index' => 'shoppingflux_product',
                 'type'  => 'options',
@@ -223,7 +223,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Product_Grid extends Mage
 
 		$optionsSf = array(0=>"Non",1=>"Oui");
         $this->getMassactionBlock()->addItem('publish', array(
-             'label'=> Mage::helper('profileolabs_shoppingflux')->__('Changer la publication'),
+             'label'=> Mage::helper('profileolabs_shoppingflux')->__('Change publication'),
              'url'  => $this->getUrl('*/*/massPublish', array('_current'=>true)),
              'additional' => array(
                     'visibility' => array(

@@ -278,7 +278,22 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     
     public function updateProductInFluxForAllStores($productSku) {
          foreach (Mage::app()->getStores() as $store) {
-             $this->updateProductInFlux($productSku, $store->getId());
+             $storeId = $store->getId();
+             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
+             try {
+                if(!$isCurrentStore) {
+                   $appEmulation = Mage::getSingleton('core/app_emulation');
+                   $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+                }
+                $this->updateProductInFlux($productSku, $storeId);
+                if(!$isCurrentStore) {
+                    $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+                }
+             } catch(Exception $e) {
+                if(!$isCurrentStore) {
+                    $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+                }
+             }
          }
     }
     

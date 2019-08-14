@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Profileolabs_Shoppingflux>
-            <version>0.7.6</version>
+            <version>0.7.8</version>
         </Profileolabs_Shoppingflux>
     </modules>
     <admin>
@@ -403,6 +403,7 @@
                 <shipping_price_based_on>FR</shipping_price_based_on>
                 <export_soldout>1</export_soldout>
                 <export_visibility>2,3,4</export_visibility>
+                <enable_cron>0</enable_cron>
                 <memory_limit>512</memory_limit>
                 <use_manage_stock>1</use_manage_stock>
                 <all_store_categories>0</all_store_categories>

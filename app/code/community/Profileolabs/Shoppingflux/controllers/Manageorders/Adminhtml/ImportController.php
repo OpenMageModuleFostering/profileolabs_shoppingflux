@@ -11,7 +11,7 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_ImportController extends 
     protected function _initAction() {
         $this->loadLayout()
                 ->_setActiveMenu('shoppingflux/manageorders/import')
-                ->_addBreadcrumb(Mage::helper('profileolabs_shoppingflux')->__('Shopping flux import orders'), Mage::helper('profileolabs_shoppingflux')->__('Shopping flux import orders'));
+                ->_addBreadcrumb(Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux order import'), Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux order import'));
 
         return $this;
     }
@@ -27,7 +27,7 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_ImportController extends 
         try {
 
             if (!Mage::getSingleton('profileolabs_shoppingflux/config')->isOrdersEnabled())
-                Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__("Le module n'est pas activé. Activez le dans la configuration du module."));
+                Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__("Order import is disabled in ShoppingFlux configuration. You must enable it to use this functionnality."));
 
 
             error_reporting(E_ALL | E_STRICT);
@@ -38,10 +38,10 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_ImportController extends 
 
             $model = Mage::getModel('profileolabs_shoppingflux/manageorders_order')->manageOrders();
 
-            $this->_getSession()->addSuccess(Mage::helper('profileolabs_shoppingflux')->__("%d orders are imported", $model->getNbOrdersImported()));
+            $this->_getSession()->addSuccess(Mage::helper('profileolabs_shoppingflux')->__("%d orders have been imported", $model->getNbOrdersImported()));
 
             if ($model->getResultSendOrder() != "") {
-                $this->_getSession()->addSuccess(Mage::helper('profileolabs_shoppingflux')->__("Status of order ids sended: %s", $model->getResultSendOrder()));
+                $this->_getSession()->addSuccess(Mage::helper('profileolabs_shoppingflux')->__("Orders sent result : %s", $model->getResultSendOrder()));
             }
         } catch (Exception $e) {
             $this->_getSession()->addError($e->getMessage());

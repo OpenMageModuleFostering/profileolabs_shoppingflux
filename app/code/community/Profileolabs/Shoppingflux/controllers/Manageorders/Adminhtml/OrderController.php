@@ -10,7 +10,7 @@ class Profileolabs_Shoppingflux_Manageorders_Adminhtml_OrderController extends M
 	protected function _initAction() {
 		$this->loadLayout()
 		->_setActiveMenu('shoppingflux/manageorders/order')
-		->_addBreadcrumb(Mage::helper('profileolabs_shoppingflux')->__('Shopping flux orders'), Mage::helper('profileolabs_shoppingflux')->__('Shopping flux orders'));
+		->_addBreadcrumb(Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux orders'), Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux orders'));
 
 		return $this;
 	}

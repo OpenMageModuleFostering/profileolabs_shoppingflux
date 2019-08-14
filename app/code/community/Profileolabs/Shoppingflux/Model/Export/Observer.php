@@ -25,13 +25,15 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $productCollection->getSelect()->where('CAST(sf_stock.qty AS SIGNED) != flux.stock_value');
         $productCollection->getSelect()->group('e.entity_id');
         foreach($productCollection as $product) {
-            Mage::getModel('profileolabs_shoppingflux/export_flux')->updateProductInFluxForAllStores($product->getSku());
+            Mage::getModel('profileolabs_shoppingflux/export_flux')->productNeedUpdate($product);
         }
     }
 
     public function updateFlux() {
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux();
+        if(Mage::getStoreConfigFlag('shoppingflux_export/general/enable_cron')) {
+            Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
+            Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux();
+        }
     }
 
     
@@ -40,7 +42,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $handle = fopen($filePath, 'a');
         ftruncate($handle, 0);
 
-        Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($storeId, 1000000);
+        //Mage::getModel('profileolabs_shoppingflux/export_flux')->updateFlux($storeId, 1000000);
         $collection = Mage::getModel('profileolabs_shoppingflux/export_flux')->getCollection();
         $collection->addFieldToFilter('should_export', 1);
         $collection->addFieldToFilter('store_id', $storeId);
@@ -79,27 +81,6 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         $this->generateFluxInFileForStore(Mage::app()->getDefaultStoreView()->getId());
     }
 
-    /**
-     * @deprecated deprecated since 0.1.1
-     * @param Varien_Object $observer
-     */
-    public function generateFlow($observer) {
-        try {
-
-            $url = str_replace("index.php/", "", Mage::getBaseUrl() . 'Script_Profileolabs/generate_flow.php');
-            $curl = curl_init($url);
-            curl_setopt($curl, CURLOPT_POST, false);
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 1800);
-            $curl_response = curl_exec($curl);
-            curl_close($curl);
-        } catch (Exception $e) {
-            Mage::throwException($e);
-        }
-
-        return $this;
-    }
 
     /**
      * Add shoppingflux product tab in category edit page

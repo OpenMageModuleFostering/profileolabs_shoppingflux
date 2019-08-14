@@ -115,7 +115,7 @@ class Profileolabs_Shoppingflux_Block_Manageorders_Adminhtml_Order_Grid extends 
         //Data shopping flux
         
         $this->addColumn('order_id_shoppingflux', array(
-            'header' => Mage::helper('profileolabs_shoppingflux')->__('Id shopping flux'),
+            'header' => Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux ID'),
             'index' => 'order_id_shoppingflux',
         ));
         

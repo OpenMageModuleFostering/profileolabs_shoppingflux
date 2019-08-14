@@ -53,11 +53,11 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Process extends Mage_Admi
 		
         
         
-        $this->_flowModel->setException(Mage::helper("dataflow")->__("%d produits trouvés.(en stock + hors stock)",$flowItemsCount));
+        $this->_flowModel->setException(Mage::helper("profileolabs_shoppingflux")->__("%d products found.(in stock + out of stock)",$flowItemsCount));
         $soldOutTxt = "";
         if(!$this->_flowModel->getConfig()->isExportSoldout())
         {
-        	$soldOutTxt = Mage::helper('profileolabs_shoppingflux')->__('Seuls les produits en stock seront exportés');
+        	$soldOutTxt = Mage::helper('profileolabs_shoppingflux')->__('Only instock products will be exported');
         	$this->_flowModel->setException($soldOutTxt);
         }
 
@@ -68,7 +68,7 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Process extends Mage_Admi
     	if($offsets == 0)
     		$offsets =1;
 		
-    	$this->_flowModel->setException(Mage::helper("dataflow")->__("La génération se fera en %d lot(s) de %d produit(s)",$offsets,$this->_flowModel->getLimit()));
+    	$this->_flowModel->setException(Mage::helper("profileolabs_shoppingflux")->__("Generation will be done in %d part(s) of %d product(s)",$offsets,$this->_flowModel->getLimit()));
     		
     	$this->setFlowItemsCount( $flowItemsCount);
         $this->setFlowConfig(
@@ -88,8 +88,8 @@ class Profileolabs_Shoppingflux_Block_Export_Adminhtml_Process extends Mage_Admi
                                     . '<img id="#{id}_img" src="#{image}" class="v-middle" style="margin-right:5px"/>'
                                     . '<span id="#{id}_status" class="text">#{text}</span>'
                                     . '</li>',
-                        'text'     => $this->__('Etape <strong>%s/%s.  %s/%s</strong> produit(s)','#{offset}', $offsets, '#{updated}', '#{savedRows}'),
-                        'successText'  => $this->__('<strong>%s</strong> produits exportés.', '#{updated}')
+                        'text'     => $this->__('Step <strong>%s/%s.  %s/%s</strong> product(s)','#{offset}', $offsets, '#{updated}', '#{savedRows}'),
+                        'successText'  => $this->__('<strong>%s</strong> exported products.', '#{updated}')
                     )
                 );
                 

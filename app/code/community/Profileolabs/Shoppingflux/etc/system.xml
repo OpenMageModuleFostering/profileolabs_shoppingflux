@@ -8,7 +8,7 @@
     </tabs>
     <sections>
         <shoppingflux translate="label" module="profileolabs_shoppingflux">
-            <label>Général</label>
+            <label>General</label>
             <tab>shoppingflux</tab>
             <frontend_type>text</frontend_type>
             <sort_order>10</sort_order>
@@ -24,8 +24,8 @@
                     <sort_order>1</sort_order>
                     <fields>
                         <login>
-                            <label>Identifiant Shopping flux</label>
-                            <comment>Votre login de connexion à l'interface Shopping flux</comment>
+                            <label>ShoppingFlux identifier</label>
+                            <comment>Your ShoppingFlux's interface login</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -33,7 +33,7 @@
                             <show_in_store>1</show_in_store>
                         </login>
                         <api_key>
-                            <label>Api key</label>						
+                            <label>API key</label>						
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -41,8 +41,8 @@
                             <show_in_store>1</show_in_store>
                         </api_key>
                         <id_tracking>
-                            <label>ID de tracking</label>
-                            <comment>Votre identifiant pour le tracking</comment>
+                            <label>Tracking ID</label>
+                            <comment>Your ShoppingFlux Tracking ID</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -50,7 +50,7 @@
                             <show_in_store>1</show_in_store>
                         </id_tracking>
                         <enable_buyline>
-                            <label>Activer le buyline ?</label>
+                            <label>Enable buyline ?</label>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                             <sort_order>30</sort_order>
@@ -59,8 +59,8 @@
                             <show_in_store>1</show_in_store>
                         </enable_buyline>
                         <alert_email>
-                            <label>Email pour les alertes</label>
-                            <comment>En cas de problème lors des transfert de données, un mail vous sera envoyé à cette adresse.</comment>
+                            <label>Email address for alerts</label>
+                            <comment>In case of issue while transfering data, an email will be sent to this address.</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
@@ -88,8 +88,7 @@
                     <sort_order>1</sort_order>
                     <fields>
                         <enabled>
-                            <label>Enable manage orders</label>
-                            <comment>Enable get orders from Shopping Flux</comment>							
+                            <label>Enable order management</label>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -115,8 +114,8 @@
                             <show_in_store>0</show_in_store>
                         </new_order_status>
                         <create_invoice>
-                            <label>Create invoice</label>
-                            <comment>Invoice is created when order getted from Shopping Flux</comment>							
+                            <label>Create invoice ?</label>
+                            <comment>If yes, an invoice will be created on ShoppingFlux's order creation</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>25</sort_order>
                             <show_in_default>1</show_in_default>
@@ -136,15 +135,15 @@
                     </fields>
                 </manageorders>
                 <import_customer translate="label" module="profileolabs_shoppingflux">
-                    <label>Import Customers</label>
+                    <label>Customer Import</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>2</sort_order>
                     <fields>
                         <limit_address_length>
-                            <label>Limiter la longueur des lignes d'adresse</label>
-                            <comment>Laisser vide pour ne pas limiter. Valeur mini : 20</comment>							
+                            <label>Limit addresses length</label>
+                            <comment>Leave empty to not limit length. Minimum value if filled : 20</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
@@ -152,7 +151,7 @@
                             <show_in_store>0</show_in_store>
                         </limit_address_length>
                         <prefer_mobile_phone>
-                            <label>Préférer le numéro de mobile au fixe, si disponible</label>						
+                            <label>Import mobile phone instead of desk phone, if available</label>						
                             <frontend_type>select</frontend_type>
                             <sort_order>7</sort_order>
                             <show_in_default>1</show_in_default>
@@ -161,8 +160,7 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </prefer_mobile_phone>
                         <default_group>
-                            <label>Default customer group</label>
-                            <comment>Set specific customer group for imported customer from Shopping Flux</comment>							
+                            <label>Default customer group</label>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -172,7 +170,7 @@
                         </default_group>
                         <amazon_group>
                             <label>Amazon customer group</label>
-                            <comment>Set specific customer group for imported customer from Amazon. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -182,7 +180,7 @@
                         </amazon_group>
                         <cdiscount_group>
                             <label>Cdiscount customer group</label>
-                            <comment>Set specific customer group for imported customer from Cdiscount. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
@@ -192,7 +190,7 @@
                         </cdiscount_group>
                         <ebay_group>
                             <label>Ebay customer group</label>
-                            <comment>Set specific customer group for imported customer from Ebay. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -202,7 +200,7 @@
                         </ebay_group>
                         <fnac_group>
                             <label>Fnac customer group</label>
-                            <comment>Set specific customer group for imported customer from Fnac. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -212,7 +210,7 @@
                         </fnac_group>
                         <pixmania_group>
                             <label>Pixmania customer group</label>
-                            <comment>Set specific customer group for imported customer from Pixmania. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -222,7 +220,7 @@
                         </pixmania_group>
                         <priceminister_group>
                             <label>Priceminister customer group</label>
-                            <comment>Set specific customer group for imported customer from Priceminister. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -232,7 +230,7 @@
                         </priceminister_group>
                         <rueducommerce_group>
                             <label>Rueducommerce customer group</label>
-                            <comment>Set specific customer group for imported customer from Rueducommerce. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -242,7 +240,7 @@
                         </rueducommerce_group>
                         <brandalley_group>
                             <label>Brandalley customer group</label>
-                            <comment>Set specific customer group for imported customer from Brandalley. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -252,7 +250,7 @@
                         </brandalley_group>
                         <toutaporter_group>
                             <label>ToutAPorter customer group</label>
-                            <comment>Set specific customer group for imported customer from ToutAPorter. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -262,7 +260,7 @@
                         </toutaporter_group>
                         <greenrepublic_group>
                             <label>GreenRepublic customer group</label>
-                            <comment>Set specific customer group for imported customer from GreenRepublic. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -272,7 +270,7 @@
                         </greenrepublic_group>
                         <laredoute_group>
                             <label>Laredoute customer group</label>
-                            <comment>Set specific customer group for imported customer from Laredoute. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -282,7 +280,7 @@
                         </laredoute_group>
                         <babyssima_group>
                             <label>Babyssima customer group</label>
-                            <comment>Set specific customer group for imported customer from Babyssima. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -292,7 +290,7 @@
                         </babyssima_group>
                         <ecitizen_group>
                             <label>Ecitizen customer group</label>
-                            <comment>Set specific customer group for imported customer from Ecitizen. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -302,7 +300,7 @@
                         </ecitizen_group>
                         <decofinder_group>
                             <label>Decofinder customer group</label>
-                            <comment>Set specific customer group for imported customer from Decofinder. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -312,7 +310,7 @@
                         </decofinder_group>
                         <docteurdiscount_group>
                             <label>Docteurdiscount customer group</label>
-                            <comment>Set specific customer group for imported customer from Docteurdiscount. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -322,7 +320,7 @@
                         </docteurdiscount_group>
                         <glamour_group>
                             <label>Glamour customer group</label>
-                            <comment>Set specific customer group for imported customer from Glamour. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -332,7 +330,7 @@
                         </glamour_group>
                         <gstk_group>
                             <label>Gstk customer group</label>
-                            <comment>Set specific customer group for imported customer from Gstk. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -342,7 +340,7 @@
                         </gstk_group>
                         <mistergooddeal_group>
                             <label>MisterGoodDeal customer group</label>
-                            <comment>Set specific customer group for imported customer from MisterGoodDeal. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -352,7 +350,7 @@
                         </mistergooddeal_group>
                         <placedumariage_group>
                             <label>PlaceDuMariage customer group</label>
-                            <comment>Set specific customer group for imported customer from PlaceDuMariage. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -362,7 +360,7 @@
                         </placedumariage_group>
                         <tap_group>
                             <label>Tap customer group</label>
-                            <comment>Set specific customer group for imported customer from Tap. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -372,7 +370,7 @@
                         </tap_group>
                         <spartoo_group>
                             <label>Spartoo customer group</label>
-                            <comment>Set specific customer group for imported customer from Spartoo. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -382,7 +380,7 @@
                         </spartoo_group>
                         <jardinermalin_group>
                             <label>Jardinermalin customer group</label>
-                            <comment>Set specific customer group for imported customer from Jardinermalin. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -392,7 +390,7 @@
                         </jardinermalin_group>
                         <monechelle_group>
                             <label>Monechelle customer group</label>
-                            <comment>Set specific customer group for imported customer from Monechelle. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -402,7 +400,7 @@
                         </monechelle_group>
                         <localismarket_group>
                             <label>Localismarket customer group</label>
-                            <comment>Set specific customer group for imported customer from Localismarket. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -412,7 +410,7 @@
                         </localismarket_group>
                         <galerieslafayette_group>
                             <label>GaleriesLafayette customer group</label>
-                            <comment>Set specific customer group for imported customer from GaleriesLafayette. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>								
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -422,7 +420,7 @@
                         </galerieslafayette_group>
                        <monchouchou_group>
                             <label>Monchouchou customer group</label>
-                            <comment>Set specific customer group for imported customer from Monchouchou. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -432,7 +430,7 @@
                         </monchouchou_group>
                        <elevenmain_group>
                             <label>Elevenmain customer group</label>
-                            <comment>Set specific customer group for imported customer from Elevenmain. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -442,7 +440,7 @@
                         </elevenmain_group>
                        <sears_group>
                             <label>Sears customer group</label>
-                            <comment>Set specific customer group for imported customer from Sears. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -452,7 +450,7 @@
                         </sears_group>
                        <wizacha_group>
                             <label>Wizacha customer group</label>
-                            <comment>Set specific customer group for imported customer from Wizacha. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default group</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>70</sort_order>
                             <show_in_default>1</show_in_default>
@@ -463,7 +461,7 @@
                     </fields>
                 </import_customer>
                 <shipping_method translate="label" module="profileolabs_shoppingflux">
-                    <label>Shipping Methods</label>
+                    <label>Shipping Method</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -471,7 +469,7 @@
                     <fields>
                         <default_method>
                             <label>Default shipping method</label>
-                            <comment>Set specific shipping method for imported order from Shopping Flux</comment>							
+                            <comment>Specific shipping method to use for imported ShoppingFlux's order</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>10</sort_order>
                             <show_in_default>1</show_in_default>
@@ -481,7 +479,7 @@
                         </default_method>
                         <amazon_method>
                             <label>Amazon shipping method</label>
-                            <comment>Set specific shipping method for imported order from Amazon. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>30</sort_order>
                             <show_in_default>1</show_in_default>
@@ -491,7 +489,7 @@
                         </amazon_method>
                         <cdiscount_method>
                             <label>Cdiscount shipping method</label>
-                            <comment>Set specific shipping method for imported order from Cdiscount. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
@@ -501,7 +499,7 @@
                         </cdiscount_method>
                         <ebay_method>
                             <label>Ebay shipping method</label>
-                            <comment>Set specific shipping method for imported order from Ebay. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -511,7 +509,7 @@
                         </ebay_method>
                         <fnac_method>
                             <label>Fnac shipping method</label>
-                            <comment>Set specific shipping method for imported order from Fnac. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>50</sort_order>
                             <show_in_default>1</show_in_default>
@@ -521,7 +519,7 @@
                         </fnac_method>
                         <pixmania_method>
                             <label>Pixmania shipping method</label>
-                            <comment>Set specific shipping method for imported order from Pixmania. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -531,7 +529,7 @@
                         </pixmania_method>
                         <priceminister_method>
                             <label>Priceminister shipping method</label>
-                            <comment>Set specific shipping method for imported order from Priceminister. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -541,7 +539,7 @@
                         </priceminister_method>
                         <rueducommerce_method>
                             <label>Rueducommerce shipping method</label>
-                            <comment>Set specific shipping method for imported order from Rueducommerce. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -551,7 +549,7 @@
                         </rueducommerce_method>
                         <brandalley_method>
                             <label>Brandalley shipping method</label>
-                            <comment>Set specific shipping method for imported order from Brandalley. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -561,7 +559,7 @@
                         </brandalley_method>
                         <toutaporter_method>
                             <label>ToutAPorter shipping method</label>
-                            <comment>Set specific shipping method for imported order from ToutAPorter. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -571,7 +569,7 @@
                         </toutaporter_method>
                         <greenrepublic_method>
                             <label>GreenRepublic shipping method</label>
-                            <comment>Set specific shipping method for imported order from GreenRepublic. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -581,7 +579,7 @@
                         </greenrepublic_method>
                         <laredoute_method>
                             <label>Laredoute shipping method</label>
-                            <comment>Set specific shipping method for imported order from Laredoute. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -591,7 +589,7 @@
                         </laredoute_method>
                         <babyssima_method>
                             <label>Babyssima shipping method</label>
-                            <comment>Set specific shipping method for imported order from Babyssima. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -601,7 +599,7 @@
                         </babyssima_method>
                         <monechelle_method>
                             <label>Monechelle shipping method</label>
-                            <comment>Set specific shipping method for imported order from Monechelle. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -611,7 +609,7 @@
                         </monechelle_method>
                         <ecitizen_method>
                             <label>Ecitizen shipping method</label>
-                            <comment>Set specific shipping method for imported order from Ecitizen. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -621,7 +619,7 @@
                         </ecitizen_method>
                         <decofinder_method>
                             <label>Decofinder shipping method</label>
-                            <comment>Set specific shipping method for imported order from Decofinder. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -631,7 +629,7 @@
                         </decofinder_method>
                         <docteurdiscount_method>
                             <label>Docteurdiscount shipping method</label>
-                            <comment>Set specific shipping method for imported order from Docteurdiscount. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -641,7 +639,7 @@
                         </docteurdiscount_method>
                         <glamour_method>
                             <label>Glamour shipping method</label>
-                            <comment>Set specific shipping method for imported order from Glamour. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -651,7 +649,7 @@
                         </glamour_method>
                         <gstk_method>
                             <label>Gstk shipping method</label>
-                            <comment>Set specific shipping method for imported order from Gstk. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -661,7 +659,7 @@
                         </gstk_method>
                         <mistergooddeal_method>
                             <label>Mistergooddeal shipping method</label>
-                            <comment>Set specific shipping method for imported order from Mistergooddeal Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -671,7 +669,7 @@
                         </mistergooddeal_method>
                         <placedumariage_method>
                             <label>PlaceDuMariage shipping method</label>
-                            <comment>Set specific shipping method for imported order from PlaceDuMariage. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -681,7 +679,7 @@
                         </placedumariage_method>
                         <tap_method>
                             <label>Tout à porter shipping method</label>
-                            <comment>Set specific shipping method for imported order from Tout à porter. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -691,7 +689,7 @@
                         </tap_method>
                         <spartoo_method>
                             <label>Spartoo shipping method</label>
-                            <comment>Set specific shipping method for imported order from Spartoo. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -701,7 +699,7 @@
                         </spartoo_method>
                         <jardinermalin_method>
                             <label>Jardinermalin shipping method</label>
-                            <comment>Set specific shipping method for imported order from Jardinermalin. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -711,7 +709,7 @@
                         </jardinermalin_method>
                         <localismarket_method>
                             <label>Localismarket shipping method</label>
-                            <comment>Set specific shipping method for imported order from Localismarket. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -721,7 +719,7 @@
                         </localismarket_method>
                         <galerieslafayette_method>
                             <label>GaleriesLafayette shipping method</label>
-                            <comment>Set specific shipping method for imported order from GaleriesLafayette. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>						
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -731,7 +729,7 @@
                         </galerieslafayette_method>
                         <monchouchou_method>
                             <label>Monchouchou shipping method</label>
-                            <comment>Set specific shipping method for imported order from Monchouchou. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -741,7 +739,7 @@
                         </monchouchou_method>
                         <elevenmain_method>
                             <label>Elevenmain shipping method</label>
-                            <comment>Set specific shipping method for imported order from Elevenmain. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>					
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -751,7 +749,7 @@
                         </elevenmain_method>
                         <sears_method>
                             <label>Sears shipping method</label>
-                            <comment>Set specific shipping method for imported order from Sears. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -761,7 +759,7 @@
                         </sears_method>
                         <wizacha_method>
                             <label>Wizacha shipping method</label>
-                            <comment>Set specific shipping method for imported order from Wizacha. Leave empty to use default.</comment>							
+                            <comment>Leave empty to use default shipping method.</comment>				
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
                             <show_in_default>1</show_in_default>
@@ -801,7 +799,7 @@
             </groups>
         </shoppingflux_mo>
         <shoppingflux_export translate="label" module="profileolabs_shoppingflux">
-            <label>Gestion des produits</label>
+            <label>Manage Products</label>
             <tab>shoppingflux</tab>
             <frontend_type>text</frontend_type>
             <sort_order>90</sort_order>
@@ -810,17 +808,15 @@
             <show_in_store>1</show_in_store>
             <groups>
                 <general translate="label">
-                    <label>Generale</label>
-                    <comment>
-						<![CDATA[<b style="color:red">Url de votre flux xml :</b>&nbsp;&nbsp;<span style="font-size:14px;font-style:italic;">http://{votre domaine}/shoppingflux/export_flux/</span><br /><br /><br />]]>			
-                    </comment>
+                    <label>General</label>
+                    <comment><![CDATA[<b style='color:red'>Feed URL :</b>&nbsp;&nbsp;<span style='font-size:14px;font-style:italic;'>http://domain.tld/shoppingflux/export_flux/</span><br /><br /><br />]]></comment>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
                         <active>
-                            <label>Activer le module Shopping-flux</label>
+                            <label>Enable product export ?</label>
                             <comment></comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>1</sort_order>
@@ -830,10 +826,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </active>
                         <filter_by_attribute>
-                            <label>Exporter uniquement les produits sélectionnés</label>
-                            <comment>N'oubliez pas de sélectionner des produits à filtrer. 
-                                <strong>Shoppingflux > Sélectionnez les produits</strong>
-                            </comment>							
+                            <label>Export selected products only ?</label>
+                            <comment><![CDATA[If yes, you'll have to select products in <strong>Shoppingflux > Product Selection</strong>]]></comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>5</sort_order>
                             <show_in_default>1</show_in_default>
@@ -851,9 +845,8 @@
                          							<comment>Limite le nombre de produit par lots</comment>
                   						</limit_product> -->
                         <default_shipping_delay>
-                            <label>Délai de livraison</label>
-                            <comment><![CDATA[Délai de livraison en <strong>jours</strong> par défaut si aucun attribut n'est mappé.]]>
-                            </comment>
+                            <label>Shipping delay</label>
+                            <comment><![CDATA[Shipping delay, in <strong>days</strong>. This will be used if no shipping delay attribute is mapped.]]></comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>20</sort_order>
                             <show_in_default>1</show_in_default>
@@ -861,8 +854,8 @@
                             <show_in_store>1</show_in_store>
                         </default_shipping_delay>
                         <default_shipping_price>
-                            <label>Frais de port</label>
-                            <comment>Frais de port par défaut si aucune correpondance n'est trouvée.</comment>
+                            <label>Shipping fees</label>
+                            <comment>Default shipping fees amount</comment>
                             <frontend_type>text</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
@@ -870,8 +863,8 @@
                             <show_in_store>1</show_in_store>
                         </default_shipping_price>
                         <default_shipping_method>
-                            <label>Méthode de livraison </label>
-                            <comment>Méthode de livraison par défaut pour calculer les frais de livraison</comment>
+                            <label>Shipping Method</label>
+                            <comment>Default shipping method to calculate shipping fees</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_shipping_allmethods</source_model>
                             <sort_order>30</sort_order>
@@ -880,8 +873,8 @@
                             <show_in_store>1</show_in_store>						
                         </default_shipping_method>
                         <try_use_real_shipping_price>
-                            <label>Essayer de récupérer les prix de livraison réels</label>
-                            <comment>Désactiver cette option en cas de problème de mémoire.</comment>							
+                            <label>Try to get real shipping fees for each product ?</label>
+                            <comment>Disable this option if you have memory issues.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>40</sort_order>
                             <show_in_default>1</show_in_default>
@@ -890,8 +883,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </try_use_real_shipping_price>	
                         <shipping_price_based_on>
-                            <label>Pays de livraison</label>
-                            <comment>Pays par défaut pour calculer les frais de livraison</comment>
+                            <label>Shipping Country</label>
+                            <comment>Default country used to calculate shipping fees</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_country</source_model>
                             <sort_order>50</sort_order>
@@ -900,7 +893,7 @@
                             <show_in_store>1</show_in_store>			
                         </shipping_price_based_on>
                         <export_soldout>
-                            <label>Exporter les produits hors stock</label>
+                            <label>Export out of stock products</label>
                             <comment></comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>60</sort_order>
@@ -910,7 +903,7 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </export_soldout>
                         <export_visibility>
-                            <label>Exporter les produits avec la visibilité</label>
+                            <label>Export product with visibility :</label>
                             <comment></comment>							
                             <frontend_type>multiselect</frontend_type>
                             <sort_order>70</sort_order>
@@ -920,8 +913,8 @@
                             <source_model>profileolabs_shoppingflux/export_source_visibility</source_model>
                         </export_visibility>
                         <memory_limit>
-                            <label>Limite de mémoire</label>
-                            <comment>Exprimé en MB. A ne modifier que si vous savez ce que vous faites.</comment>							
+                            <label>Memory limit</label>
+                            <comment>in MB. Do not modify if you don't know what you are doing.</comment>							
                             <frontend_type>text</frontend_type>
                             <sort_order>100</sort_order>
                             <show_in_default>1</show_in_default>
@@ -929,18 +922,28 @@
                             <show_in_store>0</show_in_store>
                         </memory_limit>	
                         <enable_sync>
-                            <label>Activer les mises à jour automatique</label>
-                            <comment>Mise à jour des stocks et des prix en temps réel. Cela peut ralentir les modifications de stock/prix.</comment>							
+                            <label>Enable automatic updates ?</label>
+                            <comment>Update stocks and prices in real time. This could slow down price and stock modifications.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>120</sort_order>
                             <show_in_default>1</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>0</show_in_store>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
-                        </enable_sync>	
+                        </enable_sync>		
+                        <enable_cron>
+                            <label>Enable background generation ?</label>
+                            <comment>Update feed on background if needed.</comment>							
+                            <frontend_type>select</frontend_type>
+                            <sort_order>125</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>0</show_in_website>
+                            <show_in_store>0</show_in_store>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                        </enable_cron>	
                         <use_manage_stock>
-                            <label>Prendre compte la gestion des stocks ?</label>
-                            <comment>Si oui, les produits en "Gestion des stocks" : "Non" auront un stock à 100 dans le flux.</comment>							
+                            <label>Manage 'Manage stock' attribute ?</label>
+                            <comment>If yes, products with 'Manage stock' = 'No' will have a stock qty to 100 in the feed.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>130</sort_order>
                             <show_in_default>1</show_in_default>
@@ -950,8 +953,8 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </use_manage_stock>
                         <all_store_products>
-                            <label>Prendre les produits de tous les Magasins ?</label>
-                            <comment>En cas de doute, laisser à non.</comment>							
+                            <label>Export products from all stores ?</label>
+                            <comment>If any doubt exists, leave it to 'No'</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>135</sort_order>
                             <show_in_default>1</show_in_default>
@@ -960,8 +963,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </all_store_products>
                         <all_store_categories>
-                            <label>Prendre les catégories de tous les Magasins ?</label>
-                            <comment>En cas de doute, laisser à non.</comment>							
+                            <label>Use categories from all stores ?</label>
+                            <comment>If any doubt exists, leave it to 'No'</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>140</sort_order>
                             <show_in_default>1</show_in_default>
@@ -971,8 +974,8 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </all_store_categories>		
                         <use_only_shoppingflux_category>
-                            <label>N'utilisez que la catégorie ShoppingFlux</label>
-                            <comment>Gain en performance si oui.</comment>							
+                            <label>Use only ShoppingFlux category ?</label>
+                            <comment>Faster if yes.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
@@ -982,7 +985,7 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </use_only_shoppingflux_category>	
                         <max_category_level>
-                            <label>N'utilisez que les X premiers niveaux de catégories</label>						
+                            <label>Use only X first category levels</label>						
                             <frontend_type>select</frontend_type>
                             <sort_order>150</sort_order>
                             <show_in_default>1</show_in_default>
@@ -992,8 +995,8 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </max_category_level>	
                         <enable_events>
-                            <label>Activer les évenements ShoppingFlux ?</label>
-                            <comment>Utile uniquement en cas de développement spécifique. Désactiver pour gagner en performances.</comment>							
+                            <label>Enable ShoppingFlux events ?</label>
+                            <comment>Usefull only in case of specific developments.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>160</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1002,8 +1005,8 @@
                             <source_model>adminhtml/system_config_source_yesno</source_model>
                         </enable_events>
                         <manage_configurable>
-                            <label>Gestion des produits configurables en mode avancé ?</label>
-                            <comment>Si non, seuls les produits configurables seront transmis (sans leur enfants). Permet de gagner en performances si cette option n'est pas utile.</comment>							
+                            <label>Advanced management of configurable products ?</label>
+                            <comment>If no, only configurable products will be transfered (without their children). In most cases, should be set to 'Yes'.</comment>							
                             <frontend_type>select</frontend_type>
                             <sort_order>170</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1013,7 +1016,7 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </manage_configurable>	
                         <manage_catalog_rules>
-                            <label>Gestion des règles de prix catalogue ?</label>			
+                            <label>Manage catalog price rules ?</label>			
                             <frontend_type>select</frontend_type>
                             <sort_order>180</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1023,8 +1026,8 @@
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
                         </manage_catalog_rules>	
                         <manage_media_gallery>
-                            <label>Gestion des galeries de photos produit ?</label>
-                            <comment>Ne concerne pas l'image principale du produit. Mettre à non pour gain de performances.</comment>			
+                            <label>Manage product galleries ?</label>
+                            <comment>Does not concern main image. Faster if 'No'.</comment>			
                             <frontend_type>select</frontend_type>
                             <sort_order>190</sort_order>
                             <show_in_default>1</show_in_default>
@@ -1036,14 +1039,14 @@
                     </fields>
                 </general>
                 <attributes_unknow translate="label">
-                    <label>Mapping d'attributs Inconnus</label>
+                    <label>Unknown attribute mapping</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>20</sort_order>
                     <fields>
                         <ean>
-                            <label>Ean</label>
+                            <label>EAN</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1065,7 +1068,7 @@
                             <show_in_store>1</show_in_store>
                         </isbn>
                         <ref_manufacturer>
-                            <label>Référence constructeur</label>
+                            <label>Manufacturer's reference</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1076,7 +1079,7 @@
                             <show_in_store>1</show_in_store>
                         </ref_manufacturer>
                         <ref_wholesaler>
-                            <label>Référence fournisseur</label>
+                            <label>Supplier's reference</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1087,7 +1090,7 @@
                             <show_in_store>1</show_in_store>
                         </ref_wholesaler>
                         <shipping_delay>
-                            <label>Délai de livraison</label>
+                            <label>Shipping delay</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1098,7 +1101,7 @@
                             <show_in_store>1</show_in_store>							
                         </shipping_delay>
                         <shipping_send_delay>
-                            <label>Délai de d'expédition</label>
+                            <label>Expedition delay</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1109,7 +1112,7 @@
                             <show_in_store>1</show_in_store>							
                         </shipping_send_delay>
                         <brand>
-                            <label>Marque</label>
+                            <label>Brand</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1120,7 +1123,7 @@
                             <show_in_store>1</show_in_store>
                         </brand>
                         <brand_page_url>
-                            <label>URL de la page Marque</label>
+                            <label>Brand page's URL</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1131,8 +1134,7 @@
                             <show_in_store>1</show_in_store>
                         </brand_page_url>	
                         <ecotaxe>
-                            <label>Ecotaxe</label>
-                            <comment>Si vos produits ont une écotaxe</comment>
+                            <label>Ecotax</label>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>
@@ -1142,7 +1144,7 @@
                             <show_in_store>1</show_in_store>					
                         </ecotaxe>
                         <short_name>
-                            <label>Nom court du produit</label>
+                            <label>Product short name</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1153,7 +1155,7 @@
                             <show_in_store>1</show_in_store>					
                         </short_name>
                         <characteristics>
-                            <label>Caractéristiques</label>
+                            <label>Characteristics</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1164,7 +1166,7 @@
                             <show_in_store>1</show_in_store>
                         </characteristics>
                         <warranty>
-                            <label>Garantie</label>
+                            <label>Warranty</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1175,7 +1177,7 @@
                             <show_in_store>1</show_in_store>
                         </warranty>
                         <kind>
-                            <label>Genre</label>
+                            <label>Gender</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1186,7 +1188,7 @@
                             <show_in_store>1</show_in_store>
                         </kind>
                         <matter>
-                            <label>Matière</label>
+                            <label>Material</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1197,7 +1199,7 @@
                             <show_in_store>1</show_in_store>
                         </matter>
                         <size>
-                            <label>Taille</label>
+                            <label>Size</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1208,7 +1210,7 @@
                             <show_in_store>1</show_in_store>
                         </size>
                         <shoe_size>
-                            <label>Pointure</label>
+                            <label>Shoe size</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1232,14 +1234,14 @@
                     </fields>
                 </attributes_unknow>
                 <attributes_know translate="label">
-                    <label>Mapping d'attributs Connus</label>
+                    <label>Known Attribute Mapping</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>30</sort_order>
                     <fields>
                         <name>
-                            <label>Nom du produit</label>
+                            <label>Product name</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1250,7 +1252,7 @@
                             <show_in_store>1</show_in_store>
                         </name>
                         <description>
-                            <label>Description du produit</label>
+                            <label>Product description</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1261,7 +1263,7 @@
                             <show_in_store>1</show_in_store>
                         </description>
                         <short_description>
-                            <label>Description courte du produit</label>
+                            <label>Product short description</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1272,7 +1274,7 @@
                             <show_in_store>1</show_in_store>
                         </short_description>
                         <meta_keyword>
-                            <label>Mot clés</label>
+                            <label>Keywords</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1283,7 +1285,7 @@
                             <show_in_store>1</show_in_store>
                         </meta_keyword>
                         <weight>
-                            <label>Poids</label>
+                            <label>Weight</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1294,7 +1296,7 @@
                             <show_in_store>1</show_in_store>
                         </weight>
                         <color>
-                            <label>Couleur</label>
+                            <label>Color</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
@@ -1307,7 +1309,7 @@
                     </fields>
                 </attributes_know>
                 <specific_prices>
-                    <label>Prix spécifiques</label>
+                    <label>Specific prices</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
@@ -1315,7 +1317,7 @@
                     <fields>
                         
                         <price>
-                            <label>Prix TTC</label>
+                            <label>Price</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
@@ -1326,7 +1328,7 @@
                             <show_in_store>1</show_in_store>
                         </price>
                         <special_price>
-                            <label>Prix Spécial</label>
+                            <label>Special Price</label>
                             <comment></comment>
                             <frontend_type>select</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributesprice</source_model>
@@ -1339,14 +1341,14 @@
                     </fields>
                 </specific_prices>
                 <attributes_additionnal>
-                    <label>Attributs supplémentaires</label>
+                    <label>Additionnal Attributes</label>
                     <show_in_default>1</show_in_default>
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                     <sort_order>40</sort_order>
                     <fields>
                         <list>
-                            <label>Autres attributs à transmettre</label>
+                            <label>Other attributes to export</label>
                             <frontend_type>multiselect</frontend_type>
                             <source_model>profileolabs_shoppingflux/export_source_attributes</source_model>
                             <backend_model>profileolabs_shoppingflux/system_config_backend_refresh</backend_model>

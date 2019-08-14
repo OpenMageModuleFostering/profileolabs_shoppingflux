@@ -149,7 +149,7 @@ class Profileolabs_Shoppingflux_Model_Service extends Varien_Object {
             Mage::log($responseText, null, 'shoppingflux.log');
             Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__("Result is not Varien_Simplexml_Element"));
         } elseif ($this->_xml->error) {
-            Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__('API key (Token) not valid'));
+            Mage::throwException(Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux API key (Token) is not valid'));
         }
 
         /* 	} catch (Exception $e) {

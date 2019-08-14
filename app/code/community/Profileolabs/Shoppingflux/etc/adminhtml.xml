@@ -6,21 +6,21 @@
             <sort_order>20</sort_order>
             <children>
                 <manageorders translate="title" module="profileolabs_shoppingflux">
-                    <title>Commandes</title>
+                    <title>Orders</title>
                     <sort_order>200</sort_order>
                     <children>
                         <order translate="title" module="profileolabs_shoppingflux">
-                            <title>Shopping flux orders</title>
+                            <title>ShoppingFlux orders</title>
                             <action>shoppingflux/manageorders_adminhtml_order</action>
                             <sort_order>10</sort_order>
                         </order>
                         <import translate="title" module="profileolabs_shoppingflux">
-                            <title>Shopping flux import orders</title>
+                            <title>ShoppingFlux order import</title>
                             <action>shoppingflux/manageorders_adminhtml_import</action>
                             <sort_order>20</sort_order>
                         </import>
                         <log translate="title" module="profileolabs_shoppingflux">
-                            <title>Shopping flux log</title>
+                            <title>ShoppingFlux order log</title>
                             <action>shoppingflux/manageorders_adminhtml_log</action>
                             <sort_order>30</sort_order>
                         </log>
@@ -31,22 +31,27 @@
                     <sort_order>200</sort_order>
                     <children>
                         <show_flux translate="title" module="profileolabs_shoppingflux">
-                            <title>Voir les flux</title>
+                            <title>Feed List</title>
                             <action>shoppingflux/export_adminhtml_export/show</action>
                             <sort_order>10</sort_order>
                         </show_flux>
                         <set_product translate="title" module="profileolabs_shoppingflux">
-                            <title>Sélection de produit</title>
+                            <title>Product Selection</title>
                             <action>shoppingflux/export_adminhtml_export/update</action>
                             <sort_order>20</sort_order>
                         </set_product>
                     </children>
                 </export>
                 <crons translate="title" module="profileolabs_shoppingflux">
-                    <title>Suivi des crons</title>
+                    <title>Cron log</title>
                     <sort_order>900</sort_order>
                     <action>shoppingflux/manageorders_adminhtml_cron</action>  
                 </crons>
+                <!--<test translate="title" module="profileolabs_shoppingflux">
+                    <title>test</title>
+                    <sort_order>900</sort_order>
+                    <action>shoppingflux/adminhtml_general/test</action>  
+                </test>-->
             </children>
         </shoppingflux>
     </menu>
@@ -65,7 +70,7 @@
                                         <title>Shoppingflux manage orders</title>
                                     </shoppingflux_mo>
                                     <shoppingflux_export translate="title" module="profileolabs_shoppingflux">
-                                        <title>Shoppingflux Export des produits</title>
+                                        <title>Shoppingflux manage products</title>
                                     </shoppingflux_export>
                                 </children>
                             </config>
@@ -75,16 +80,16 @@
                         <title>Shopping Flux</title>
                         <children>
                             <manageorders translate="title" module="profileolabs_shoppingflux">
-                                <title>Commandes</title>
+                                <title>Orders</title>
                                 <children>
                                     <order translate="title" module="profileolabs_shoppingflux">
-                                        <title>Shopping flux orders</title>
+                                        <title>ShoppingFlux orders</title>
                                     </order>
                                     <import translate="title" module="profileolabs_shoppingflux">
-                                        <title>Shopping flux import orders</title>
+                                        <title>ShoppingFlux order import</title>
                                     </import>
                                     <log translate="title" module="profileolabs_shoppingflux">
-                                        <title>Shopping flux log</title>
+                                        <title>ShoppingFlux order log</title>
                                     </log>
                                 </children>
                             </manageorders>
@@ -92,15 +97,15 @@
                                 <title>Export</title>
                                 <children>
                                     <show_flux translate="title" module="profileolabs_shoppingflux">
-                                        <title>Voir les flux</title>
+                                        <title>Feed List</title>
                                     </show_flux>
                                     <set_product translate="title" module="profileolabs_shoppingflux">
-                                        <title>Sélection de produit</title>
+                                        <title>Product Selection</title>
                                     </set_product>
                                 </children>
                             </export>
                             <crons translate="title" module="profileolabs_shoppingflux">
-                                 <title>Suivi des crons</title>
+                                 <title>Cron log</title>
                             </crons>
                         </children>
                     </shoppingflux>

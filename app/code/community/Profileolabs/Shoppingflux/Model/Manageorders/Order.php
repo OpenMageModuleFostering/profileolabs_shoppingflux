@@ -186,7 +186,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
                     $this->_nb_orders_imported = 0;
                 } catch (Exception $e) {
                     Mage::logException($e);
-                    $message = Mage::helper('profileolabs_shoppingflux')->__('Orders import error. '.$e->getMessage()); //." ".Mage::helper('profileolabs_shoppingflux')->__('Error').": ".$e->getMessage();
+                    $message = Mage::helper('profileolabs_shoppingflux')->__('Order import error : %s', $e->getMessage());
                     $this->getHelper()->log($message);
                     //Mage::throwException($message);
 
@@ -792,7 +792,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Order extends Varien_Object {
             $invoice->addItem($item);
 
             if ($itemsToInvoice <= 0) {
-                Mage::throwException($this->__('Invoice without products could not be created.'));
+                Mage::throwException($this->__('Invoice could not be created (no items).'));
             }
         }
 

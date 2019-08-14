@@ -156,11 +156,11 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
 
                 $order->setShoppingfluxShipmentFlag(1);
                 $order->save();
-                $this->getHelper()->log($this->getHelper()->__("Order %s updated to shopping flux.Status returned %s", $orderIdShoppingflux, $status));
+                $this->getHelper()->log($this->getHelper()->__("Order %s has been updated in ShoppingFlux. Status returned : %s", $orderIdShoppingflux, $status));
             }
         } else {
-            $this->getHelper()->log($this->getHelper()->__("Error in update status shipped to shopping flux"));
-            Mage::throwException($this->getHelper()->__("Error in update status shipped to shopping flux"));
+            $this->getHelper()->log($this->getHelper()->__("Error in update status shipped to ShoppingFlux"));
+            Mage::throwException($this->getHelper()->__("Error in update status shipped to ShoppingFlux"));
         }
 
         return $this;

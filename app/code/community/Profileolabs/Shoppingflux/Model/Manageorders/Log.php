@@ -23,7 +23,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Log extends Mage_Core_Model_A
 		$orderMessage ="";
 		if(!is_null($orderId))
 		{
-			$orderMessage = Mage::helper('profileolabs_shoppingflux')->__('OrderID')." Shopping Flux #".$orderId." ";
+			$orderMessage = Mage::helper('profileolabs_shoppingflux')->__('ShoppingFlux Order ID : #%s', $orderId);
 		}	
 
 		$message = $orderMessage.$message;

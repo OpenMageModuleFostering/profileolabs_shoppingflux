@@ -784,7 +784,7 @@ class Profileolabs_Shoppingflux_Model_Export_Flow {
 
         if (!$this->getConfig()->isExportSoldout() && !$product->isSaleable()) {
             //$this->setException("Le produit {$product->getSku()} est hors stock. Il n'a pas été importé.",Varien_Convert_Exception::NOTICE);
-            $this->_errors[] = Mage::helper('profileolabs_shoppingflux')->__("Le produit %s est hors stock. Il n'a pas été importé.", $product->getSku());
+            $this->_errors[] = Mage::helper('profileolabs_shoppingflux')->__("Product %s is out of stock. Product has not been imported.", $product->getSku());
             return false;
         }
 
