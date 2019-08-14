@@ -24,7 +24,7 @@
                     <show_in_store>1</show_in_store>
                     <sort_order>1</sort_order>
                     <fields>
-                        <login>
+                        <!--deprecated<login>
                             <label>ShoppingFlux identifier</label>
                             <comment>Your ShoppingFlux's interface login</comment>
                             <frontend_type>text</frontend_type>
@@ -32,7 +32,7 @@
                             <show_in_default>1</show_in_default>
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </login>
+                        </login>-->
                         <api_key>
                             <label>API key</label>						
                             <frontend_type>text</frontend_type>
@@ -59,7 +59,7 @@
                             <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
                         </enable_buyline>
-                        <alert_email>
+                        <!--<alert_email>
                             <label>Email address for alerts</label>
                             <comment>In case of issue while transfering data, an email will be sent to this address.</comment>
                             <frontend_type>text</frontend_type>
@@ -67,7 +67,7 @@
                             <show_in_default>0</show_in_default>
                             <show_in_website>0</show_in_website>
                             <show_in_store>1</show_in_store>
-                        </alert_email>
+                        </alert_email>-->
                     </fields>
                 </configuration>
             </groups>   

@@ -9,7 +9,7 @@ class Profileolabs_Shoppingflux_Model_Manageorders_Observer {
         }
     }
 
-    public function manageOrders($observer) {
+    public function manageOrders($observer=false) {
         try {
             set_time_limit(0);
             Mage::getModel('profileolabs_shoppingflux/manageorders_order')->manageOrders();

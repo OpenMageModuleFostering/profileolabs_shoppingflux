@@ -13,6 +13,7 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
     }
     
     public function catalogruleAfterApply($observer) {
+        return; //Disabled because it invalidate all the feed at each product / inventory save...
         if(!$this->getConfig()->getManageCatalogRules()) {
             return;
         }
@@ -34,12 +35,17 @@ class Profileolabs_Shoppingflux_Model_Export_Observer {
         }
         $productCollection = Mage::getModel('catalog/product')->getCollection();
         $productCollection->getSelect()->join(
-                    array('sf_stock' => $productCollection->getTable('cataloginventory/stock_item')), 'e.entity_id = sf_stock.product_id', array('qty')
+                    array('sf_stock' => $productCollection->getTable('cataloginventory/stock_item')), 'e.entity_id = sf_stock.product_id', array('qty', 'actual_qty'=>'qty')
             );
         $productCollection->getSelect()->joinRight(
                     array('flux' => $productCollection->getTable('profileolabs_shoppingflux/export_flux')), "e.sku = flux.sku and flux.store_id = '".$storeId."'", array('stock_value', 'sku')
             );
         $productCollection->getSelect()->where('CAST(sf_stock.qty AS SIGNED) != flux.stock_value');
+        if (Mage::getStoreConfigFlag(Mage_CatalogInventory_Model_Stock_Item::XML_PATH_MANAGE_STOCK, $storeId)) {
+            $productCollection->getSelect()->where('(sf_stock.use_config_manage_stock = 0 and sf_stock.manage_stock = 1) OR (sf_stock.use_config_manage_stock = 1)');
+        } else {
+            $productCollection->getSelect()->where('(sf_stock.use_config_manage_stock = 0 and sf_stock.manage_stock = 1)');
+        }
         $productCollection->getSelect()->group('e.entity_id');
         foreach($productCollection as $product) {
             Mage::getModel('profileolabs_shoppingflux/export_flux')->productNeedUpdate($product);

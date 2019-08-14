@@ -115,7 +115,7 @@ class Profileolabs_Shoppingflux_Export_FluxController extends Mage_Core_Controll
             }
         }*/
         $_conn = Mage::getSingleton('core/resource')->getConnection('read');
-        $results = $_conn->fetchAll('SELECT SUM(update_needed) as total_needed, SUM(should_export) as total_export, count(*) as total from ' . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux'));
+        $results = $_conn->fetchAll('SELECT SUM(update_needed) as total_needed, SUM(should_export) as total_export, count(*) as total from ' . Mage::getSingleton('core/resource')->getTableName('profileolabs_shoppingflux/export_flux') . ' where store_id = ' . $storeId);
         list($feedUpdateNeededCount, $feedExportCount, $feedCount) = array_values($results[0]);
         $feedNotExportCount = $feedCount-$feedExportCount;
         if(!headers_sent()) {

@@ -126,7 +126,10 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
     }
 
     public function updateFlux($store_id = false, $maxImportLimit = 1000, $shouldExportOnly = false) {
-        $this->checkForDeletedProducts();
+        if(rand(0,100) == 50) {
+            //no need to execute this every time. todo : move to cron task
+            $this->checkForDeletedProducts();
+        }
         foreach (Mage::app()->getStores() as $store) {
             $storeId = $store->getId();
             $isCurrentStore = (Mage::app()->getStore()->getId() == $storeId);
@@ -282,6 +285,9 @@ class Profileolabs_Shoppingflux_Model_Export_Flux extends Mage_Core_Model_Abstra
         if ($nameNode == 'quantity')
             $data = round($data);
 
+        if(is_array($data)) {
+            $data = implode(',', $data);
+        }
         return trim($data);
     }
 
