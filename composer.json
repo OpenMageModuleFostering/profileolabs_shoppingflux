@@ -1,16 +1,19 @@
 {
-    "name": "OpenMageModuleFostering/Profileolabs_Shoppingflux",
+    "name": "OpenMageModuleFostering\/Profileolabs_Shoppingflux",
     "type": "magento-module",
     "license": "GPL",
     "homepage": "",
     "description": "A single platform to List, Sync, and Manage your product listings on Amazon, Ebay, Google, Bing, and more.",
     "authors": [
-    {
-        "name": "ShoppingFlux",
-        "email": "olivier.levy@gmail.com"
-    }
-],
+        {
+            "name": "ShoppingFlux",
+            "email": "olivier.levy@gmail.com"
+        }
+    ],
     "suggest": {
-        "magento-hackathon/magento-composer-installer": "*"
-    }
+        "magento-hackathon\/magento-composer-installer": "*"
+    },
+    "keywords": [
+        "openmage-module"
+    ]
 }
